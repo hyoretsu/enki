@@ -14,6 +14,7 @@ datasource db {
 model LiteraryWork {
     id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     names         Json     @db.JsonB // {"alternative"?: string[], "english"?: string, "romanized"?: string, "original": string}
+    synopsis      String?  @db.Text
     type          String   @db.VarChar(16)
     tags          String[] @db.VarChar(30)
     ongoing       Boolean  @default(true) @db.Boolean
