@@ -1,0 +1,23 @@
+**/build
+**/dist
+**/node_modules
+**/static
+**/tmp
+/.vscode
+!/.vscode/extensions.json
+!/.vscode/launch.json
+!/.vscode/settings.json
+!.gitkeep
+*.log
+
+# Env files
+**/.env
+**/.env*.local
+
+# Test files
+**/coverage
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+

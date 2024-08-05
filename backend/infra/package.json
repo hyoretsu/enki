@@ -1,0 +1,24 @@
+{
+	"name": "@enki/infra",
+	"version": "1.0.0",
+	"private": true,
+	"main": "main.ts",
+	"scripts": {
+		"prisma:migrate": "prisma migrate dev --create-only",
+		"prisma:migrate_deploy": "prisma migrate deploy",
+		"prisma:migrate_dev": "prisma migrate dev",
+		"prepare": "prisma generate"
+	},
+	"prisma": {
+		"schema": "sql/schema.prisma"
+	},
+	"dependencies": {
+		"kysely": "^0.27.3",
+		"pg": "^8.12.0"
+	},
+	"devDependencies": {
+		"@types/pg": "^8.11.6",
+		"prisma": "^5.15.1",
+		"prisma-kysely": "^1.8.0"
+	}
+}
