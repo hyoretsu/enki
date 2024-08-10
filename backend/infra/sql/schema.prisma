@@ -12,14 +12,28 @@ datasource db {
 }
 
 model LiteraryWork {
-    id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    names         Json     @db.JsonB // {"alternative"?: string[], "english"?: string, "romanized"?: string, "original": string}
-    synopsis      String?  @db.Text
-    type          String   @db.VarChar(16)
-    tags          String[] @db.VarChar(30)
-    ongoing       Boolean  @default(true) @db.Boolean
-    pages         Int?     @db.SmallInt
-    dialogDensity String?  @db.VarChar(9)
-    createdAt     DateTime @default(now())
-    updatedAt     DateTime @default(now())
+    id          String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    names       Json                  @db.JsonB // {"alternative"?: string[], "english"?: string, "romanized"?: string, "original": string}
+    synopsis    String?               @db.Text
+    type        String                @db.VarChar(16)
+    tags        String[]              @db.VarChar(30)
+    ongoing     Boolean               @default(true) @db.Boolean
+    pages       Int?                  @db.SmallInt
+    readingTime Int?                  @db.SmallInt
+    chapters    LiteraryWorkChapter[]
+    createdAt   DateTime              @default(now())
+    updatedAt   DateTime              @default(now())
+}
+
+model LiteraryWorkChapter {
+    id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    title       Json?        @db.JsonB // {"english"?: string, "original"?: string}
+    number      Int?         @db.SmallInt
+    releaseDate DateTime?    @db.Date
+    pages       Int?         @db.SmallInt
+    readingTime Int?         @db.SmallInt
+    sourceId    String       @db.Uuid
+    source      LiteraryWork @relation(fields: [sourceId], references: [id])
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @default(now())
 }

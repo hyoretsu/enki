@@ -11,7 +11,7 @@ CREATE TABLE "LiteraryWork" (
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "LiteraryWork_pkey" PRIMARY KEY ("id"),
-	CONSTRAINT "dialogDensity_valid" CHECK ("dialogDensity" IS NOT NULL AND "type" IN ('comics','graphic_novel','manga','manhua','manhwa')),
+	CONSTRAINT "dialogDensity_valid" CHECK ("dialogDensity" IS NULL OR "type" IN ('comics','graphic_novel','manga','manhua','manhwa')),
 	CONSTRAINT "dialogDensity_value" CHECK ("dialogDensity" IN ('low', 'medium', 'high', 'very_high')),
 	CONSTRAINT "type_chk" CHECK (
 		"type" IN (
@@ -35,10 +35,12 @@ CREATE TABLE "LiteraryWork" (
 			'poetry',
 			'script',
 			'short_story',
-			'web_novel'
+			'web_novel',
+			'webtoon'
 		)
 	)
 );
+
 CREATE OR REPLACE FUNCTION literary_work_name_validation()
 RETURNS TRIGGER AS $$
 BEGIN
