@@ -26,14 +26,35 @@ model LiteraryWork {
 }
 
 model LiteraryWorkChapter {
-    id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    title       Json?        @db.JsonB // {"english"?: string, "original"?: string}
-    number      Int?         @db.SmallInt
-    releaseDate DateTime?    @db.Date
-    pages       Int?         @db.SmallInt
-    readingTime Int?         @db.SmallInt
-    sourceId    String       @db.Uuid
-    source      LiteraryWork @relation(fields: [sourceId], references: [id])
-    createdAt   DateTime     @default(now())
-    updatedAt   DateTime     @default(now())
+    id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    title       Json?         @db.JsonB // {"english"?: string, "original"?: string}
+    number      Int?          @db.SmallInt
+    releaseDate DateTime?     @db.Date
+    pages       Int?          @db.SmallInt
+    readingTime Int?          @db.SmallInt
+    sourceId    String        @db.Uuid
+    source      LiteraryWork  @relation(fields: [sourceId], references: [id])
+    readBy      UserChapter[]
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @default(now())
+}
+
+model User {
+    email        String        @id @db.VarChar(320)
+    password     String        @db.VarChar(128)
+    chaptersRead UserChapter[]
+    createdAt    DateTime      @default(now())
+    updatedAt    DateTime      @default(now())
+}
+
+model UserChapter {
+    userEmail  String              @db.VarChar(320)
+    user       User                @relation(fields: [userEmail], references: [email])
+    chapterId  String              @db.Uuid
+    chapter    LiteraryWorkChapter @relation(fields: [chapterId], references: [id])
+    readAt     DateTime?           @db.Date
+    timeSpent  Int?                @db.SmallInt
+    bookmarked Boolean?
+
+    @@id([userEmail, chapterId])
 }
