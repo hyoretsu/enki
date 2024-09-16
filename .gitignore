@@ -10,6 +10,9 @@
 !.gitkeep
 *.log
 
+# IDE-specific files
+.idea
+
 # Env files
 **/.env
 **/.env*.local

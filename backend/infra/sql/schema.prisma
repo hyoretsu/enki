@@ -58,3 +58,37 @@ model UserChapter {
 
     @@id([userEmail, chapterId])
 }
+
+model Video {
+    id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    title      String         @db.Text
+    link       String?        @db.Text
+    duration   Int            @db.SmallInt
+    channelId  String         @db.Uuid
+    channel    VideoChannel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
+    playlistId String?        @db.Uuid
+    playlist   VideoPlaylist? @relation(fields: [playlistId], references: [id])
+    createdAt  DateTime       @default(now())
+    updatedAt  DateTime       @default(now())
+}
+
+model VideoChannel {
+    id        String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    name      String          @db.Text
+    link      String?         @db.Text
+    videos    Video[]
+    playlists VideoPlaylist[]
+    createdAt DateTime        @default(now())
+    updatedAt DateTime        @default(now())
+}
+
+model VideoPlaylist {
+    id        String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    title     String        @db.Text
+    link      String?       @db.Text
+    videos    Video[]
+    channelId String?       @db.Uuid
+    channel   VideoChannel? @relation(fields: [channelId], references: [id], onDelete: Cascade)
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @default(now())
+}
