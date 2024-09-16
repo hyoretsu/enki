@@ -33,30 +33,43 @@ model LiteraryWorkChapter {
     pages       Int?          @db.SmallInt
     readingTime Int?          @db.SmallInt
     sourceId    String        @db.Uuid
-    source      LiteraryWork  @relation(fields: [sourceId], references: [id])
+    source      LiteraryWork  @relation(fields: [sourceId], references: [id], onDelete: Cascade)
     readBy      UserChapter[]
     createdAt   DateTime      @default(now())
     updatedAt   DateTime      @default(now())
 }
 
 model User {
-    email        String        @id @db.VarChar(320)
-    password     String        @db.VarChar(128)
-    chaptersRead UserChapter[]
-    createdAt    DateTime      @default(now())
-    updatedAt    DateTime      @default(now())
+    email         String        @id @db.VarChar(320)
+    password      String        @db.VarChar(128)
+    videosWatched UserVideo[]
+    chaptersRead  UserChapter[]
+    createdAt     DateTime      @default(now())
+    updatedAt     DateTime      @default(now())
 }
 
 model UserChapter {
     userEmail  String              @db.VarChar(320)
-    user       User                @relation(fields: [userEmail], references: [email])
+    user       User                @relation(fields: [userEmail], references: [email], onDelete: Cascade)
     chapterId  String              @db.Uuid
-    chapter    LiteraryWorkChapter @relation(fields: [chapterId], references: [id])
-    readAt     DateTime?           @db.Date
+    chapter    LiteraryWorkChapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+    readAt     DateTime?           @db.Timestamp
     timeSpent  Int?                @db.SmallInt
     bookmarked Boolean?
 
     @@id([userEmail, chapterId])
+}
+
+model UserVideo {
+    userEmail  String    @db.VarChar(320)
+    user       User      @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+    videoId    String    @db.Uuid
+    video      Video     @relation(fields: [videoId], references: [id], onDelete: Cascade)
+    when       DateTime? @db.Timestamp
+    watchTime  Int?      @db.SmallInt
+    bookmarked Boolean?
+
+    @@id([userEmail, videoId])
 }
 
 model Video {
@@ -68,6 +81,7 @@ model Video {
     channel    VideoChannel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
     playlistId String?        @db.Uuid
     playlist   VideoPlaylist? @relation(fields: [playlistId], references: [id])
+    watchedBy  UserVideo[]
     createdAt  DateTime       @default(now())
     updatedAt  DateTime       @default(now())
 }

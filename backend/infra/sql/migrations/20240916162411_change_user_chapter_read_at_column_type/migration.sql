@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "UserChapter" ALTER COLUMN "readAt" SET DATA TYPE TIMESTAMP;
