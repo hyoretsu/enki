@@ -53,7 +53,7 @@ model UserChapter {
     user       User                @relation(fields: [userEmail], references: [email], onDelete: Cascade)
     chapterId  String              @db.Uuid
     chapter    LiteraryWorkChapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
-    readAt     DateTime?           @db.Timestamp
+    readAt     DateTime?           @db.Timestamptz
     timeSpent  Int?                @db.SmallInt
     bookmarked Boolean?
 
@@ -65,7 +65,7 @@ model UserVideo {
     user       User      @relation(fields: [userEmail], references: [email], onDelete: Cascade)
     videoId    String    @db.Uuid
     video      Video     @relation(fields: [videoId], references: [id], onDelete: Cascade)
-    when       DateTime? @db.Timestamp
+    when       DateTime? @db.Timestamptz
     watchTime  Int?      @db.SmallInt
     bookmarked Boolean?
 
