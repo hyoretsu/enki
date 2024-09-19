@@ -11,8 +11,6 @@ export type LiteraryWork = {
 	type: string;
 	tags: string[];
 	ongoing: Generated<boolean>;
-	pages: number | null;
-	readingTime: number | null;
 	createdAt: Generated<Timestamp>;
 	updatedAt: Generated<Timestamp>;
 };
@@ -40,9 +38,45 @@ export type UserChapter = {
 	timeSpent: number | null;
 	bookmarked: boolean | null;
 };
+export type UserVideo = {
+	userEmail: string;
+	videoId: string;
+	when: Timestamp | null;
+	watchTime: number | null;
+	bookmarked: boolean | null;
+};
+export type Video = {
+	id: Generated<string>;
+	title: string;
+	link: string | null;
+	duration: number;
+	channelId: string;
+	playlistId: string | null;
+	createdAt: Generated<Timestamp>;
+	updatedAt: Generated<Timestamp>;
+};
+export type VideoChannel = {
+	id: Generated<string>;
+	name: string;
+	link: string | null;
+	createdAt: Generated<Timestamp>;
+	updatedAt: Generated<Timestamp>;
+};
+export type VideoPlaylist = {
+	id: Generated<string>;
+	title: string;
+	link: string | null;
+	channelId: string | null;
+	createdAt: Generated<Timestamp>;
+	updatedAt: Generated<Timestamp>;
+};
 export type DB = {
 	LiteraryWork: LiteraryWork;
 	LiteraryWorkChapter: LiteraryWorkChapter;
 	User: User;
 	UserChapter: UserChapter;
+	UserVideo: UserVideo;
+	Video: Video;
+	VideoChannel: VideoChannel;
+	VideoPlaylist: VideoPlaylist;
 };

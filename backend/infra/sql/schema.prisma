@@ -12,17 +12,15 @@ datasource db {
 }
 
 model LiteraryWork {
-    id          String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    names       Json                  @db.JsonB // {"alternative"?: string[], "english"?: string, "romanized"?: string, "original": string}
-    synopsis    String?               @db.Text
-    type        String                @db.VarChar(16)
-    tags        String[]              @db.VarChar(30)
-    ongoing     Boolean               @default(true) @db.Boolean
-    pages       Int?                  @db.SmallInt
-    readingTime Int?                  @db.SmallInt
-    chapters    LiteraryWorkChapter[]
-    createdAt   DateTime              @default(now())
-    updatedAt   DateTime              @default(now())
+    id        String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    names     Json                  @db.JsonB // {"alternative"?: string[], "english"?: string, "romanized"?: string, "original": string}
+    synopsis  String?               @db.Text
+    type      String                @db.VarChar(16)
+    tags      String[]              @db.VarChar(30)
+    ongoing   Boolean               @default(true) @db.Boolean
+    chapters  LiteraryWorkChapter[]
+    createdAt DateTime              @default(now())
+    updatedAt DateTime              @default(now())
 }
 
 model LiteraryWorkChapter {
@@ -55,7 +53,7 @@ model UserChapter {
     chapter    LiteraryWorkChapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
     readAt     DateTime?           @db.Timestamptz
     timeSpent  Int?                @db.SmallInt
-    bookmarked Boolean?
+    bookmarked Boolean?            @db.Boolean
 
     @@id([userEmail, chapterId])
 }
@@ -66,8 +64,8 @@ model UserVideo {
     videoId    String    @db.Uuid
     video      Video     @relation(fields: [videoId], references: [id], onDelete: Cascade)
     when       DateTime? @db.Timestamptz
-    watchTime  Int?      @db.SmallInt
-    bookmarked Boolean?
+    watchTime  Int?      @db.Integer
+    bookmarked Boolean?  @db.Boolean
 
     @@id([userEmail, videoId])
 }
@@ -76,7 +74,7 @@ model Video {
     id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     title      String         @db.Text
     link       String?        @db.Text
-    duration   Int            @db.SmallInt
+    duration   Int            @db.Integer
     channelId  String         @db.Uuid
     channel    VideoChannel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
     playlistId String?        @db.Uuid
