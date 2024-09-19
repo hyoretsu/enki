@@ -9,10 +9,10 @@
 		"**/*.(js|jsx|json|jsonc|ts|tsx)": ["biome check --apply"]
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.8.3",
+		"@biomejs/biome": "^1.9.0",
 		"@types/node": "latest",
 		"bun-types": "latest",
-		"lint-staged": "^15.2.7",
+		"lint-staged": "^15.2.10",
 		"typescript": "latest"
 	}
 }

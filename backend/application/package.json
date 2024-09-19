@@ -1,0 +1,11 @@
+{
+	"name": "@enki/application",
+	"private": true,
+	"dependencies": {
+		"@enki/domain": "workspace:*"
+	},
+	"devDependencies": {
+		"@hyoretsu/providers": "^1.2.4",
+		"http-status-codes": "^2.3.0"
+	}
+}

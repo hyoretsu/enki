@@ -2,17 +2,25 @@
 	"name": "@enki/infra",
 	"version": "1.0.0",
 	"private": true,
-	"main": "main.ts",
 	"scripts": {
+		"build": "bun build --minify --outdir=../build --target bun ./index.ts",
+		"dev": "cd .. && bun run --watch ./infra/index.ts",
 		"prisma:migrate": "prisma migrate dev --create-only",
-		"prisma:migrate_deploy": "prisma migrate deploy",
+		"prisma:migrate_deploy": "prisma migrate deploy && prisma generate",
 		"prisma:migrate_dev": "prisma migrate dev",
-		"prepare": "prisma generate"
+		"prepare": "prisma generate",
+		"start": "NODE_ENV=production bun ./index.ts"
 	},
 	"prisma": {
 		"schema": "sql/schema.prisma"
 	},
 	"dependencies": {
+		"@elysiajs/cors": "^1.1.0",
+		"@elysiajs/swagger": "^1.1.1",
+		"@enki/application": "workspace:*",
+		"@enki/domain": "workspace:*",
+		"@hyoretsu/providers": "^1.2.4",
+		"elysia": "^1.1.6",
 		"kysely": "^0.27.3",
 		"pg": "^8.12.0"
 	},
