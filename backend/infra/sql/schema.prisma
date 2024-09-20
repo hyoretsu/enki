@@ -12,7 +12,7 @@ datasource db {
 }
 
 model LiteraryWork {
-    id        String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id        BigInt                @id @default(dbgenerated("generate_tsid('LiteraryWork')"))
     names     Json                  @db.JsonB // {"alternative"?: string[], "english"?: string, "romanized"?: string, "original": string}
     synopsis  String?               @db.Text
     type      String                @db.VarChar(16)
@@ -24,13 +24,13 @@ model LiteraryWork {
 }
 
 model LiteraryWorkChapter {
-    id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id          BigInt        @id @default(dbgenerated("generate_tsid('LiteraryWorkChapter')"))
     title       Json?         @db.JsonB // {"english"?: string, "original"?: string}
     number      Int?          @db.SmallInt
     releaseDate DateTime?     @db.Date
     pages       Int?          @db.SmallInt
     readingTime Int?          @db.SmallInt
-    sourceId    String        @db.Uuid
+    sourceId    BigInt
     source      LiteraryWork  @relation(fields: [sourceId], references: [id], onDelete: Cascade)
     readBy      UserChapter[]
     createdAt   DateTime      @default(now())
@@ -49,7 +49,7 @@ model User {
 model UserChapter {
     userEmail  String              @db.VarChar(320)
     user       User                @relation(fields: [userEmail], references: [email], onDelete: Cascade)
-    chapterId  String              @db.Uuid
+    chapterId  BigInt
     chapter    LiteraryWorkChapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
     readAt     DateTime?           @db.Timestamptz
     timeSpent  Int?                @db.SmallInt
@@ -61,7 +61,7 @@ model UserChapter {
 model UserVideo {
     userEmail  String    @db.VarChar(320)
     user       User      @relation(fields: [userEmail], references: [email], onDelete: Cascade)
-    videoId    String    @db.Uuid
+    videoId    BigInt
     video      Video     @relation(fields: [videoId], references: [id], onDelete: Cascade)
     when       DateTime? @db.Timestamptz
     watchTime  Int?      @db.Integer
@@ -71,13 +71,13 @@ model UserVideo {
 }
 
 model Video {
-    id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id         BigInt         @id @default(dbgenerated("generate_tsid('Video')"))
     title      String         @db.Text
     link       String?        @db.Text
     duration   Int            @db.Integer
-    channelId  String         @db.Uuid
+    channelId  BigInt
     channel    VideoChannel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
-    playlistId String?        @db.Uuid
+    playlistId BigInt?
     playlist   VideoPlaylist? @relation(fields: [playlistId], references: [id])
     watchedBy  UserVideo[]
     createdAt  DateTime       @default(now())
@@ -85,7 +85,7 @@ model Video {
 }
 
 model VideoChannel {
-    id        String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id        BigInt          @id @default(dbgenerated("generate_tsid('VideoChannel')"))
     name      String          @db.Text
     link      String?         @db.Text
     videos    Video[]
@@ -95,11 +95,11 @@ model VideoChannel {
 }
 
 model VideoPlaylist {
-    id        String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id        BigInt        @id @default(dbgenerated("generate_tsid('VideoPlaylist')"))
     title     String        @db.Text
     link      String?       @db.Text
     videos    Video[]
-    channelId String?       @db.Uuid
+    channelId BigInt?
     channel   VideoChannel? @relation(fields: [channelId], references: [id], onDelete: Cascade)
     createdAt DateTime      @default(now())
     updatedAt DateTime      @default(now())
