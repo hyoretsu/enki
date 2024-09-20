@@ -20,6 +20,7 @@
 		"@enki/application": "workspace:*",
 		"@enki/domain": "workspace:*",
 		"@hyoretsu/providers": "^1.2.4",
+		"@hyoretsu/utils": "^1.14.0",
 		"elysia": "^1.1.6",
 		"kysely": "^0.27.3",
 		"pg": "^8.12.0"

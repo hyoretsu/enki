@@ -2,7 +2,8 @@
 	"name": "@enki/application",
 	"private": true,
 	"dependencies": {
-		"@enki/domain": "workspace:*"
+		"@enki/domain": "workspace:*",
+		"@hyoretsu/utils": "^1.15.0"
 	},
 	"devDependencies": {
 		"@hyoretsu/providers": "^1.2.4",

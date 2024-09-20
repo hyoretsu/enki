@@ -32,14 +32,14 @@ export type User = {
 	updatedAt: Generated<Timestamp>;
 };
 export type UserChapter = {
-	userEmail: string;
+	email: string;
 	chapterId: string;
 	readAt: Timestamp | null;
 	timeSpent: number | null;
 	bookmarked: boolean | null;
 };
 export type UserVideo = {
-	userEmail: string;
+	email: string;
 	videoId: string;
 	when: Timestamp | null;
 	watchTime: number | null;

@@ -47,27 +47,27 @@ model User {
 }
 
 model UserChapter {
-    userEmail  String              @db.VarChar(320)
-    user       User                @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+    email      String              @db.VarChar(320)
+    user       User                @relation(fields: [email], references: [email], onDelete: Cascade)
     chapterId  BigInt
     chapter    LiteraryWorkChapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
     readAt     DateTime?           @db.Timestamptz
     timeSpent  Int?                @db.SmallInt
     bookmarked Boolean?            @db.Boolean
 
-    @@id([userEmail, chapterId])
+    @@id([email, chapterId])
 }
 
 model UserVideo {
-    userEmail  String    @db.VarChar(320)
-    user       User      @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+    email      String    @db.VarChar(320)
+    user       User      @relation(fields: [email], references: [email], onDelete: Cascade)
     videoId    BigInt
     video      Video     @relation(fields: [videoId], references: [id], onDelete: Cascade)
     when       DateTime? @db.Timestamptz
     watchTime  Int?      @db.Integer
     bookmarked Boolean?  @db.Boolean
 
-    @@id([userEmail, videoId])
+    @@id([email, videoId])
 }
 
 model Video {

@@ -1,4 +1,4 @@
-import { CreateUser } from "@enki/application";
+import { CreateUser, GetStatistics } from "@enki/application";
 import { type HashProviderKeys, hashProviders } from "@hyoretsu/providers";
 import { Elysia, t } from "elysia";
 import { KyselyUsersRepository, database } from "~/sql/kysely";
@@ -14,6 +14,7 @@ export const UsersController = new Elysia()
 		return app
 			.decorate({
 				createUser: new CreateUser(hashProvider, usersRepository),
+				getStatistics: new GetStatistics(usersRepository),
 			})
 			.post("/", ({ body, createUser }) => createUser.execute(body), {
 				detail: {
@@ -28,5 +29,21 @@ export const UsersController = new Elysia()
 					createdAt: t.Date({ examples: [new Date()] }),
 					updatedAt: t.Date({ examples: [new Date()] }),
 				}),
-			});
+			})
+			.get(
+				"/stats",
+				({ getStatistics, query: { email, categories } }) => getStatistics.execute({ categories, email }),
+				{
+					detail: {
+						tags: ["Users"],
+					},
+					query: t.Object({
+						categories: t.Optional(t.Array(t.String())),
+						email: t.String({ format: "email" }),
+					}),
+					response: t.Object({
+						totalTime: t.Array(t.Integer()),
+					}),
+				},
+			);
 	});

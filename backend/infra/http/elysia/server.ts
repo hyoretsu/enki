@@ -13,6 +13,13 @@ export const app = new Elysia()
 				return error.message;
 		}
 	})
+	.onTransform(ctx => {
+		for (const name in ctx.query) {
+			if (Array.isArray(ctx.query[name])) {
+				ctx.query[name] = ctx.query[name][0].split(",");
+			}
+		}
+	})
 	.use(cors())
 	.use(
 		swagger({
