@@ -22,22 +22,29 @@ export class KyselyUsersRepository implements UsersRepository {
 	public async getTimeSpent(email: string, categories?: string[]): Promise<number> {
 		const queries: Promise<Record<string, string | number | bigint> | undefined>[] = [];
 
+		const userQuery = this.db.selectFrom("User as u").where("u.email", "=", email);
+
 		if (!categories || categories.includes("chapters")) {
 			queries.push(
-				this.db
-					.selectFrom("User as u")
-					.where("u.email", "=", email)
+				userQuery
 					.innerJoin("UserChapter as uc", "uc.email", "u.email")
 					.leftJoin("LiteraryWorkChapter as lwc", "lwc.id", "uc.chapterId")
 					.select(({ fn }) => fn.sum(fn.coalesce("uc.timeSpent", "lwc.readingTime")).as("readingTime"))
 					.executeTakeFirst(),
 			);
 		}
+		if (!categories || categories.includes("movies")) {
+			queries.push(
+				userQuery
+					.innerJoin("UserMovie as um", "um.email", "u.email")
+					.leftJoin("Movie as m", "m.id", "um.movieId")
+					.select(({ fn }) => fn.sum("m.duration").as("watchTime"))
+					.executeTakeFirst(),
+			);
+		}
 		if (!categories || categories.includes("videos")) {
 			queries.push(
-				this.db
-					.selectFrom("User as u")
-					.where("u.email", "=", email)
+				userQuery
 					.innerJoin("UserVideo as uv", "uv.email", "u.email")
 					.leftJoin("Video as v", "v.id", "uv.videoId")
 					.select(({ fn }) => fn.sum(fn.coalesce("uv.watchTime", "v.duration")).as("watchTime"))

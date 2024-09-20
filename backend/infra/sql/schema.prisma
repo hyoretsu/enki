@@ -37,11 +37,22 @@ model LiteraryWorkChapter {
     updatedAt   DateTime      @default(now())
 }
 
+model Movie {
+    id          BigInt      @id @default(dbgenerated("generate_tsid('Movie')"))
+    title       Json        @db.JsonB // { "languageCode": string[] }
+    duration    Int?        @db.Integer
+    releaseDate DateTime?   @db.Date
+    watchedBy   UserMovie[]
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @default(now())
+}
+
 model User {
     email         String        @id @db.VarChar(320)
     password      String        @db.VarChar(128)
-    videosWatched UserVideo[]
     chaptersRead  UserChapter[]
+    moviesWatched UserMovie[]
+    videosWatched UserVideo[]
     createdAt     DateTime      @default(now())
     updatedAt     DateTime      @default(now())
 }
@@ -56,6 +67,18 @@ model UserChapter {
     bookmarked Boolean?            @db.Boolean
 
     @@id([email, chapterId])
+}
+
+model UserMovie {
+    email      String    @db.VarChar(320)
+    user       User      @relation(fields: [email], references: [email], onDelete: Cascade)
+    movieId    BigInt
+    movie      Movie     @relation(fields: [movieId], references: [id], onDelete: Cascade)
+    when       DateTime? @db.Timestamptz
+    rating     Decimal?  @db.Decimal(2, 1)
+    bookmarked Boolean?  @db.Boolean
+
+    @@id([email, movieId])
 }
 
 model UserVideo {
@@ -74,7 +97,7 @@ model Video {
     id         BigInt         @id @default(dbgenerated("generate_tsid('Video')"))
     title      String         @db.Text
     link       String?        @db.Text
-    duration   Int            @db.Integer
+    duration   BigInt
     channelId  BigInt
     channel    VideoChannel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
     playlistId BigInt?

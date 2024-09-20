@@ -5,7 +5,7 @@
 	"scripts": {
 		"build": "bun build --minify --outdir=../build --target bun ./index.ts",
 		"dev": "cd .. && bun run --watch ./infra/index.ts",
-		"prisma:migrate": "prisma migrate dev --create-only",
+		"prisma:migrate": "prisma migrate dev --create-only && prisma generate",
 		"prisma:migrate_deploy": "prisma migrate deploy && prisma generate",
 		"prisma:migrate_dev": "prisma migrate dev",
 		"prepare": "prisma generate",
@@ -27,7 +27,7 @@
 	},
 	"devDependencies": {
 		"@types/pg": "^8.11.6",
-		"prisma": "^5.15.1",
+		"prisma": "^5.19.1",
 		"prisma-kysely": "^1.8.0"
 	}
 }

@@ -25,6 +25,14 @@ export type LiteraryWorkChapter = {
 	createdAt: Generated<Timestamp>;
 	updatedAt: Generated<Timestamp>;
 };
+export type Movie = {
+	id: Generated<string>;
+	title: Record<string, any>;
+	duration: number | null;
+	releaseDate: Timestamp | null;
+	createdAt: Generated<Timestamp>;
+	updatedAt: Generated<Timestamp>;
+};
 export type User = {
 	email: string;
 	password: string;
@@ -38,6 +46,13 @@ export type UserChapter = {
 	timeSpent: number | null;
 	bookmarked: boolean | null;
 };
+export type UserMovie = {
+	email: string;
+	movieId: string;
+	when: Timestamp | null;
+	rating: number | null;
+	bookmarked: boolean | null;
+};
 export type UserVideo = {
 	email: string;
 	videoId: string;
@@ -49,7 +64,7 @@ export type Video = {
 	id: Generated<string>;
 	title: string;
 	link: string | null;
-	duration: number;
+	duration: string;
 	channelId: string;
 	playlistId: string | null;
 	createdAt: Generated<Timestamp>;
@@ -73,8 +88,10 @@ export type VideoPlaylist = {
 export type DB = {
 	LiteraryWork: LiteraryWork;
 	LiteraryWorkChapter: LiteraryWorkChapter;
+	Movie: Movie;
 	User: User;
 	UserChapter: UserChapter;
+	UserMovie: UserMovie;
 	UserVideo: UserVideo;
 	Video: Video;
 	VideoChannel: VideoChannel;
