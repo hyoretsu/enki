@@ -1,11 +1,16 @@
 import type { VideoChannelUpdateable } from "@enki/infra";
 import type { CreateMediaDatabaseDTO, CreateVideoChannelDTO } from "../dtos";
 import type { LiteraryWorkChapter, Video, VideoChannel } from "../entities";
-import type { Category } from "../types";
+import type { Category, Media } from "../types";
+
+export interface FindFilters {
+	title?: string;
+}
 
 export abstract class MediaRepository {
 	abstract create(data: CreateMediaDatabaseDTO): Promise<{ id: string }>;
 	abstract createVideoChannel(data: CreateVideoChannelDTO): Promise<VideoChannel>;
+	abstract find(category: Category, filters?: FindFilters): Promise<Media[]>;
 	abstract findById(category: Category, id: string): Promise<Record<string, any> | undefined>;
 	abstract findChannelByExternalId(externalId: string): Promise<VideoChannel | undefined>;
 	abstract findChannelByUrl(url: string): Promise<VideoChannel | undefined>;

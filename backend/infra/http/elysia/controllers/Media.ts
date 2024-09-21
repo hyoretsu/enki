@@ -1,7 +1,8 @@
-import { CreateMedia, TrackMedia } from "@enki/application";
+import { CreateMedia, ListMedia, TrackMedia } from "@enki/application";
 import { Category } from "@enki/domain";
 import { Elysia, t } from "elysia";
 import { mediaRepository, usersRepository } from "~/sql/kysely";
+// import { LiteraryWork, Movie, Video } from "../types";
 
 export const MediaController = new Elysia()
 	.decorate({
@@ -14,7 +15,19 @@ export const MediaController = new Elysia()
 		return app
 			.decorate({
 				createMedia: new CreateMedia(mediaRepository),
+				listMedia: new ListMedia(mediaRepository),
 				trackMedia: new TrackMedia(mediaRepository, usersRepository),
+			})
+			.get("/", ({ listMedia, query }) => listMedia.execute(query), {
+				detail: {
+					tags: ["Media"],
+				},
+				query: t.Object({
+					category: t.Enum(Category),
+					title: t.Optional(t.String()),
+				}),
+				// response: t.Array(t.Union([LiteraryWork, Movie, Video])),
+				response: t.Array(t.Record(t.String(), t.Any())),
 			})
 			.post("/", ({ body, createMedia }) => createMedia.execute(body), {
 				detail: {
@@ -63,7 +76,7 @@ export const MediaController = new Elysia()
 						{
 							bookmarked: t.Optional(t.Boolean()),
 							mediaId: t.String(),
-							number: t.Integer(),
+							number: t.Number(),
 							timeSpent: t.Optional(t.String()),
 							when: t.Optional(t.Date()),
 						},

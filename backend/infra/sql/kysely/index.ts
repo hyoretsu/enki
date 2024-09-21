@@ -19,5 +19,10 @@ export const database = new Kysely<DB>({
 	dialect,
 });
 
+export type KeyValue = {
+	key: string;
+	value: string;
+};
+
 export const mediaRepository = new KyselyMediaRepository(database);
 export const usersRepository = new KyselyUsersRepository(database);

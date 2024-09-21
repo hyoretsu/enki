@@ -2,15 +2,31 @@ import {
 	Category,
 	type CreateMediaDatabaseDTO,
 	type CreateVideoChannelDTO,
+	type FindFilters,
 	type LiteraryWorkChapter,
+	type Media,
 	type MediaRepository,
 } from "@enki/domain";
-import type { Kysely } from "kysely";
+import { type Kysely, type SelectQueryBuilder, sql } from "kysely";
+import type { KeyValue } from "..";
 import type { VideoChannelSelectable, VideoChannelUpdateable, VideoSelectable } from "../entities";
 import type { DB } from "../types";
 
 export class KyselyMediaRepository implements MediaRepository {
-	constructor(private readonly db: Kysely<DB>) {}
+	private readonly findQueries: Record<Category, SelectQueryBuilder<DB, any, any>>;
+
+	constructor(private readonly db: Kysely<DB>) {
+		// @ts-expect-error
+		this.findQueries = {
+			[Category.LITERARY_WORK]: this.db
+				.selectFrom("LiteraryWork")
+				.select(["id", "names", "synopsis", "type", "tags", "ongoing"]),
+			[Category.MOVIE]: this.db.selectFrom("Movie").select(["id", "title", "duration", "releaseDate"]),
+			[Category.VIDEO]: this.db
+				.selectFrom("Video")
+				.select(["id", "title", "link", "duration", "channelId", "playlistId"]),
+		};
+	}
 
 	public async create(data: CreateMediaDatabaseDTO): Promise<{ id: string }> {
 		switch (data.category) {
@@ -46,6 +62,27 @@ export class KyselyMediaRepository implements MediaRepository {
 			.executeTakeFirstOrThrow();
 
 		return channel;
+	}
+
+	public async find(category: Category, filters?: FindFilters): Promise<Media[]> {
+		let query = this.findQueries[category]?.orderBy("createdAt desc");
+		if (!query) {
+			throw new Error("Media unsupported.");
+		}
+
+		if (filters?.title) {
+			query = query.where(eb =>
+				eb.exists(
+					eb
+						.selectFrom(sql<KeyValue>`jsonb_each_text(names)`.as("kv"))
+						.where("kv.value", "ilike", `%${filters.title}%`),
+				),
+			);
+		}
+
+		const media = (await query.execute()) as Media[];
+
+		return media;
 	}
 
 	public async findById(category: Category, id: string): Promise<Record<string, any> | undefined> {
