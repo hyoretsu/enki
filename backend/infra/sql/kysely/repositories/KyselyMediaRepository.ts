@@ -20,7 +20,7 @@ export class KyselyMediaRepository implements MediaRepository {
 		this.findQueries = {
 			[Category.LITERARY_WORK]: this.db
 				.selectFrom("LiteraryWork")
-				.select(["id", "names", "synopsis", "type", "tags", "ongoing"]),
+				.select(["id", "title", "synopsis", "type", "tags", "ongoing"]),
 			[Category.MOVIE]: this.db.selectFrom("Movie").select(["id", "title", "duration", "releaseDate"]),
 			[Category.VIDEO]: this.db
 				.selectFrom("Video")
@@ -74,7 +74,7 @@ export class KyselyMediaRepository implements MediaRepository {
 			query = query.where(eb =>
 				eb.exists(
 					eb
-						.selectFrom(sql<KeyValue>`jsonb_each_text(names)`.as("kv"))
+						.selectFrom(sql<KeyValue>`jsonb_each_text(title)`.as("kv"))
 						.where("kv.value", "ilike", `%${filters.title}%`),
 				),
 			);

@@ -6,7 +6,7 @@ export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export type LiteraryWork = {
     id: Generated<string>;
-    names: Record<string,any>;
+    title: Record<string,any>;
     synopsis: string | null;
     type: string;
     tags: string[];

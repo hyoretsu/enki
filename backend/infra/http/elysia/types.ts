@@ -2,7 +2,7 @@ import { t } from "elysia";
 
 export const LiteraryWork = t.Object({
 	id: t.String(),
-	names: t.Nullable(t.Record(t.String(), t.Array(t.String()))),
+	title: t.Record(t.String(), t.Array(t.String())),
 	synopsis: t.Nullable(t.String()),
 	type: t.String(),
 	tags: t.Array(t.String()),
