@@ -47,7 +47,7 @@ export class KyselyUsersRepository implements UsersRepository {
 				userQuery
 					.innerJoin("UserVideo as uv", "uv.email", "u.email")
 					.leftJoin("Video as v", "v.id", "uv.videoId")
-					.select(({ fn }) => fn.sum(fn.coalesce("uv.watchTime", "v.duration")).as("watchTime"))
+					.select(({ fn }) => fn.sum(fn.coalesce("uv.timeSpent", "v.duration")).as("watchTime"))
 					.executeTakeFirst(),
 			);
 		}

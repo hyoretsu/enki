@@ -42,7 +42,7 @@ export type User = {
 export type UserChapter = {
 	email: string;
 	chapterId: string;
-	readAt: Timestamp | null;
+	when: Timestamp | null;
 	timeSpent: number | null;
 	bookmarked: boolean | null;
 };
@@ -57,7 +57,7 @@ export type UserVideo = {
 	email: string;
 	videoId: string;
 	when: Timestamp | null;
-	watchTime: number | null;
+	timeSpent: number | null;
 	bookmarked: boolean | null;
 };
 export type Video = {
