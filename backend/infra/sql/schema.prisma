@@ -35,6 +35,8 @@ model LiteraryWorkChapter {
     readBy      UserChapter[]
     createdAt   DateTime      @default(now())
     updatedAt   DateTime      @default(now())
+
+    @@unique([sourceId, number])
 }
 
 model Movie {
