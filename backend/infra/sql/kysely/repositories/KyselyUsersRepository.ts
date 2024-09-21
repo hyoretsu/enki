@@ -1,4 +1,4 @@
-import type { CreateUserDTO, UsersRepository } from "@enki/domain";
+import { Category, type CreateUserDTO, type TrackMediaUserDTO, type UsersRepository } from "@enki/domain";
 import { sum } from "@hyoretsu/utils";
 import type { Kysely } from "kysely";
 import type { UserSelectable } from "../entities";
@@ -56,5 +56,30 @@ export class KyselyUsersRepository implements UsersRepository {
 		const timeSpent = sum(times.map(time => Number(Object.values(time!)[0])));
 
 		return timeSpent;
+	}
+
+	public async track({ category, mediaId, timeSpent, ...data }: TrackMediaUserDTO): Promise<void> {
+		switch (category) {
+			case Category.CHAPTER:
+				await this.db
+					.insertInto("UserChapter")
+					.values({ ...data, chapterId: mediaId, ...(timeSpent ? { timeSpent: Number(timeSpent) } : {}) })
+					.execute();
+				break;
+			case Category.MOVIE:
+				await this.db
+					.insertInto("UserMovie")
+					.values({ ...data, movieId: mediaId })
+					.execute();
+				break;
+			case Category.VIDEO:
+				await this.db
+					.insertInto("UserVideo")
+					.values({ ...data, timeSpent, videoId: mediaId })
+					.execute();
+				break;
+			default:
+				throw new Error("Media unsupported.");
+		}
 	}
 }

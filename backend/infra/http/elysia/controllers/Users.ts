@@ -1,12 +1,13 @@
 import { CreateUser, GetStatistics } from "@enki/application";
+import { Categories } from "@enki/domain";
 import { type HashProviderKeys, hashProviders } from "@hyoretsu/providers";
 import { Elysia, t } from "elysia";
-import { KyselyUsersRepository, database } from "~/sql/kysely";
+import { usersRepository } from "~/sql/kysely";
 
 export const UsersController = new Elysia()
 	.decorate({
 		hashProvider: new hashProviders[process.env.HASH_DRIVER as HashProviderKeys](),
-		usersRepository: new KyselyUsersRepository(database),
+		usersRepository,
 	})
 	.group("/users", app => {
 		const { hashProvider, usersRepository } = app.decorator;
@@ -38,7 +39,7 @@ export const UsersController = new Elysia()
 						tags: ["Users"],
 					},
 					query: t.Object({
-						categories: t.Optional(t.Array(t.String())),
+						categories: t.Optional(t.Array(t.Enum(Categories))),
 						email: t.String({ format: "email" }),
 					}),
 					response: t.Object({

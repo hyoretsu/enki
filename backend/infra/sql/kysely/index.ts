@@ -1,7 +1,7 @@
 import { Kysely, PostgresDialect } from "kysely";
 import { Pool, types } from "pg";
+import { KyselyMediaRepository, KyselyUsersRepository } from "./repositories";
 import type { DB } from "./types";
-export * from "./repositories";
 
 types.setTypeParser(types.builtins.NUMERIC, val => Number(val));
 
@@ -18,3 +18,6 @@ const dialect = new PostgresDialect({
 export const database = new Kysely<DB>({
 	dialect,
 });
+
+export const mediaRepository = new KyselyMediaRepository(database);
+export const usersRepository = new KyselyUsersRepository(database);

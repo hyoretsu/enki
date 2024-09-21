@@ -2,7 +2,7 @@ import cors from "@elysiajs/cors";
 import swagger from "@elysiajs/swagger";
 import { HttpException } from "@enki/domain";
 import { Elysia } from "elysia";
-import { UsersController } from "./controllers";
+import { MediaController, UsersController } from "./controllers";
 
 export const app = new Elysia()
 	.error({ HttpException })
@@ -14,6 +14,10 @@ export const app = new Elysia()
 		}
 	})
 	.onTransform(ctx => {
+		if (typeof ctx.body === "string") {
+			ctx.body = JSON.parse(ctx.body);
+		}
+
 		for (const name in ctx.query) {
 			if (Array.isArray(ctx.query[name])) {
 				ctx.query[name] = ctx.query[name][0].split(",");
@@ -36,6 +40,10 @@ export const app = new Elysia()
 				},
 				tags: [
 					{
+						name: "Media",
+						description: "Media categories.",
+					},
+					{
 						name: "Users",
 						description: "Users of the app.",
 					},
@@ -45,6 +53,7 @@ export const app = new Elysia()
 			exclude: ["/docs", "/docs/json"],
 		}),
 	)
+	.use(MediaController)
 	.use(UsersController)
 	.listen(process.env.PORT || 3333);
 

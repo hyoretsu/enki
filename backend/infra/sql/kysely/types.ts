@@ -17,7 +17,7 @@ export type LiteraryWork = {
 export type LiteraryWorkChapter = {
 	id: Generated<string>;
 	title: Record<string, any> | null;
-	number: number | null;
+	number: number;
 	releaseDate: Timestamp | null;
 	pages: number | null;
 	readingTime: number | null;
@@ -57,14 +57,14 @@ export type UserVideo = {
 	email: string;
 	videoId: string;
 	when: Timestamp | null;
-	timeSpent: number | null;
+	timeSpent: string | null;
 	bookmarked: boolean | null;
 };
 export type Video = {
 	id: Generated<string>;
 	title: string;
 	link: string | null;
-	duration: string;
+	duration: string | null;
 	channelId: string;
 	playlistId: string | null;
 	createdAt: Generated<Timestamp>;
@@ -74,6 +74,7 @@ export type VideoChannel = {
 	id: Generated<string>;
 	name: string;
 	link: string | null;
+	externalId: string | null;
 	createdAt: Generated<Timestamp>;
 	updatedAt: Generated<Timestamp>;
 };

@@ -3,7 +3,9 @@
 	"private": true,
 	"dependencies": {
 		"@enki/domain": "workspace:*",
-		"@hyoretsu/utils": "^1.15.0"
+		"@googleapis/youtube": "^20.0.0",
+		"@hyoretsu/utils": "^1.15.0",
+		"iso8601-duration": "^2.1.2"
 	},
 	"devDependencies": {
 		"@hyoretsu/providers": "^1.2.4",
