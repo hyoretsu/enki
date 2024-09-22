@@ -64,7 +64,7 @@ export class KyselyMediaRepository implements MediaRepository {
 	}
 
 	public async createChapters(workId: string, chapters: number): Promise<void> {
-		await this.db.selectFrom(sql`create_chapters(${workId},${chapters})`.as("")).execute();
+		await this.db.executeQuery(sql`SELECT create_chapters(${workId},${chapters})`.compile(this.db));
 	}
 
 	public async createVideoChannel(data: CreateVideoChannelDTO): Promise<VideoChannelSelectable> {
