@@ -31,6 +31,17 @@ export class CreateMedia {
 				mediaId = chapter.id;
 				break;
 			}
+			case Category.MOVIE: {
+				const { duration, ...rest } = data;
+
+				const movie = await this.mediaRepository.create({
+					...rest,
+					duration: toSeconds(parse(duration)),
+				});
+
+				mediaId = movie.id;
+				break;
+			}
 			case Category.VIDEO: {
 				const shortUrl = getShortUrl(data.link);
 

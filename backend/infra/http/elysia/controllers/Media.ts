@@ -48,7 +48,7 @@ export const MediaController = new Elysia()
 					t.Object(
 						{
 							category: t.Literal(Category.MOVIE),
-							duration: t.Optional(t.Integer()),
+							duration: t.Optional(t.String()),
 							releaseDate: t.Optional(t.Date()),
 							title: t.Record(t.String(), t.Array(t.String())),
 						},

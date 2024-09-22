@@ -10,7 +10,7 @@ export class CreateChapterDTO {
 }
 
 export class CreateMovieDTO {
-	duration?: number;
+	duration?: string;
 	releaseDate?: Date;
 	title: Title;
 }
@@ -39,8 +39,9 @@ export type CreateMediaDatabaseDTO =
 	| (CreateChapterDTO & {
 			category: Category.CHAPTER;
 	  })
-	| (CreateMovieDTO & {
+	| (Omit<CreateMovieDTO, "duration"> & {
 			category: Category.MOVIE;
+			duration: number;
 	  })
 	| (CreateVideoDTO & {
 			category: Category.VIDEO;
