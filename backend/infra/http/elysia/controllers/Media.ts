@@ -50,7 +50,7 @@ export const MediaController = new Elysia()
 							category: t.Literal(Category.LITERARY_WORK),
 							currentChapters: t.Optional(t.Integer()),
 							ongoing: t.Optional(t.Boolean()),
-							synopsis: t.Optional(t.String()),
+							synopsis: t.Optional(t.Record(t.String(), t.String())),
 							tags: t.Optional(t.Array(t.String())),
 							title: t.Record(t.String(), t.Array(t.String())),
 							type: t.Enum(LiteraryWorkType),

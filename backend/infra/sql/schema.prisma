@@ -14,7 +14,7 @@ datasource db {
 model LiteraryWork {
     id          BigInt                @id @default(dbgenerated("generate_tsid('LiteraryWork')"))
     title       Json                  @db.JsonB // { "languageCode": string[] }
-    synopsis    String?               @db.Text
+    synopsis    Json?                 @db.JsonB // { "languageCode": string }
     type        String                @db.VarChar(16)
     tags        String[]              @db.VarChar(30)
     averageTime Int?                  @db.SmallInt

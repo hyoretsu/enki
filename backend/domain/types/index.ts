@@ -37,4 +37,5 @@ export type Media =
 	| Omit<Movie, "createdAt" | "updatedAt">
 	| Omit<Video, "createdAt" | "updatedAt">;
 
-export type Title = Record<string, string[]>;
+export type IntlField = Record<string, string>;
+export type IntlFieldArr = Record<string, string[]>;

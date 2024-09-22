@@ -1,4 +1,4 @@
-import type { Category, LiteraryWorkType, Title } from "../../types";
+import type { Category, IntlField, IntlFieldArr, LiteraryWorkType } from "../../types";
 
 export class CreateChapterDTO {
 	number!: number;
@@ -6,22 +6,22 @@ export class CreateChapterDTO {
 	readingTime?: number;
 	releaseDate?: Date;
 	sourceId!: string;
-	title?: Title;
+	title?: IntlFieldArr;
 }
 
 export class CreateLiteraryWorkDTO {
 	currentChapters?: number;
 	ongoing?: boolean;
-	synopsis?: string;
+	synopsis?: IntlField;
 	tags?: string[];
-	title!: Title;
+	title!: IntlFieldArr;
 	type!: LiteraryWorkType;
 }
 
 export class CreateMovieDTO {
 	duration?: string;
 	releaseDate?: Date;
-	title!: Title;
+	title!: IntlFieldArr;
 }
 
 export class CreateVideoDTO {
