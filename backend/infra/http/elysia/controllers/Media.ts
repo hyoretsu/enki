@@ -34,27 +34,35 @@ export const MediaController = new Elysia()
 					tags: ["Media"],
 				},
 				body: t.Union([
-					t.Object({
-						category: t.Literal(Category.CHAPTER),
-						number: t.Number(),
-						pages: t.Optional(t.Integer()),
-						readingTime: t.Optional(t.Integer()),
-						releaseDate: t.Optional(t.Date()),
-						sourceId: t.String(),
-						title: t.Record(t.String(), t.Array(t.String())),
-					}),
-					t.Object({
-						category: t.Literal(Category.MOVIE),
-						duration: t.Optional(t.Integer()),
-						releaseDate: t.Optional(t.Date()),
-						title: t.Record(t.String(), t.Array(t.String())),
-					}),
-					t.Object({
-						category: t.Literal(Category.VIDEO),
-						duration: t.Optional(t.String()),
-						link: t.Optional(t.String({ format: "uri" })),
-						title: t.Optional(t.String()),
-					}),
+					t.Object(
+						{
+							category: t.Literal(Category.CHAPTER),
+							number: t.Number(),
+							pages: t.Optional(t.Integer()),
+							releaseDate: t.Optional(t.Date()),
+							sourceId: t.String(),
+							title: t.Record(t.String(), t.Array(t.String())),
+						},
+						{ additionalProperties: false },
+					),
+					t.Object(
+						{
+							category: t.Literal(Category.MOVIE),
+							duration: t.Optional(t.Integer()),
+							releaseDate: t.Optional(t.Date()),
+							title: t.Record(t.String(), t.Array(t.String())),
+						},
+						{ additionalProperties: false },
+					),
+					t.Object(
+						{
+							category: t.Literal(Category.VIDEO),
+							duration: t.Optional(t.String()),
+							link: t.Optional(t.String({ format: "uri" })),
+							title: t.Optional(t.String()),
+						},
+						{ additionalProperties: false },
+					),
 				]),
 				response: t.String(),
 			})

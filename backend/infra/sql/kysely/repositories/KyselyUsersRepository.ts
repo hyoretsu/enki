@@ -1,6 +1,6 @@
 import { Category, type CreateUserDTO, type TrackMediaUserDTO, type UsersRepository } from "@enki/domain";
 import { sum } from "@hyoretsu/utils";
-import type { Kysely } from "kysely";
+import { type Kysely, sql } from "kysely";
 import type { UserSelectable } from "../entities";
 import type { DB } from "../types";
 
@@ -29,7 +29,12 @@ export class KyselyUsersRepository implements UsersRepository {
 				userQuery
 					.innerJoin("UserChapter as uc", "uc.email", "u.email")
 					.leftJoin("LiteraryWorkChapter as lwc", "lwc.id", "uc.chapterId")
-					.select(({ fn }) => fn.sum(fn.coalesce("uc.timeSpent", "lwc.readingTime")).as("readingTime"))
+					.leftJoin("LiteraryWork as lw", "lw.id", "lwc.sourceId")
+					.select(({ fn }) =>
+						fn
+							.sum(fn.coalesce(fn.coalesce("uc.timeSpent", "lwc.averageTime"), "lw.averageTime"))
+							.as("readingTime"),
+					)
 					.executeTakeFirst(),
 			);
 		}

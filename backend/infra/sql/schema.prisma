@@ -12,15 +12,16 @@ datasource db {
 }
 
 model LiteraryWork {
-    id        BigInt                @id @default(dbgenerated("generate_tsid('LiteraryWork')"))
-    title     Json                  @db.JsonB // { "languageCode": string[] }
-    synopsis  String?               @db.Text
-    type      String                @db.VarChar(16)
-    tags      String[]              @db.VarChar(30)
-    ongoing   Boolean               @default(true) @db.Boolean
-    chapters  LiteraryWorkChapter[]
-    createdAt DateTime              @default(now())
-    updatedAt DateTime              @default(now())
+    id          BigInt                @id @default(dbgenerated("generate_tsid('LiteraryWork')"))
+    title       Json                  @db.JsonB // { "languageCode": string[] }
+    synopsis    String?               @db.Text
+    type        String                @db.VarChar(16)
+    tags        String[]              @db.VarChar(30)
+    averageTime Int?                  @db.SmallInt
+    ongoing     Boolean               @default(true) @db.Boolean
+    chapters    LiteraryWorkChapter[]
+    createdAt   DateTime              @default(now())
+    updatedAt   DateTime              @default(now())
 }
 
 model LiteraryWorkChapter {
@@ -29,7 +30,7 @@ model LiteraryWorkChapter {
     number      Decimal       @db.Decimal(6, 1)
     releaseDate DateTime?     @db.Date
     pages       Int?          @db.SmallInt
-    readingTime Int?          @db.SmallInt
+    averageTime Int?          @db.SmallInt
     sourceId    BigInt
     source      LiteraryWork  @relation(fields: [sourceId], references: [id], onDelete: Cascade)
     readBy      UserChapter[]
