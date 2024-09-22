@@ -9,6 +9,7 @@ export interface FindFilters {
 
 export abstract class MediaRepository {
 	abstract create(data: CreateMediaDatabaseDTO): Promise<{ id: string }>;
+	abstract createChapters(workId: string, chapters: number): Promise<void>;
 	abstract createVideoChannel(data: CreateVideoChannelDTO): Promise<VideoChannel>;
 	abstract find(category: Category, filters?: FindFilters): Promise<Media[]>;
 	abstract findById(category: Category, id: string): Promise<Record<string, any> | undefined>;

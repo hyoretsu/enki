@@ -47,6 +47,18 @@ export const MediaController = new Elysia()
 					),
 					t.Object(
 						{
+							category: t.Literal(Category.LITERARY_WORK),
+							currentChapters: t.Optional(t.Integer()),
+							ongoing: t.Optional(t.Boolean()),
+							synopsis: t.Optional(t.String()),
+							tags: t.Optional(t.Array(t.String())),
+							title: t.Record(t.String(), t.Array(t.String())),
+							type: t.Enum(LiteraryWorkType),
+						},
+						{ additionalProperties: false },
+					),
+					t.Object(
+						{
 							category: t.Literal(Category.MOVIE),
 							duration: t.Optional(t.String()),
 							releaseDate: t.Optional(t.Date()),

@@ -1,18 +1,27 @@
-import type { Category, Title } from "../../types";
+import type { Category, LiteraryWorkType, Title } from "../../types";
 
 export class CreateChapterDTO {
-	number: number;
+	number!: number;
 	pages?: number;
 	readingTime?: number;
 	releaseDate?: Date;
-	sourceId: string;
+	sourceId!: string;
 	title?: Title;
+}
+
+export class CreateLiteraryWorkDTO {
+	currentChapters?: number;
+	ongoing?: boolean;
+	synopsis?: string;
+	tags?: string[];
+	title!: Title;
+	type!: LiteraryWorkType;
 }
 
 export class CreateMovieDTO {
 	duration?: string;
 	releaseDate?: Date;
-	title: Title;
+	title!: Title;
 }
 
 export class CreateVideoDTO {
@@ -27,6 +36,9 @@ export type CreateMediaDTO = {
 	| (CreateChapterDTO & {
 			category: Category.CHAPTER;
 	  })
+	| (CreateLiteraryWorkDTO & {
+			category: Category.LITERARY_WORK;
+	  })
 	| (CreateMovieDTO & {
 			category: Category.MOVIE;
 	  })
@@ -38,6 +50,10 @@ export type CreateMediaDTO = {
 export type CreateMediaDatabaseDTO =
 	| (CreateChapterDTO & {
 			category: Category.CHAPTER;
+	  })
+	| (Omit<CreateLiteraryWorkDTO, "currentChapters"> & {
+			category: Category.LITERARY_WORK;
+			tags: string[];
 	  })
 	| (Omit<CreateMovieDTO, "duration"> & {
 			category: Category.MOVIE;

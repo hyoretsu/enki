@@ -7,29 +7,30 @@ export enum Category {
 	VIDEO = "video",
 }
 
-export type LiteraryWorkType =
-	| "article"
-	| "biography"
-	| "comics"
-	| "diary"
-	| "epic"
-	| "essay"
-	| "flash_fiction"
-	| "graphic_novel"
-	| "journal"
-	| "light_novel"
-	| "manga"
-	| "manhua"
-	| "manhwa"
-	| "memoir"
-	| "novel"
-	| "novelette"
-	| "novella"
-	| "poetry"
-	| "script"
-	| "short_story"
-	| "web_novel"
-	| "webtoon";
+export enum LiteraryWorkType {
+	ARTICLE = "article",
+	BIOGRAPHY = "biography",
+	COMICS = "comics",
+	DIARY = "diary",
+	EPIC = "epic",
+	ESSAY = "essay",
+	FLASH_FICTION = "flash_fiction",
+	GRAPHIC_NOVEL = "graphic_novel",
+	JOURNAL = "journal",
+	LIGHT_NOVEL = "light_novel",
+	MANGA = "manga",
+	MANHUA = "manhua",
+	MANHWA = "manhwa",
+	MEMOIR = "memoir",
+	NOVEL = "novel",
+	NOVELETTE = "novelette",
+	NOVELLA = "novella",
+	POETRY = "poetry",
+	SCRIPT = "script",
+	SHORT_STORY = "short_story",
+	WEB_NOVEL = "web_novel",
+	WEBTOON = "webtoon",
+}
 
 export type Media =
 	| Omit<LiteraryWorkChapter, "createdAt" | "updatedAt">

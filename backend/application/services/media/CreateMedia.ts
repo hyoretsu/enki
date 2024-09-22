@@ -31,6 +31,21 @@ export class CreateMedia {
 				mediaId = chapter.id;
 				break;
 			}
+			case Category.LITERARY_WORK: {
+				const { currentChapters, tags, ...rest } = data;
+
+				const { id } = await this.mediaRepository.create({
+					...rest,
+					tags: tags || [],
+				});
+
+				if (currentChapters) {
+					await this.mediaRepository.createChapters(id, currentChapters);
+				}
+
+				mediaId = id;
+				break;
+			}
 			case Category.MOVIE: {
 				const { duration, ...rest } = data;
 

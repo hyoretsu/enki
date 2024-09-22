@@ -39,6 +39,15 @@ export class KyselyMediaRepository implements MediaRepository {
 					.returning("id")
 					.executeTakeFirstOrThrow();
 			}
+			case Category.LITERARY_WORK: {
+				const { category, ...actualData } = data;
+
+				return this.db
+					.insertInto("LiteraryWork")
+					.values(actualData)
+					.returning("id")
+					.executeTakeFirstOrThrow();
+			}
 			case Category.MOVIE: {
 				const { category, ...actualData } = data;
 
@@ -52,6 +61,10 @@ export class KyselyMediaRepository implements MediaRepository {
 			default:
 				throw new Error("Media unsupported.");
 		}
+	}
+
+	public async createChapters(workId: string, chapters: number): Promise<void> {
+		await this.db.selectFrom(sql`create_chapters(${workId},${chapters})`.as("")).execute();
 	}
 
 	public async createVideoChannel(data: CreateVideoChannelDTO): Promise<VideoChannelSelectable> {
