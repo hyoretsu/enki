@@ -24,7 +24,7 @@ export class KyselyUsersRepository implements UsersRepository {
 
 		const userQuery = this.db.selectFrom("User as u").where("u.email", "=", email);
 
-		if (!categories || categories.includes("chapters")) {
+		if (!categories || categories.includes(Category.LITERARY_WORK)) {
 			queries.push(
 				userQuery
 					.innerJoin("UserChapter as uc", "uc.email", "u.email")
@@ -38,7 +38,7 @@ export class KyselyUsersRepository implements UsersRepository {
 					.executeTakeFirst(),
 			);
 		}
-		if (!categories || categories.includes("movies")) {
+		if (!categories || categories.includes(Category.MOVIE)) {
 			queries.push(
 				userQuery
 					.innerJoin("UserMovie as um", "um.email", "u.email")
@@ -47,7 +47,7 @@ export class KyselyUsersRepository implements UsersRepository {
 					.executeTakeFirst(),
 			);
 		}
-		if (!categories || categories.includes("videos")) {
+		if (!categories || categories.includes(Category.VIDEO)) {
 			queries.push(
 				userQuery
 					.innerJoin("UserVideo as uv", "uv.email", "u.email")

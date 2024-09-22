@@ -1,5 +1,5 @@
 import { CreateUser, GetStatistics } from "@enki/application";
-import { Categories } from "@enki/domain";
+import { Category } from "@enki/domain";
 import { type HashProviderKeys, hashProviders } from "@hyoretsu/providers";
 import { Elysia, t } from "elysia";
 import { usersRepository } from "~/sql/kysely";
@@ -39,7 +39,7 @@ export const UsersController = new Elysia()
 						tags: ["Users"],
 					},
 					query: t.Object({
-						categories: t.Optional(t.Array(t.Enum(Categories))),
+						categories: t.Optional(t.Array(t.Enum(Category))),
 						email: t.String({ format: "email" }),
 					}),
 					response: t.Object({

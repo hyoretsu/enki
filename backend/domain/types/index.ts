@@ -7,12 +7,6 @@ export enum Category {
 	VIDEO = "video",
 }
 
-export enum Categories {
-	CHAPTER = "chapters",
-	MOVIE = "movies",
-	VIDEO = "videos",
-}
-
 export type LiteraryWorkType =
 	| "article"
 	| "biography"
