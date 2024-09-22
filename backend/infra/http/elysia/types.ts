@@ -24,3 +24,8 @@ export const Video = t.Object({
 	channelId: t.String(),
 	playlistId: t.Nullable(t.String()),
 });
+
+export const VideoGame = t.Object({
+	id: t.String(),
+	title: t.Record(t.String(), t.Array(t.String())),
+});

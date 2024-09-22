@@ -30,6 +30,10 @@ export class CreateVideoDTO {
 	title?: string;
 }
 
+export class CreateVideoGameDTO {
+	title!: IntlFieldArr;
+}
+
 export type CreateMediaDTO = {
 	noCheck?: boolean;
 } & (
@@ -44,6 +48,9 @@ export type CreateMediaDTO = {
 	  })
 	| (CreateVideoDTO & {
 			category: Category.VIDEO;
+	  })
+	| (CreateVideoGameDTO & {
+			category: Category.VIDEO_GAME;
 	  })
 );
 
@@ -63,4 +70,7 @@ export type CreateMediaDatabaseDTO =
 			category: Category.VIDEO;
 			channelId: string;
 			title: string;
+	  })
+	| (CreateVideoGameDTO & {
+			category: Category.VIDEO_GAME;
 	  });

@@ -21,7 +21,7 @@ export class TrackMedia {
 	}
 
 	public async execute({ category, link, mediaId, number, userId, ...data }: TrackMediaDTO): Promise<void> {
-		if (data.when === undefined) {
+		if (data.when === undefined && ![Category.VIDEO_GAME].includes(category)) {
 			data.when = new Date();
 		}
 
@@ -78,6 +78,19 @@ export class TrackMedia {
 						mediaId = existingVideo.id;
 					}
 				}
+				break;
+			}
+			case Category.VIDEO_GAME: {
+				const media = await this.mediaRepository.findById(category, mediaId);
+				if (!media) {
+					throw new HttpException("The video game you want to track doesn't exist.", StatusCodes.NOT_FOUND);
+				}
+
+				if (data.offset) {
+					data.offset = String(toSeconds(parse(data.offset)));
+				}
+
+				mediaId = media.id;
 				break;
 			}
 			default:

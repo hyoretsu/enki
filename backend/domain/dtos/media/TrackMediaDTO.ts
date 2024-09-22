@@ -6,6 +6,7 @@ export class TrackMediaDTO {
 	link?: string;
 	mediaId?: string;
 	number?: number;
+	offset?: string | null;
 	rating?: number;
 	timeSpent?: string;
 	userId!: string;

@@ -75,6 +75,13 @@ export const MediaController = new Elysia()
 						},
 						{ additionalProperties: false },
 					),
+					t.Object(
+						{
+							category: t.Literal(Category.VIDEO_GAME),
+							title: t.Record(t.String(), t.Array(t.String())),
+						},
+						{ additionalProperties: false },
+					),
 				]),
 				response: t.String(),
 			})
@@ -97,7 +104,7 @@ export const MediaController = new Elysia()
 							bookmarked: t.Optional(t.Boolean()),
 							mediaId: t.String(),
 							number: t.Number(),
-							timeSpent: t.Optional(t.String()),
+							timeSpent: t.String(),
 							when: t.Optional(t.Nullable(t.Date())),
 						},
 						{ additionalProperties: false },
@@ -105,9 +112,19 @@ export const MediaController = new Elysia()
 					t.Object(
 						{
 							bookmarked: t.Optional(t.Boolean()),
-							mediaId: t.Optional(t.String()),
+							mediaId: t.String(),
 							rating: t.Optional(t.Number()),
 							when: t.Optional(t.Nullable(t.Date())),
+						},
+						{ additionalProperties: false },
+					),
+					t.Object(
+						{
+							bookmarked: t.Optional(t.Boolean()),
+							mediaId: t.String(),
+							score: t.Optional(t.Nullable(t.Number())),
+							timeSpent: t.Optional(t.String()),
+							offset: t.Optional(t.Nullable(t.String())),
 						},
 						{ additionalProperties: false },
 					),

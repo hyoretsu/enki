@@ -22,13 +22,13 @@ export class CreateMedia {
 					}
 				}
 
-				const chapter = await this.mediaRepository.create({
+				const { id } = await this.mediaRepository.create({
 					category: Category.CHAPTER,
 					sourceId,
 					number,
 				});
 
-				mediaId = chapter.id;
+				mediaId = id;
 				break;
 			}
 			case Category.LITERARY_WORK: {
@@ -47,12 +47,12 @@ export class CreateMedia {
 			case Category.MOVIE: {
 				const { duration, ...rest } = data;
 
-				const movie = await this.mediaRepository.create({
+				const { id } = await this.mediaRepository.create({
 					...rest,
 					duration: toSeconds(parse(duration)),
 				});
 
-				mediaId = movie.id;
+				mediaId = id;
 				break;
 			}
 			case Category.VIDEO: {
@@ -107,7 +107,7 @@ export class CreateMedia {
 					channelId = existingChannel.id;
 				}
 
-				const video = await this.mediaRepository.create({
+				const { id } = await this.mediaRepository.create({
 					category: Category.VIDEO,
 					channelId: channelId,
 					duration: String(toSeconds(parse(duration))),
@@ -115,7 +115,13 @@ export class CreateMedia {
 					title,
 				});
 
-				mediaId = video.id;
+				mediaId = id;
+				break;
+			}
+			case Category.VIDEO_GAME: {
+				const { id } = await this.mediaRepository.create(data);
+
+				mediaId = id;
 				break;
 			}
 			default:

@@ -43,7 +43,7 @@ model LiteraryWorkChapter {
 model Movie {
     id          BigInt      @id @default(dbgenerated("generate_tsid('Movie')"))
     title       Json        @db.JsonB // { "languageCode": string[] }
-    duration    Int?        @db.Integer
+    duration    Int?
     releaseDate DateTime?   @db.Date
     watchedBy   UserMovie[]
     createdAt   DateTime    @default(now())
@@ -51,14 +51,15 @@ model Movie {
 }
 
 model User {
-    id            BigInt        @id @default(dbgenerated("generate_tsid('User')"))
-    email         String        @unique @db.VarChar(320)
-    password      String        @db.VarChar(128)
-    chaptersRead  UserChapter[]
-    moviesWatched UserMovie[]
-    videosWatched UserVideo[]
-    createdAt     DateTime      @default(now())
-    updatedAt     DateTime      @default(now())
+    id               BigInt          @id @default(dbgenerated("generate_tsid('User')"))
+    email            String          @unique @db.VarChar(320)
+    password         String          @db.VarChar(128)
+    chaptersRead     UserChapter[]
+    moviesWatched    UserMovie[]
+    videosWatched    UserVideo[]
+    videoGamesPlayed UserVideoGame[]
+    createdAt        DateTime        @default(now())
+    updatedAt        DateTime        @default(now())
 }
 
 model UserChapter {
@@ -79,7 +80,7 @@ model UserMovie {
     movieId    BigInt
     movie      Movie     @relation(fields: [movieId], references: [id], onDelete: Cascade)
     when       DateTime? @db.Timestamptz(0)
-    rating     Decimal?  @db.Decimal(2, 1)
+    rating     Decimal?  @db.Decimal(3, 1)
     bookmarked Boolean?  @db.Boolean
 }
 
@@ -92,6 +93,19 @@ model UserVideo {
     when       DateTime? @db.Timestamptz(0)
     timeSpent  BigInt?
     bookmarked Boolean?  @db.Boolean
+}
+
+model UserVideoGame {
+    userId      BigInt
+    user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    videoGameId BigInt
+    videoGame   VideoGame @relation(fields: [videoGameId], references: [id], onDelete: Cascade)
+    score       Decimal?  @db.Decimal(3, 1)
+    timeSpent   BigInt?
+    offset      Int?
+    bookmarked  Boolean?  @db.Boolean
+
+    @@id([userId, videoGameId])
 }
 
 model Video {
@@ -117,6 +131,14 @@ model VideoChannel {
     playlists  VideoPlaylist[]
     createdAt  DateTime        @default(now())
     updatedAt  DateTime        @default(now())
+}
+
+model VideoGame {
+    id        BigInt          @id @default(dbgenerated("generate_tsid('Game')"))
+    title     Json            @db.JsonB // { "languageCode": string[] }
+    playedBy  UserVideoGame[]
+    createdAt DateTime        @default(now())
+    updatedAt DateTime        @default(now())
 }
 
 model VideoPlaylist {

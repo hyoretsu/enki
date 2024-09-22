@@ -25,6 +25,7 @@ export class KyselyMediaRepository implements MediaRepository {
 			[Category.VIDEO]: this.db
 				.selectFrom("Video")
 				.select(["id", "title", "link", "duration", "channelId", "playlistId"]),
+			[Category.VIDEO_GAME]: this.db.selectFrom("VideoGame").select(["id", "title"]),
 		};
 	}
 
@@ -57,6 +58,11 @@ export class KyselyMediaRepository implements MediaRepository {
 				const { category, ...actualData } = data;
 
 				return this.db.insertInto("Video").values(actualData).returning("id").executeTakeFirstOrThrow();
+			}
+			case Category.VIDEO_GAME: {
+				const { category, ...actualData } = data;
+
+				return this.db.insertInto("VideoGame").values(actualData).returning("id").executeTakeFirstOrThrow();
 			}
 			default:
 				throw new Error("Media unsupported.");
@@ -105,11 +111,17 @@ export class KyselyMediaRepository implements MediaRepository {
 			case Category.CHAPTER:
 				query = this.db.selectFrom("LiteraryWork");
 				break;
+			case Category.LITERARY_WORK:
+				query = this.db.selectFrom("LiteraryWork");
+				break;
 			case Category.MOVIE:
 				query = this.db.selectFrom("Movie");
 				break;
 			case Category.VIDEO:
 				query = this.db.selectFrom("Video");
+				break;
+			case Category.VIDEO_GAME:
+				query = this.db.selectFrom("VideoGame");
 				break;
 			default:
 				throw new Error("Media unsupported.");

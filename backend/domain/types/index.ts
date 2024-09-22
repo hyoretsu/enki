@@ -1,10 +1,11 @@
-import type { LiteraryWorkChapter, Movie, Video } from "../entities";
+import type { LiteraryWorkChapter, Movie, Video, VideoGame } from "../entities";
 
 export enum Category {
 	CHAPTER = "chapter",
 	LITERARY_WORK = "literary_work",
 	MOVIE = "movie",
 	VIDEO = "video",
+	VIDEO_GAME = "video_game",
 }
 
 export enum LiteraryWorkType {
@@ -35,6 +36,7 @@ export enum LiteraryWorkType {
 export type Media =
 	| Omit<LiteraryWorkChapter, "createdAt" | "updatedAt">
 	| Omit<Movie, "createdAt" | "updatedAt">
+	| Omit<VideoGame, "createdAt" | "updatedAt">
 	| Omit<Video, "createdAt" | "updatedAt">;
 
 export type IntlField = Record<string, string>;

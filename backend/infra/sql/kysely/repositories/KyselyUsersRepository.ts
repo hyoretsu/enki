@@ -1,6 +1,6 @@
 import { Category, type CreateUserDTO, type TrackMediaUserDTO, type UsersRepository } from "@enki/domain";
 import { sum } from "@hyoretsu/utils";
-import type { Kysely } from "kysely";
+import { type Kysely, sql } from "kysely";
 import type { UserSelectable } from "../entities";
 import type { DB } from "../types";
 
@@ -62,6 +62,17 @@ export class KyselyUsersRepository implements UsersRepository {
 					.executeTakeFirst(),
 			);
 		}
+		if (!categories || categories.includes(Category.VIDEO_GAME)) {
+			queries.push(
+				userQuery
+					.innerJoin("UserVideoGame as uvg", "uvg.userId", "u.id")
+					.leftJoin("Video as v", "v.id", "uvg.videoGameId")
+					.select(({ fn }) =>
+						fn.sum(sql<number>`COALESCE(uvg."timeSpent", 0) - COALESCE(uvg."offset", 0)`).as("playTime"),
+					)
+					.executeTakeFirst(),
+			);
+		}
 
 		const times = await Promise.all(queries);
 		const timeSpent = sum(times.map(time => Number(Object.values(time!)[0])));
@@ -69,6 +80,7 @@ export class KyselyUsersRepository implements UsersRepository {
 		return timeSpent;
 	}
 
+	// Upserts
 	public async track({ category, mediaId, timeSpent, ...data }: TrackMediaUserDTO): Promise<void> {
 		switch (category) {
 			case Category.CHAPTER:
@@ -87,6 +99,12 @@ export class KyselyUsersRepository implements UsersRepository {
 				await this.db
 					.insertInto("UserVideo")
 					.values({ ...data, timeSpent, videoId: mediaId })
+					.execute();
+				break;
+			case Category.VIDEO_GAME:
+				await this.db
+					.insertInto("UserVideoGame")
+					.values({ ...data, timeSpent, videoGameId: mediaId })
 					.execute();
 				break;
 			default:
