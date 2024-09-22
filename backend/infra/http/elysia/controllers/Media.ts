@@ -1,5 +1,5 @@
 import { CreateMedia, ListMedia, TrackMedia } from "@enki/application";
-import { Category } from "@enki/domain";
+import { Category, LiteraryWorkType } from "@enki/domain";
 import { Elysia, t } from "elysia";
 import { mediaRepository, usersRepository } from "~/sql/kysely";
 // import { LiteraryWork, Movie, Video } from "../types";
@@ -76,7 +76,7 @@ export const MediaController = new Elysia()
 							bookmarked: t.Optional(t.Boolean()),
 							link: t.Optional(t.String({ format: "uri" })),
 							timeSpent: t.Optional(t.String()),
-							when: t.Optional(t.Date()),
+							when: t.Optional(t.Nullable(t.Date())),
 						},
 						{ additionalProperties: false },
 					),
@@ -86,7 +86,7 @@ export const MediaController = new Elysia()
 							mediaId: t.String(),
 							number: t.Number(),
 							timeSpent: t.Optional(t.String()),
-							when: t.Optional(t.Date()),
+							when: t.Optional(t.Nullable(t.Date())),
 						},
 						{ additionalProperties: false },
 					),
@@ -95,7 +95,7 @@ export const MediaController = new Elysia()
 							bookmarked: t.Optional(t.Boolean()),
 							mediaId: t.Optional(t.String()),
 							rating: t.Optional(t.Number()),
-							when: t.Optional(t.Date()),
+							when: t.Optional(t.Nullable(t.Date())),
 						},
 						{ additionalProperties: false },
 					),

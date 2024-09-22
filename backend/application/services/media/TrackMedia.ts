@@ -21,7 +21,7 @@ export class TrackMedia {
 	}
 
 	public async execute({ category, email, link, mediaId, number, ...data }: TrackMediaDTO): Promise<void> {
-		if (!data.when) {
+		if (data.when === undefined) {
 			data.when = new Date();
 		}
 
