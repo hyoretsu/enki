@@ -12,8 +12,8 @@ const minuteInSeconds = timeConversion(1, "minutes", "seconds");
 export class GetStatistics {
 	constructor(private readonly usersRepository: UsersRepository) {}
 
-	public async execute({ categories, email }: GetStatisticsDTO): Promise<Statistics> {
-		let timeSpent = await this.usersRepository.getTimeSpent(email, categories);
+	public async execute({ categories, userId }: GetStatisticsDTO): Promise<Statistics> {
+		let timeSpent = await this.usersRepository.getTimeSpent(userId, categories);
 
 		const totalTime: number[] = [];
 

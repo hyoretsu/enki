@@ -31,20 +31,16 @@ export const UsersController = new Elysia()
 					updatedAt: t.Date({ examples: [new Date()] }),
 				}),
 			})
-			.get(
-				"/stats",
-				({ getStatistics, query: { email, categories } }) => getStatistics.execute({ categories, email }),
-				{
-					detail: {
-						tags: ["Users"],
-					},
-					query: t.Object({
-						categories: t.Optional(t.Array(t.Enum(Category))),
-						email: t.String({ format: "email" }),
-					}),
-					response: t.Object({
-						totalTime: t.Array(t.Integer()),
-					}),
+			.get("/stats", ({ getStatistics, query }) => getStatistics.execute(query), {
+				detail: {
+					tags: ["Users"],
 				},
-			);
+				query: t.Object({
+					categories: t.Optional(t.Array(t.Enum(Category))),
+					userId: t.String(),
+				}),
+				response: t.Object({
+					totalTime: t.Array(t.Integer()),
+				}),
+			});
 	});

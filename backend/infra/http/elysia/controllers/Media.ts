@@ -114,7 +114,7 @@ export const MediaController = new Elysia()
 				]),
 				query: t.Object({
 					category: t.Enum(Category),
-					email: t.String({ format: "email" }),
+					userId: t.String(),
 				}),
 				response: t.Void(),
 			});

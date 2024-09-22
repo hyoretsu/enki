@@ -20,12 +20,12 @@ export class TrackMedia {
 		this.createMedia = new CreateMedia(this.mediaRepository);
 	}
 
-	public async execute({ category, email, link, mediaId, number, ...data }: TrackMediaDTO): Promise<void> {
+	public async execute({ category, link, mediaId, number, userId, ...data }: TrackMediaDTO): Promise<void> {
 		if (data.when === undefined) {
 			data.when = new Date();
 		}
 
-		const existingUser = await this.usersRepository.findByEmail(email);
+		const existingUser = await this.usersRepository.findById(userId);
 		if (!existingUser) {
 			throw new HttpException("There is no user with this email.", StatusCodes.NOT_FOUND);
 		}
@@ -91,8 +91,8 @@ export class TrackMedia {
 		await this.usersRepository.track({
 			...data,
 			category,
-			email,
 			mediaId,
+			userId,
 		});
 	}
 }

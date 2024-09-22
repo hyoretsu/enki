@@ -51,7 +51,8 @@ model Movie {
 }
 
 model User {
-    email         String        @id @db.VarChar(320)
+    id            BigInt        @id @default(dbgenerated("generate_tsid('User')"))
+    email         String        @unique @db.VarChar(320)
     password      String        @db.VarChar(128)
     chaptersRead  UserChapter[]
     moviesWatched UserMovie[]
@@ -61,39 +62,36 @@ model User {
 }
 
 model UserChapter {
-    email      String              @db.VarChar(320)
-    user       User                @relation(fields: [email], references: [email], onDelete: Cascade)
+    id         BigInt              @id @default(dbgenerated("generate_tsid('UserChapter')"))
+    userId     BigInt
+    user       User                @relation(fields: [userId], references: [id], onDelete: Cascade)
     chapterId  BigInt
     chapter    LiteraryWorkChapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
     when       DateTime?           @db.Timestamptz(0)
     timeSpent  Int?                @db.SmallInt
     bookmarked Boolean?            @db.Boolean
-
-    @@id([email, chapterId])
 }
 
 model UserMovie {
-    email      String    @db.VarChar(320)
-    user       User      @relation(fields: [email], references: [email], onDelete: Cascade)
+    id         BigInt    @id @default(dbgenerated("generate_tsid('UserMovie')"))
+    userId     BigInt
+    user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
     movieId    BigInt
     movie      Movie     @relation(fields: [movieId], references: [id], onDelete: Cascade)
     when       DateTime? @db.Timestamptz(0)
     rating     Decimal?  @db.Decimal(2, 1)
     bookmarked Boolean?  @db.Boolean
-
-    @@id([email, movieId])
 }
 
 model UserVideo {
-    email      String    @db.VarChar(320)
-    user       User      @relation(fields: [email], references: [email], onDelete: Cascade)
+    id         BigInt    @id @default(dbgenerated("generate_tsid('UserVideo')"))
+    userId     BigInt
+    user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
     videoId    BigInt
     video      Video     @relation(fields: [videoId], references: [id], onDelete: Cascade)
     when       DateTime? @db.Timestamptz(0)
     timeSpent  BigInt?
     bookmarked Boolean?  @db.Boolean
-
-    @@id([email, videoId])
 }
 
 model Video {
