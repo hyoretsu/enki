@@ -8,6 +8,7 @@ export type EntertainmentMedia = {
 	id: string;
 	title: Record<string, any>;
 	releaseDate: Timestamp | null;
+	category: string;
 	createdAt: Generated<Timestamp>;
 	updatedAt: Generated<Timestamp>;
 };
