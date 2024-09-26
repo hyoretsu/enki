@@ -1,5 +1,6 @@
 generator kysely {
     provider            = "prisma-kysely"
+    previewFeatures     = ["views"]
     output              = "./kysely"
     fileName            = "types.ts"
     decimalTypeOverride = "number"
@@ -39,6 +40,15 @@ model LiteraryWorkChapter {
     updatedAt   DateTime      @default(now())
 
     @@unique([sourceId, number])
+}
+
+view EntertainmentMedia {
+    id          BigInt    @unique
+    title       Json      @db.JsonB // { "languageCode": string[] }
+    releaseDate DateTime? @db.Date
+    category    String    @db.Text
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @default(now())
 }
 
 model Movie {
@@ -111,7 +121,7 @@ model UserVideoGame {
 
 model Video {
     id          BigInt         @id @default(dbgenerated("generate_tsid('Video')"))
-    title       String         @db.Text
+    title       Json           @db.JsonB // { "languageCode": string[] }
     link        String?        @db.Text
     releaseDate DateTime?      @db.Date
     duration    BigInt?

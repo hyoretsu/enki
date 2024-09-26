@@ -27,7 +27,7 @@ export class CreateMovieDTO {
 export class CreateVideoDTO {
 	duration?: string;
 	link?: string;
-	title?: string;
+	title?: IntlFieldArr;
 }
 
 export class CreateVideoGameDTO {
@@ -69,7 +69,7 @@ export type CreateMediaDatabaseDTO =
 	| (CreateVideoDTO & {
 			category: Category.VIDEO;
 			channelId: string;
-			title: string;
+			title: IntlFieldArr;
 	  })
 	| (CreateVideoGameDTO & {
 			category: Category.VIDEO_GAME;

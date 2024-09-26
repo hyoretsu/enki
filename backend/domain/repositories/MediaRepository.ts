@@ -11,7 +11,7 @@ export abstract class MediaRepository {
 	abstract create(data: CreateMediaDatabaseDTO): Promise<{ id: string }>;
 	abstract createChapters(workId: string, chapters: number): Promise<void>;
 	abstract createVideoChannel(data: CreateVideoChannelDTO): Promise<VideoChannel>;
-	abstract find(category: Category, filters?: FindFilters): Promise<Media[]>;
+	abstract find(shallow: boolean, category?: Category, filters?: FindFilters): Promise<Media[]>;
 	abstract findById(category: Category, id: string): Promise<Record<string, any> | undefined>;
 	abstract findChannelByExternalId(externalId: string): Promise<VideoChannel | undefined>;
 	abstract findChannelByUrl(url: string): Promise<VideoChannel | undefined>;

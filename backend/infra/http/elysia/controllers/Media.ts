@@ -23,7 +23,7 @@ export const MediaController = new Elysia()
 					tags: ["Media"],
 				},
 				query: t.Object({
-					category: t.Enum(Category),
+					category: t.Optional(t.Enum(Category)),
 					title: t.Optional(t.String()),
 				}),
 				// response: t.Array(t.Union([LiteraryWork, Movie, Video])),
@@ -71,7 +71,7 @@ export const MediaController = new Elysia()
 							category: t.Literal(Category.VIDEO),
 							duration: t.Optional(t.String()),
 							link: t.Optional(t.String({ format: "uri" })),
-							title: t.Optional(t.String()),
+							title: t.Record(t.String(), t.Array(t.String())),
 						},
 						{ additionalProperties: false },
 					),

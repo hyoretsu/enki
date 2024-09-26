@@ -4,6 +4,13 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
 	: ColumnType<T, T | undefined, T>;
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
+export type EntertainmentMedia = {
+	id: string;
+	title: Record<string, any>;
+	releaseDate: Timestamp | null;
+	createdAt: Generated<Timestamp>;
+	updatedAt: Generated<Timestamp>;
+};
 export type LiteraryWork = {
 	id: Generated<string>;
 	title: Record<string, any>;
@@ -76,7 +83,7 @@ export type UserVideoGame = {
 };
 export type Video = {
 	id: Generated<string>;
-	title: string;
+	title: Record<string, any>;
 	link: string | null;
 	releaseDate: Timestamp | null;
 	duration: string | null;
@@ -109,6 +116,7 @@ export type VideoPlaylist = {
 	updatedAt: Generated<Timestamp>;
 };
 export type DB = {
+	EntertainmentMedia: EntertainmentMedia;
 	LiteraryWork: LiteraryWork;
 	LiteraryWorkChapter: LiteraryWorkChapter;
 	Movie: Movie;

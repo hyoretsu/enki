@@ -83,10 +83,23 @@ export class KyselyMediaRepository implements MediaRepository {
 		return channel;
 	}
 
-	public async find(category: Category, filters?: FindFilters): Promise<Media[]> {
-		let query = this.findQueries[category]?.orderBy("createdAt desc");
-		if (!query) {
-			throw new Error("Media unsupported.");
+	public async find(shallow: boolean, category?: Category, filters?: FindFilters): Promise<Media[]> {
+		let query: SelectQueryBuilder<DB, any, any>;
+		if (shallow) {
+			query = this.db.selectFrom("EntertainmentMedia").selectAll();
+			if (category) {
+				query = query.where("category", "=", category);
+			}
+		} else {
+			if (!category) {
+				throw new Error("Either do a shallow search or send a category.");
+			}
+
+			query = this.findQueries[category]?.orderBy("createdAt desc");
+
+			if (!query) {
+				throw new Error("Media unsupported.");
+			}
 		}
 
 		if (filters?.title) {
