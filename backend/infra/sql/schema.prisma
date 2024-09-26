@@ -17,6 +17,7 @@ model LiteraryWork {
     synopsis    Json?                 @db.JsonB // { "languageCode": string }
     type        String                @db.VarChar(16)
     tags        String[]              @db.VarChar(30)
+    releaseDate DateTime?             @db.Date
     averageTime Int?                  @db.SmallInt
     ongoing     Boolean               @default(true) @db.Boolean
     chapters    LiteraryWorkChapter[]
@@ -109,17 +110,18 @@ model UserVideoGame {
 }
 
 model Video {
-    id         BigInt         @id @default(dbgenerated("generate_tsid('Video')"))
-    title      String         @db.Text
-    link       String?        @db.Text
-    duration   BigInt?
-    channelId  BigInt
-    channel    VideoChannel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
-    playlistId BigInt?
-    playlist   VideoPlaylist? @relation(fields: [playlistId], references: [id])
-    watchedBy  UserVideo[]
-    createdAt  DateTime       @default(now())
-    updatedAt  DateTime       @default(now())
+    id          BigInt         @id @default(dbgenerated("generate_tsid('Video')"))
+    title       String         @db.Text
+    link        String?        @db.Text
+    releaseDate DateTime?      @db.Date
+    duration    BigInt?
+    channelId   BigInt
+    channel     VideoChannel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
+    playlistId  BigInt?
+    playlist    VideoPlaylist? @relation(fields: [playlistId], references: [id])
+    watchedBy   UserVideo[]
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @default(now())
 }
 
 model VideoChannel {
@@ -134,11 +136,12 @@ model VideoChannel {
 }
 
 model VideoGame {
-    id        BigInt          @id @default(dbgenerated("generate_tsid('Game')"))
-    title     Json            @db.JsonB // { "languageCode": string[] }
-    playedBy  UserVideoGame[]
-    createdAt DateTime        @default(now())
-    updatedAt DateTime        @default(now())
+    id          BigInt          @id @default(dbgenerated("generate_tsid('Game')"))
+    title       Json            @db.JsonB // { "languageCode": string[] }
+    releaseDate DateTime?       @db.Date
+    playedBy    UserVideoGame[]
+    createdAt   DateTime        @default(now())
+    updatedAt   DateTime        @default(now())
 }
 
 model VideoPlaylist {

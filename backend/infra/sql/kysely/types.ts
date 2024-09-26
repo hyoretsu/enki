@@ -10,6 +10,7 @@ export type LiteraryWork = {
 	synopsis: Record<string, any> | null;
 	type: string;
 	tags: string[];
+	releaseDate: Timestamp | null;
 	averageTime: number | null;
 	ongoing: Generated<boolean>;
 	createdAt: Generated<Timestamp>;
@@ -77,6 +78,7 @@ export type Video = {
 	id: Generated<string>;
 	title: string;
 	link: string | null;
+	releaseDate: Timestamp | null;
 	duration: string | null;
 	channelId: string;
 	playlistId: string | null;
@@ -94,6 +96,7 @@ export type VideoChannel = {
 export type VideoGame = {
 	id: Generated<string>;
 	title: Record<string, any>;
+	releaseDate: Timestamp | null;
 	createdAt: Generated<Timestamp>;
 	updatedAt: Generated<Timestamp>;
 };
