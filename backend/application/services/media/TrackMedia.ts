@@ -20,9 +20,15 @@ export class TrackMedia {
 		this.createMedia = new CreateMedia(this.mediaRepository);
 	}
 
-	public async execute({ category, link, mediaId, number, userId, ...data }: TrackMediaDTO): Promise<void> {
-		if (data.when === undefined && ![Category.VIDEO_GAME].includes(category)) {
+	public async execute({ userId, ...data }: TrackMediaDTO): Promise<void> {
+		const { category } = data;
+
+		if (category !== Category.VIDEO_GAME && data.when === undefined) {
 			data.when = new Date();
+		}
+
+		if (category !== Category.MOVIE && data.timeSpent) {
+			data.timeSpent = String(toSeconds(parse(data.timeSpent)));
 		}
 
 		const existingUser = await this.usersRepository.findById(userId);
@@ -30,8 +36,15 @@ export class TrackMedia {
 			throw new HttpException("There is no user with this email.", StatusCodes.NOT_FOUND);
 		}
 
+		let mediaId: string;
+		if (category !== Category.VIDEO) {
+			mediaId = data.mediaId;
+		}
+
 		switch (category) {
 			case Category.CHAPTER: {
+				const { number } = data;
+
 				const work = await this.mediaRepository.findById(category, mediaId);
 				if (!work) {
 					throw new HttpException("The work you want to track doesn't exist.", StatusCodes.NOT_FOUND);
@@ -62,8 +75,8 @@ export class TrackMedia {
 				break;
 			}
 			case Category.VIDEO: {
-				if (link) {
-					const shortUrl = getShortUrl(link);
+				if (data.link) {
+					const shortUrl = getShortUrl(data.link);
 
 					const existingVideo = await this.mediaRepository.findVideoByUrl(shortUrl);
 					if (!existingVideo) {
@@ -95,10 +108,6 @@ export class TrackMedia {
 			}
 			default:
 				throw new HttpException("Unsupported media.", StatusCodes.BAD_REQUEST);
-		}
-
-		if (data.timeSpent) {
-			data.timeSpent = String(toSeconds(parse(data.timeSpent)));
 		}
 
 		await this.usersRepository.track({

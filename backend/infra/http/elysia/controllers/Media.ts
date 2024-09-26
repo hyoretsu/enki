@@ -89,48 +89,53 @@ export const MediaController = new Elysia()
 				detail: {
 					tags: ["Media"],
 				},
-				body: t.Union([
-					t.Object(
-						{
-							bookmarked: t.Optional(t.Boolean()),
-							link: t.Optional(t.String({ format: "uri" })),
-							timeSpent: t.Optional(t.String()),
-							when: t.Optional(t.Nullable(t.Date())),
-						},
-						{ additionalProperties: false },
-					),
-					t.Object(
-						{
-							bookmarked: t.Optional(t.Boolean()),
-							mediaId: t.String(),
-							number: t.Number(),
-							timeSpent: t.String(),
-							when: t.Optional(t.Nullable(t.Date())),
-						},
-						{ additionalProperties: false },
-					),
-					t.Object(
-						{
-							bookmarked: t.Optional(t.Boolean()),
-							mediaId: t.String(),
-							rating: t.Optional(t.Number()),
-							when: t.Optional(t.Nullable(t.Date())),
-						},
-						{ additionalProperties: false },
-					),
-					t.Object(
-						{
-							bookmarked: t.Optional(t.Boolean()),
-							mediaId: t.String(),
-							score: t.Optional(t.Nullable(t.Number())),
-							timeSpent: t.Optional(t.String()),
-							offset: t.Optional(t.Nullable(t.String())),
-						},
-						{ additionalProperties: false },
-					),
+				body: t.Intersect([
+					t.Object({
+						bookmarked: t.Optional(t.Boolean()),
+						userId: t.String(),
+					}),
+					t.Union([
+						t.Object(
+							{
+								category: t.Literal(Category.CHAPTER),
+								mediaId: t.String(),
+								number: t.Number(),
+								timeSpent: t.String(),
+								when: t.Optional(t.Nullable(t.Date())),
+							},
+							{ additionalProperties: false },
+						),
+						t.Object(
+							{
+								category: t.Literal(Category.MOVIE),
+								mediaId: t.String(),
+								rating: t.Optional(t.Number()),
+								when: t.Optional(t.Nullable(t.Date())),
+							},
+							{ additionalProperties: false },
+						),
+						t.Object(
+							{
+								category: t.Literal(Category.VIDEO),
+								link: t.Optional(t.String({ format: "uri" })),
+								timeSpent: t.Optional(t.String()),
+								when: t.Optional(t.Nullable(t.Date())),
+							},
+							{ additionalProperties: false },
+						),
+						t.Object(
+							{
+								category: t.Literal(Category.VIDEO_GAME),
+								mediaId: t.String(),
+								score: t.Optional(t.Nullable(t.Number())),
+								offset: t.Optional(t.Nullable(t.String())),
+								timeSpent: t.Optional(t.String()),
+							},
+							{ additionalProperties: false },
+						),
+					]),
 				]),
 				query: t.Object({
-					category: t.Enum(Category),
 					userId: t.String(),
 				}),
 				response: t.Void(),

@@ -1,14 +1,36 @@
 import type { Category } from "../../types";
 
-export class TrackMediaDTO {
-	bookmarked?: boolean;
-	category!: Category;
-	link?: string;
-	mediaId?: string;
+class TrackChapterDTO {
+	category!: Category.CHAPTER;
+	mediaId!: string;
 	number?: number;
-	offset?: string | null;
-	rating?: number;
 	timeSpent?: string;
-	userId!: string;
 	when?: Date | null;
 }
+
+class TrackMovieDTO {
+	category!: Category.MOVIE;
+	mediaId!: string;
+	rating?: number;
+	when?: Date | null;
+}
+
+class TrackVideoDTO {
+	category!: Category.VIDEO;
+	link?: string;
+	timeSpent?: string;
+	when?: Date | null;
+}
+
+class TrackVideoGameDTO {
+	category!: Category.VIDEO_GAME;
+	mediaId!: string;
+	score?: number | null;
+	offset?: string | null;
+	timeSpent?: string;
+}
+
+export type TrackMediaDTO = {
+	bookmarked?: boolean;
+	userId: string;
+} & (TrackChapterDTO | TrackMovieDTO | TrackVideoDTO | TrackVideoGameDTO);
