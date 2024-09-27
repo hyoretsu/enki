@@ -112,7 +112,9 @@ export class CreateMedia {
 					channelId: channelId,
 					duration: String(toSeconds(parse(duration))),
 					link: shortUrl,
-					title,
+					title: {
+						default: title,
+					},
 				});
 
 				mediaId = id;

@@ -71,7 +71,7 @@ export const MediaController = new Elysia()
 							category: t.Literal(Category.VIDEO),
 							duration: t.Optional(t.String()),
 							link: t.Optional(t.String({ format: "uri" })),
-							title: t.Record(t.String(), t.Array(t.String())),
+							title: t.Record(t.String(), t.String()),
 						},
 						{ additionalProperties: false },
 					),
@@ -92,47 +92,34 @@ export const MediaController = new Elysia()
 				body: t.Intersect([
 					t.Object({
 						bookmarked: t.Optional(t.Boolean()),
-						userId: t.String(),
 					}),
 					t.Union([
-						t.Object(
-							{
-								category: t.Literal(Category.CHAPTER),
-								mediaId: t.String(),
-								number: t.Number(),
-								timeSpent: t.String(),
-								when: t.Optional(t.Nullable(t.Date())),
-							},
-							{ additionalProperties: false },
-						),
-						t.Object(
-							{
-								category: t.Literal(Category.MOVIE),
-								mediaId: t.String(),
-								rating: t.Optional(t.Number()),
-								when: t.Optional(t.Nullable(t.Date())),
-							},
-							{ additionalProperties: false },
-						),
-						t.Object(
-							{
-								category: t.Literal(Category.VIDEO),
-								link: t.Optional(t.String({ format: "uri" })),
-								timeSpent: t.Optional(t.String()),
-								when: t.Optional(t.Nullable(t.Date())),
-							},
-							{ additionalProperties: false },
-						),
-						t.Object(
-							{
-								category: t.Literal(Category.VIDEO_GAME),
-								mediaId: t.String(),
-								score: t.Optional(t.Nullable(t.Number())),
-								offset: t.Optional(t.Nullable(t.String())),
-								timeSpent: t.Optional(t.String()),
-							},
-							{ additionalProperties: false },
-						),
+						t.Object({
+							category: t.Literal(Category.CHAPTER),
+							mediaId: t.String(),
+							number: t.Number(),
+							timeSpent: t.String(),
+							when: t.Optional(t.Nullable(t.Date())),
+						}),
+						t.Object({
+							category: t.Literal(Category.MOVIE),
+							mediaId: t.String(),
+							rating: t.Optional(t.Number()),
+							when: t.Optional(t.Nullable(t.Date())),
+						}),
+						t.Object({
+							category: t.Literal(Category.VIDEO),
+							link: t.Optional(t.String({ format: "uri" })),
+							timeSpent: t.Optional(t.String()),
+							when: t.Optional(t.Nullable(t.Date())),
+						}),
+						t.Object({
+							category: t.Literal(Category.VIDEO_GAME),
+							mediaId: t.String(),
+							score: t.Optional(t.Nullable(t.Number())),
+							offset: t.Optional(t.Nullable(t.String())),
+							timeSpent: t.Optional(t.String()),
+						}),
 					]),
 				]),
 				query: t.Object({

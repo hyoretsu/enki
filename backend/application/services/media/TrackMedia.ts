@@ -39,11 +39,13 @@ export class TrackMedia {
 		let mediaId: string;
 		if (category !== Category.VIDEO) {
 			mediaId = data.mediaId;
+			data.mediaId = undefined;
 		}
 
 		switch (category) {
 			case Category.CHAPTER: {
 				const { number } = data;
+				data.number = undefined;
 
 				const work = await this.mediaRepository.findById(category, mediaId);
 				if (!work) {
@@ -90,7 +92,10 @@ export class TrackMedia {
 					} else {
 						mediaId = existingVideo.id;
 					}
+
+					data.link = undefined;
 				}
+
 				break;
 			}
 			case Category.VIDEO_GAME: {
