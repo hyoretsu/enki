@@ -68,7 +68,7 @@ export class CreateMedia {
 
 				let {
 					contentDetails: { duration },
-					snippet: { channelId, title },
+					snippet: { channelId, publishedAt, title },
 				} = (
 					await youtubeClient.videos.list({
 						id: [shortUrl.split("/").at(-1)!],
@@ -112,6 +112,7 @@ export class CreateMedia {
 					channelId: channelId,
 					duration: String(toSeconds(parse(duration))),
 					link: shortUrl,
+					releaseDate: new Date(publishedAt),
 					title: {
 						default: title,
 					},

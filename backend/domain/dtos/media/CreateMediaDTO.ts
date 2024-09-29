@@ -27,6 +27,7 @@ export class CreateMovieDTO {
 export class CreateVideoDTO {
 	duration?: string;
 	link?: string;
+	releaseDate?: Date;
 	title?: IntlField;
 }
 
