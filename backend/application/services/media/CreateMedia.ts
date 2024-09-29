@@ -12,7 +12,7 @@ export class CreateMedia {
 
 		switch (data.category) {
 			case Category.CHAPTER: {
-				const { number, sourceId } = data;
+				const { number, sourceId, ...rest } = data;
 
 				if (!noCheck) {
 					const existingChapter = await this.mediaRepository.findChapter(sourceId, number);
@@ -23,7 +23,7 @@ export class CreateMedia {
 				}
 
 				const { id } = await this.mediaRepository.create({
-					category: Category.CHAPTER,
+					...rest,
 					sourceId,
 					number,
 				});

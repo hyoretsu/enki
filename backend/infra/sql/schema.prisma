@@ -28,7 +28,7 @@ model LiteraryWork {
 
 model LiteraryWorkChapter {
     id          BigInt        @id @default(dbgenerated("generate_tsid('LiteraryWorkChapter')"))
-    title       Json?         @db.JsonB // { "languageCode": string[] }
+    title       Json?         @db.JsonB // { "languageCode": string }
     number      Decimal       @db.Decimal(6, 1)
     releaseDate DateTime?     @db.Date
     pages       Int?          @db.SmallInt

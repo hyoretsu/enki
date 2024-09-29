@@ -1,10 +1,13 @@
-import type { Category } from "../../types";
+import type { Category, IntlField } from "../../types";
 
 class TrackChapterDTO {
 	category!: Category.CHAPTER;
 	mediaId!: string;
-	number?: number;
+	number!: number;
+	pages?: number;
+	releaseDate?: Date | null;
 	timeSpent?: string;
+	title?: IntlField;
 	when?: Date | null;
 }
 

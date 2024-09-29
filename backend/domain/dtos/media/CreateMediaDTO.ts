@@ -6,7 +6,7 @@ export class CreateChapterDTO {
 	readingTime?: number;
 	releaseDate?: Date;
 	sourceId!: string;
-	title?: IntlFieldArr;
+	title?: IntlField;
 }
 
 export class CreateLiteraryWorkDTO {

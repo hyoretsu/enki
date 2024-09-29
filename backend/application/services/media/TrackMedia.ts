@@ -44,8 +44,11 @@ export class TrackMedia {
 
 		switch (category) {
 			case Category.CHAPTER: {
-				const { number } = data;
+				const { number, pages, releaseDate, title } = data;
 				data.number = undefined;
+				data.pages = undefined;
+				data.releaseDate = undefined;
+				data.title = undefined;
 
 				const work = await this.mediaRepository.findById(category, mediaId);
 				if (!work) {
@@ -58,7 +61,10 @@ export class TrackMedia {
 						category,
 						noCheck: true,
 						number,
+						pages,
+						releaseDate,
 						sourceId: mediaId,
+						title,
 					});
 				} else {
 					mediaId = existingChapter.id;
