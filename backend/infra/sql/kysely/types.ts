@@ -56,7 +56,7 @@ export type UserChapter = {
 	chapterId: string;
 	when: Timestamp | null;
 	timeSpent: number | null;
-	bookmarked: boolean | null;
+	bookmarked: Generated<boolean>;
 };
 export type UserMovie = {
 	id: Generated<string>;
@@ -64,7 +64,7 @@ export type UserMovie = {
 	movieId: string;
 	when: Timestamp | null;
 	rating: number | null;
-	bookmarked: boolean | null;
+	bookmarked: Generated<boolean>;
 };
 export type UserVideo = {
 	id: Generated<string>;
@@ -72,7 +72,7 @@ export type UserVideo = {
 	videoId: string;
 	when: Timestamp | null;
 	timeSpent: string | null;
-	bookmarked: boolean | null;
+	bookmarked: Generated<boolean>;
 };
 export type UserVideoGame = {
 	userId: string;
@@ -80,7 +80,7 @@ export type UserVideoGame = {
 	score: number | null;
 	timeSpent: string | null;
 	offset: number | null;
-	bookmarked: boolean | null;
+	bookmarked: Generated<boolean>;
 };
 export type Video = {
 	id: Generated<string>;
