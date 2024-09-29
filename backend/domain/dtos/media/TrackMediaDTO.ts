@@ -4,10 +4,10 @@ class TrackChapterDTO {
 	category!: Category.CHAPTER;
 	mediaId!: string;
 	number!: number;
-	pages?: number;
+	pages?: number | null;
 	releaseDate?: Date | null;
-	timeSpent?: string;
-	title?: IntlField;
+	timeSpent?: string | null;
+	title?: IntlField | null;
 	when?: Date | null;
 }
 
