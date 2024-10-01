@@ -43,6 +43,26 @@ export type Movie = {
 	createdAt: Generated<Timestamp>;
 	updatedAt: Generated<Timestamp>;
 };
+export type Series = {
+	id: Generated<string>;
+	title: Record<string, any>;
+	synopsis: Record<string, any> | null;
+	tags: string[];
+	releaseDate: Timestamp | null;
+	ongoing: Generated<boolean>;
+	createdAt: Generated<Timestamp>;
+	updatedAt: Generated<Timestamp>;
+};
+export type SeriesEpisode = {
+	id: Generated<string>;
+	number: number;
+	title: Record<string, any> | null;
+	duration: number | null;
+	releaseDate: Timestamp | null;
+	seriesId: string;
+	createdAt: Generated<Timestamp>;
+	updatedAt: Generated<Timestamp>;
+};
 export type User = {
 	id: Generated<string>;
 	email: string;
@@ -58,11 +78,20 @@ export type UserChapter = {
 	timeSpent: number | null;
 	bookmarked: Generated<boolean>;
 };
+export type UserEpisode = {
+	id: Generated<string>;
+	userId: string;
+	episodeId: string;
+	when: Timestamp | null;
+	progress: number | null;
+	bookmarked: Generated<boolean>;
+};
 export type UserMovie = {
 	id: Generated<string>;
 	userId: string;
 	movieId: string;
 	when: Timestamp | null;
+	progress: number | null;
 	rating: number | null;
 	bookmarked: Generated<boolean>;
 };
@@ -71,7 +100,7 @@ export type UserVideo = {
 	userId: string;
 	videoId: string;
 	when: Timestamp | null;
-	timeSpent: string | null;
+	progress: string | null;
 	bookmarked: Generated<boolean>;
 };
 export type UserVideoGame = {
@@ -121,8 +150,11 @@ export type DB = {
 	LiteraryWork: LiteraryWork;
 	LiteraryWorkChapter: LiteraryWorkChapter;
 	Movie: Movie;
+	Series: Series;
+	SeriesEpisode: SeriesEpisode;
 	User: User;
 	UserChapter: UserChapter;
+	UserEpisode: UserEpisode;
 	UserMovie: UserMovie;
 	UserVideo: UserVideo;
 	UserVideoGame: UserVideoGame;

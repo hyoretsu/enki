@@ -1,6 +1,7 @@
 export type {
 	LiteraryWorkChapterSelectable as LiteraryWorkChapter,
 	MovieSelectable as Movie,
+	SeriesEpisodeSelectable as SeriesEpisode,
 	UserSelectable as User,
 	VideoSelectable as Video,
 	VideoChannelSelectable as VideoChannel,

@@ -1,9 +1,11 @@
-import type { LiteraryWorkChapter, Movie, Video, VideoGame } from "../entities";
+import type { LiteraryWorkChapter, Movie, SeriesEpisode, Video, VideoGame } from "../entities";
 
 export enum Category {
 	CHAPTER = "chapter",
+	EPISODE = "episode",
 	LITERARY_WORK = "literary_work",
 	MOVIE = "movie",
+	SERIES = "series",
 	VIDEO = "video",
 	VIDEO_GAME = "video_game",
 }
@@ -34,6 +36,7 @@ export enum LiteraryWorkType {
 }
 
 export type Media =
+	| Omit<SeriesEpisode, "createdAt" | "updatedAt">
 	| Omit<LiteraryWorkChapter, "createdAt" | "updatedAt">
 	| Omit<Movie, "createdAt" | "updatedAt">
 	| Omit<VideoGame, "createdAt" | "updatedAt">

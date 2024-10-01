@@ -54,11 +54,36 @@ view EntertainmentMedia {
 model Movie {
     id          BigInt      @id @default(dbgenerated("generate_tsid('Movie')"))
     title       Json        @db.JsonB // { "languageCode": string[] }
-    duration    Int?
+    duration    Int?        @db.SmallInt
     releaseDate DateTime?   @db.Date
     watchedBy   UserMovie[]
     createdAt   DateTime    @default(now())
     updatedAt   DateTime    @default(now())
+}
+
+model Series {
+    id          BigInt          @id @default(dbgenerated("generate_tsid('Series')"))
+    title       Json            @db.JsonB // { "languageCode": string }
+    synopsis    Json?           @db.JsonB // { "languageCode": string }
+    tags        String[]        @db.VarChar(30)
+    releaseDate DateTime?       @db.Date
+    ongoing     Boolean         @default(true) @db.Boolean
+    episodes    SeriesEpisode[]
+    createdAt   DateTime        @default(now())
+    updatedAt   DateTime        @default(now())
+}
+
+model SeriesEpisode {
+    id          BigInt        @id @default(dbgenerated("generate_tsid('SeriesEpisode')"))
+    number      Decimal       @db.Decimal(6, 1)
+    title       Json?         @db.JsonB // { "languageCode": string }
+    duration    Int?          @db.SmallInt
+    releaseDate DateTime?     @db.Date
+    seriesId    BigInt
+    series      Series        @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+    watchedBy   UserEpisode[]
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @default(now())
 }
 
 model User {
@@ -66,6 +91,7 @@ model User {
     email            String          @unique @db.VarChar(320)
     password         String          @db.VarChar(128)
     chaptersRead     UserChapter[]
+    episodesWatched  UserEpisode[]
     moviesWatched    UserMovie[]
     videosWatched    UserVideo[]
     videoGamesPlayed UserVideoGame[]
@@ -84,6 +110,17 @@ model UserChapter {
     bookmarked Boolean             @default(false)
 }
 
+model UserEpisode {
+    id         BigInt        @id @default(dbgenerated("generate_tsid('UserChapter')"))
+    userId     BigInt
+    user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+    episodeId  BigInt
+    episode    SeriesEpisode @relation(fields: [episodeId], references: [id], onDelete: Cascade)
+    when       DateTime?     @db.Timestamptz(0)
+    progress   Int?          @db.SmallInt
+    bookmarked Boolean       @default(false)
+}
+
 model UserMovie {
     id         BigInt    @id @default(dbgenerated("generate_tsid('UserMovie')"))
     userId     BigInt
@@ -91,6 +128,7 @@ model UserMovie {
     movieId    BigInt
     movie      Movie     @relation(fields: [movieId], references: [id], onDelete: Cascade)
     when       DateTime? @db.Timestamptz(0)
+    progress   Int?      @db.SmallInt
     rating     Decimal?  @db.Decimal(3, 1)
     bookmarked Boolean   @default(false)
 }
@@ -102,7 +140,7 @@ model UserVideo {
     videoId    BigInt
     video      Video     @relation(fields: [videoId], references: [id], onDelete: Cascade)
     when       DateTime? @db.Timestamptz(0)
-    timeSpent  BigInt?
+    progress   BigInt?
     bookmarked Boolean   @default(false)
 }
 
