@@ -23,6 +23,7 @@ FOR EACH ROW EXECUTE FUNCTION updated_at();
 
 CREATE TABLE "SeriesEpisode" (
     "id" BIGINT NOT NULL DEFAULT generate_tsid('SeriesEpisode'),
+	"season" SMALLINT,
     "number" DECIMAL(6,1) NOT NULL,
     "title" JSONB,
     "duration" SMALLINT,

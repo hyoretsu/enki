@@ -63,7 +63,7 @@ model Movie {
 
 model Series {
     id          BigInt          @id @default(dbgenerated("generate_tsid('Series')"))
-    title       Json            @db.JsonB // { "languageCode": string }
+    title       Json            @db.JsonB // { "languageCode": string[] }
     synopsis    Json?           @db.JsonB // { "languageCode": string }
     tags        String[]        @db.VarChar(30)
     releaseDate DateTime?       @db.Date
@@ -75,6 +75,7 @@ model Series {
 
 model SeriesEpisode {
     id          BigInt        @id @default(dbgenerated("generate_tsid('SeriesEpisode')"))
+    season      Int?          @db.SmallInt
     number      Decimal       @db.Decimal(6, 1)
     title       Json?         @db.JsonB // { "languageCode": string }
     duration    Int?          @db.SmallInt
@@ -84,6 +85,12 @@ model SeriesEpisode {
     watchedBy   UserEpisode[]
     createdAt   DateTime      @default(now())
     updatedAt   DateTime      @default(now())
+}
+
+model SeriesSeason {
+    id        BigInt   @id @default(dbgenerated("generate_tsid('SeriesSeason')"))
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
 }
 
 model User {
