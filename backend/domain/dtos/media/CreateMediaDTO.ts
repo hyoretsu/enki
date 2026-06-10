@@ -67,9 +67,10 @@ export type CreateMediaDatabaseDTO =
 			category: Category.MOVIE;
 			duration: number;
 	  })
-	| (CreateVideoDTO & {
+	| (Omit<CreateVideoDTO, "duration"> & {
 			category: Category.VIDEO;
 			channelId: string;
+			duration?: number;
 			title: IntlField;
 	  })
 	| (CreateVideoGameDTO & {

@@ -1,7 +1,4 @@
 {
 	"name": "@enki/domain",
-	"private": true,
-	"dependencies": {
-		"@enki/infra": "workspace:*"
-	}
+	"private": true
 }

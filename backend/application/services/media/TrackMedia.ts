@@ -33,7 +33,7 @@ export class TrackMedia {
 
 		const existingUser = await this.usersRepository.findById(userId);
 		if (!existingUser) {
-			throw new HttpException("There is no user with this email.", StatusCodes.NOT_FOUND);
+			throw new HttpException("This user does not exist.", StatusCodes.NOT_FOUND);
 		}
 
 		let mediaId: string;

@@ -4,30 +4,40 @@
 	"private": true,
 	"scripts": {
 		"build": "bun build --compile --target=bun-linux-amd64 --outfile=../dist/server ./index.ts",
+		"db:init": "prisma-next db init --db $DATABASE_URL",
+		"db:update": "prisma-next db update --db $DATABASE_URL",
 		"dev": "cd .. && bun run --watch ./infra/index.ts",
-		"prisma:migrate": "prisma migrate dev --create-only && prisma generate",
-		"prisma:migrate_deploy": "prisma migrate deploy",
-		"prisma:migrate_dev": "prisma migrate dev",
-		"prepare": "prisma generate",
+		"emit": "prisma-next contract emit",
+		"export": "bun ./http/elysia/generateOpenApi.ts",
+		"migrate": "prisma-next migrate --db $DATABASE_URL",
+		"migrate:legacy": "psql $DATABASE_URL -v ON_ERROR_STOP=1 -f ./sql/legacy/migrate_tsid_to_uuid.sql",
+		"migrate:plan": "prisma-next migration plan",
 		"start": "NODE_ENV=production bun ./index.ts"
-	},
-	"prisma": {
-		"schema": "sql/schema.prisma"
 	},
 	"dependencies": {
 		"@elysiajs/cors": "^1.1.0",
 		"@elysiajs/swagger": "^1.1.1",
 		"@enki/application": "workspace:*",
 		"@enki/domain": "workspace:*",
-		"@hyoretsu/providers": "^1.2.4",
 		"@hyoretsu/utils": "^1.14.0",
+		"@prisma-next/adapter-postgres": "^0.13.0",
+		"@prisma-next/contract": "^0.13.0",
+		"@prisma-next/driver-postgres": "^0.13.0",
+		"@prisma-next/family-sql": "^0.13.0",
+		"@prisma-next/postgres": "^0.13.0",
+		"@prisma-next/sql-builder": "^0.13.0",
+		"@prisma-next/sql-contract": "^0.13.0",
+		"@prisma-next/sql-orm-client": "^0.13.0",
+		"@prisma-next/sql-relational-core": "^0.13.0",
+		"@prisma-next/sql-runtime": "^0.13.0",
+		"@prisma-next/target-postgres": "^0.13.0",
+		"better-auth": "^1.6.15",
 		"elysia": "^1.1.26",
-		"kysely": "^0.27.3",
 		"pg": "^8.12.0"
 	},
 	"devDependencies": {
-		"@types/pg": "^8.11.6",
-		"prisma": "^5.19.1",
-		"prisma-kysely": "^1.8.0"
+		"@prisma-next/cli": "^0.13.0",
+		"@prisma-next/sql-contract-psl": "^0.13.0",
+		"@types/pg": "^8.11.6"
 	}
 }

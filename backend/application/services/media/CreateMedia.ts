@@ -110,7 +110,7 @@ export class CreateMedia {
 				const { id } = await this.mediaRepository.create({
 					category: Category.VIDEO,
 					channelId: channelId,
-					duration: String(toSeconds(parse(duration))),
+					duration: toSeconds(parse(duration)),
 					link: shortUrl,
 					releaseDate: new Date(publishedAt),
 					title: {

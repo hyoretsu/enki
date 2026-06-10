@@ -1,0 +1,22 @@
+[package]
+name = "enki"
+version = "1.0.0"
+description = "Media tracking app"
+authors = ["hyoretsu"]
+edition = "2021"
+
+[lib]
+name = "enki_lib"
+crate-type = ["lib", "cdylib", "staticlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-shell = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri-plugin-shell = "2"

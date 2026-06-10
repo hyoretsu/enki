@@ -1,10 +1,18 @@
 {
 	"compilerOptions": {
 		"baseUrl": ".",
+		"lib": ["ESNext"],
+		"module": "Preserve",
+		"moduleResolution": "bundler",
+		"noEmit": true,
 		"paths": {
 			"~/*": ["./*"]
 		},
+		"resolveJsonModule": true,
 		"rootDir": "../",
-		"strict": true
+		"skipLibCheck": true,
+		"strict": true,
+		"target": "ESNext",
+		"types": ["bun-types"]
 	}
 }

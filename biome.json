@@ -2,7 +2,13 @@
 	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
 	"files": {
 		"ignoreUnknown": true,
-		"maxSize": 10485760
+		"maxSize": 10485760,
+		"ignore": [
+			"**/generated/**",
+			"backend/infra/sql/migrations/**",
+			"backend/infra/sql/prisma/contract.d.ts",
+			"frontend/src/routeTree.gen.ts"
+		]
 	},
 	"formatter": {
 		"lineWidth": 110

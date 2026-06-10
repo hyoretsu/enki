@@ -2,6 +2,7 @@ import cors from "@elysiajs/cors";
 import swagger from "@elysiajs/swagger";
 import { HttpException } from "@enki/domain";
 import { Elysia } from "elysia";
+import { auth } from "~/sql/betterAuth";
 import { MediaController, UsersController } from "./controllers";
 
 export const app = new Elysia()
@@ -13,6 +14,13 @@ export const app = new Elysia()
 				return error.message;
 		}
 	})
+	.use(
+		cors({
+			credentials: true,
+			origin: process.env.WEB_URL!.split(","),
+		}),
+	)
+	.all("/auth/*", ({ request }) => auth.handler(request))
 	.onTransform(ctx => {
 		if (typeof ctx.body === "string") {
 			ctx.body = JSON.parse(ctx.body);
@@ -24,7 +32,6 @@ export const app = new Elysia()
 			}
 		}
 	})
-	.use(cors())
 	.use(
 		swagger({
 			documentation: {
@@ -54,7 +61,4 @@ export const app = new Elysia()
 		}),
 	)
 	.use(MediaController)
-	.use(UsersController)
-	.listen(process.env.PORT || 3333);
-
-console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`);
+	.use(UsersController);

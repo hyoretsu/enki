@@ -1,5 +1,4 @@
-import type { VideoChannelUpdateable } from "@enki/infra";
-import type { CreateMediaDatabaseDTO, CreateVideoChannelDTO } from "../dtos";
+import type { CreateMediaDatabaseDTO, CreateVideoChannelDTO, UpdateVideoChannelDTO } from "../dtos";
 import type { LiteraryWorkChapter, Video, VideoChannel } from "../entities";
 import type { Category, Media } from "../types";
 
@@ -18,5 +17,5 @@ export abstract class MediaRepository {
 	abstract findChannelByUrl(url: string): Promise<VideoChannel | undefined>;
 	abstract findChapter(sourceId: string, number: number): Promise<LiteraryWorkChapter | undefined>;
 	abstract findVideoByUrl(url: string): Promise<Video | undefined>;
-	abstract updateChannel(id: string, data: VideoChannelUpdateable): Promise<void>;
+	abstract updateChannel(id: string, data: UpdateVideoChannelDTO): Promise<void>;
 }

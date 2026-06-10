@@ -3,3 +3,5 @@ export class CreateVideoChannelDTO {
 	link?: string;
 	name: string;
 }
+
+export type UpdateVideoChannelDTO = Partial<CreateVideoChannelDTO>;

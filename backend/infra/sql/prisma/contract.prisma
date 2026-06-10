@@ -1,0 +1,248 @@
+// Better Auth tables (managed by Better Auth at runtime, schema owned by Prisma Next)
+
+model User {
+    id               String          @id @default(uuid())
+    name             String
+    email            String          @unique
+    emailVerified    Boolean
+    image            String?
+    chaptersRead     UserChapter[]
+    moviesWatched    UserMovie[]
+    videosWatched    UserVideo[]
+    videoGamesPlayed UserVideoGame[]
+    sessions         Session[]
+    accounts         Account[]
+    createdAt        DateTime        @default(now())
+    updatedAt        DateTime        @default(now())
+
+    @@map("user")
+}
+
+model Session {
+    id        String   @id @default(uuid())
+    expiresAt DateTime
+    token     String   @unique
+    ipAddress String?
+    userAgent String?
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+
+    @@map("session")
+}
+
+model Account {
+    id                    String    @id @default(uuid())
+    accountId             String
+    providerId            String
+    userId                String
+    user                  User      @relation(fields: [userId], references: [id])
+    accessToken           String?
+    refreshToken          String?
+    idToken               String?
+    accessTokenExpiresAt  DateTime?
+    refreshTokenExpiresAt DateTime?
+    scope                 String?
+    password              String?
+    createdAt             DateTime  @default(now())
+    updatedAt             DateTime  @default(now())
+
+    @@map("account")
+}
+
+model Verification {
+    id         String   @id @default(uuid())
+    identifier String
+    value      String
+    expiresAt  DateTime
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @default(now())
+
+    @@map("verification")
+}
+
+// Media
+
+enum LiteraryWorkType {
+    article
+    biography
+    comics
+    diary
+    epic
+    essay
+    flash_fiction
+    graphic_novel
+    journal
+    light_novel
+    manga
+    manhua
+    manhwa
+    memoir
+    novel
+    novelette
+    novella
+    poetry
+    script
+    short_story
+    web_novel
+    webtoon
+}
+
+model LiteraryWork {
+    id          String                @id @default(uuid())
+    title       Json // { "languageCode": string[] }
+    synopsis    Json? // { "languageCode": string }
+    type        LiteraryWorkType
+    tags        String[]
+    releaseDate DateTime?
+    averageTime Int?
+    ongoing     Boolean               @default(true)
+    chapters    LiteraryWorkChapter[]
+    createdAt   DateTime              @default(now())
+    updatedAt   DateTime              @default(now())
+}
+
+model LiteraryWorkChapter {
+    id          String        @id @default(uuid())
+    title       Json? // { "languageCode": string }
+    number      Float
+    releaseDate DateTime?
+    pages       Int?
+    averageTime Int?
+    sourceId    String
+    source      LiteraryWork  @relation(fields: [sourceId], references: [id])
+    readBy      UserChapter[]
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @default(now())
+
+    @@unique([sourceId, number])
+}
+
+model Movie {
+    id          String      @id @default(uuid())
+    title       Json // { "languageCode": string[] }
+    duration    Int?
+    releaseDate DateTime?
+    watchedBy   UserMovie[]
+    createdAt   DateTime    @default(now())
+    updatedAt   DateTime    @default(now())
+}
+
+model Video {
+    id          String         @id @default(uuid())
+    title       Json // { "languageCode": string[] }
+    link        String?
+    releaseDate DateTime?
+    duration    Int?
+    channelId   String
+    channel     VideoChannel   @relation(fields: [channelId], references: [id])
+    playlistId  String?
+    playlist    VideoPlaylist? @relation(fields: [playlistId], references: [id])
+    watchedBy   UserVideo[]
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @default(now())
+}
+
+model VideoChannel {
+    id         String          @id @default(uuid())
+    name       String
+    link       String?
+    externalId String?
+    videos     Video[]
+    playlists  VideoPlaylist[]
+    createdAt  DateTime        @default(now())
+    updatedAt  DateTime        @default(now())
+}
+
+model VideoGame {
+    id          String          @id @default(uuid())
+    title       Json // { "languageCode": string[] }
+    releaseDate DateTime?
+    playedBy    UserVideoGame[]
+    runs        VideoGameRun[]
+    createdAt   DateTime        @default(now())
+    updatedAt   DateTime        @default(now())
+}
+
+model VideoGameRun {
+    id          String             @id @default(uuid())
+    videoGameId String
+    videoGame   VideoGame          @relation(fields: [videoGameId], references: [id])
+    name        String             @default("") // run kind, e.g. difficulty "Casual" / "Hardcore"; "" = default nameless run (single playthrough)
+    playedBy    UserVideoGameRun[]
+    createdAt   DateTime           @default(now())
+    updatedAt   DateTime           @default(now())
+
+    @@unique([videoGameId, name])
+}
+
+model VideoPlaylist {
+    id        String        @id @default(uuid())
+    title     String
+    link      String?
+    videos    Video[]
+    channelId String?
+    channel   VideoChannel? @relation(fields: [channelId], references: [id])
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @default(now())
+}
+
+// Tracking
+
+model UserChapter {
+    id         String              @id @default(uuid())
+    userId     String
+    user       User                @relation(fields: [userId], references: [id])
+    chapterId  String
+    chapter    LiteraryWorkChapter @relation(fields: [chapterId], references: [id])
+    when       DateTime?
+    timeSpent  Int?
+    bookmarked Boolean
+}
+
+model UserMovie {
+    id         String    @id @default(uuid())
+    userId     String
+    user       User      @relation(fields: [userId], references: [id])
+    movieId    String
+    movie      Movie     @relation(fields: [movieId], references: [id])
+    progress   Int?
+    when       DateTime?
+    rating     Float?
+    bookmarked Boolean
+}
+
+model UserVideo {
+    id         String    @id @default(uuid())
+    userId     String
+    user       User      @relation(fields: [userId], references: [id])
+    videoId    String
+    video      Video     @relation(fields: [videoId], references: [id])
+    when       DateTime?
+    progress   Int?
+    bookmarked Boolean
+}
+
+model UserVideoGame {
+    id          String    @id @default(uuid())
+    userId      String
+    user        User      @relation(fields: [userId], references: [id])
+    videoGameId String
+    videoGame   VideoGame @relation(fields: [videoGameId], references: [id])
+    score       Float?
+    review      String?
+    timeSpent   Int? // grand total; runs are a detailed breakdown, NOT additive
+    offset      Int?
+    bookmarked  Boolean
+
+    @@unique([userId, videoGameId])
+}
+
+model UserVideoGameRun {
+    id        String       @id @default(uuid())
+    userId    String
+    runId     String
+    run       VideoGameRun @relation(fields: [runId], references: [id])
+    timeSpent Int? // time on this run; subset of UserVideoGame.timeSpent
+}

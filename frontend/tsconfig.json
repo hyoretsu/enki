@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"paths": {
+			"@/*": [
+				"./src/*"
+			]
+		},
+		"types": [
+			"bun",
+			"node",
+			"vite/client"
+		],
+		"composite": false,
+		"declaration": false
+	},
+	"exclude": [
+		"node_modules"
+	],
+	"extends": "@hyoretsu/configs/ts-frontend",
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.tsx",
+		"src/**/.*/**/*"
+	]
+}

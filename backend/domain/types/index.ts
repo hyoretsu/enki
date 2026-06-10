@@ -1,5 +1,3 @@
-import type { LiteraryWorkChapter, Movie, Video, VideoGame } from "../entities";
-
 export enum Category {
 	CHAPTER = "chapter",
 	LITERARY_WORK = "literary_work",

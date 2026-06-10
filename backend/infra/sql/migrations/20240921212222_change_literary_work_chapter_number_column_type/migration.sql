@@ -1,1 +1,0 @@
-ALTER TABLE "LiteraryWorkChapter" ALTER COLUMN "number" SET DATA TYPE DECIMAL(6,1);
