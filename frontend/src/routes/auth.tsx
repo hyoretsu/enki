@@ -63,6 +63,7 @@ function AuthPage() {
 								name="password"
 								type="password"
 								autoComplete={mode === "signUp" ? "new-password" : "current-password"}
+								minLength={mode === "signUp" ? 8 : undefined}
 								required
 							/>
 						</div>

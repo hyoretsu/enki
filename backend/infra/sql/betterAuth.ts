@@ -16,7 +16,7 @@ export const auth = betterAuth({
 	}),
 	emailAndPassword: {
 		enabled: true,
-		minPasswordLength: 0,
+		minPasswordLength: 8,
 		password: {
 			hash: password => Bun.password.hash(password, { algorithm }),
 			// No explicit algorithm so hashes migrated from the legacy bcrypt users still verify.
