@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
@@ -15,12 +16,14 @@ export default defineConfig({
 	envPrefix: ["VITE_", "TAURI_"],
 	plugins: [tanstackRouter({ routeFileIgnorePattern: "^components$" }), react(), svgr()],
 	resolve: {
-		tsconfigPaths: true,
+		alias: {
+			"@": fileURLToPath(new URL("./src", import.meta.url)),
+		},
 	},
 	server: {
 		allowedHosts: [process.env.VITE_APP_URL || ""]
 			.filter(Boolean)
-			.map(each => each.replace(/(^https?:\/\/|\/$)/, "")),
+			.map(each => each.replace(/(^https?:\/\/|\/$)/g, "")),
 		hmr: host
 			? {
 					host,

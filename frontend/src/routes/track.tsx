@@ -116,7 +116,14 @@ function TrackMediaPage() {
 			<Card>
 				<CardContent className="p-4">
 					<form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-						<CategorySelect categories={categories} value={category} onChange={setCategory} />
+						<CategorySelect
+							categories={categories}
+							value={category}
+							onChange={value => {
+								setCategory(value);
+								setMediaId("");
+							}}
+						/>
 
 						{listedCategory && (
 							<FormField label={t("track.media")} htmlFor="mediaId">
