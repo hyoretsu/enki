@@ -2,7 +2,7 @@
 CREATE TABLE "VideoGameRun" (
     "id" BIGINT NOT NULL DEFAULT generate_tsid('VideoGameRun'),
     "videoGameId" BIGINT NOT NULL,
-    "name" VARCHAR(30) NOT NULL,
+    "name" VARCHAR(30),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
