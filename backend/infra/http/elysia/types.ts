@@ -29,3 +29,20 @@ export const VideoGame = t.Object({
 	id: t.String(),
 	title: t.Record(t.String(), t.Array(t.String())),
 });
+
+export const VideoGameRun = t.Object({
+	id: t.String(),
+	videoGameId: t.String(),
+	name: t.String(),
+});
+
+export const UserVideoGameRun = t.Object({
+	id: t.String(),
+	userId: t.String(),
+	videoGameId: t.String(),
+	runId: t.String(),
+	score: t.Nullable(t.Number()),
+	timeSpent: t.Nullable(t.String()),
+	when: t.Nullable(t.Date()),
+	bookmarked: t.Boolean(),
+});

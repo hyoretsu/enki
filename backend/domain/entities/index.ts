@@ -2,7 +2,9 @@ export type {
 	LiteraryWorkChapterSelectable as LiteraryWorkChapter,
 	MovieSelectable as Movie,
 	UserSelectable as User,
+	UserVideoGameRunSelectable as UserVideoGameRun,
 	VideoSelectable as Video,
 	VideoChannelSelectable as VideoChannel,
 	VideoGameSelectable as VideoGame,
+	VideoGameRunSelectable as VideoGameRun,
 } from "@enki/infra";
