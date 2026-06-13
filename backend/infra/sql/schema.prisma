@@ -109,30 +109,25 @@ model UserVideo {
 
 model UserVideoGame {
     userId      BigInt
-    user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
     videoGameId BigInt
-    videoGame   VideoGame          @relation(fields: [videoGameId], references: [id], onDelete: Cascade)
-    score       Decimal?           @db.Decimal(3, 1)
-    review      String?            @db.Text
+    videoGame   VideoGame @relation(fields: [videoGameId], references: [id], onDelete: Cascade)
+    score       Decimal?  @db.Decimal(3, 1)
+    review      String?   @db.Text
     timeSpent   BigInt? // grand total; runs are a detailed breakdown, NOT additive
     offset      Int?
-    bookmarked  Boolean            @default(false)
-    runs        UserVideoGameRun[]
+    bookmarked  Boolean   @default(false)
 
     @@id([userId, videoGameId])
 }
 
 model UserVideoGameRun {
-    id            BigInt        @id @default(dbgenerated("generate_tsid('UserVideoGameRun')"))
-    userId        BigInt
-    videoGameId   BigInt
-    userVideoGame UserVideoGame @relation(fields: [userId, videoGameId], references: [userId, videoGameId], onDelete: Cascade)
-    runId         BigInt
-    run           VideoGameRun  @relation(fields: [runId], references: [id], onDelete: Cascade)
-    score         Decimal?      @db.Decimal(3, 1)
-    timeSpent     BigInt? // time on this run; subset of UserVideoGame.timeSpent
-    when          DateTime?     @db.Timestamptz(0)
-    bookmarked    Boolean       @default(false)
+    userId    BigInt
+    runId     BigInt
+    run       VideoGameRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+    timeSpent BigInt? // time on this run; subset of UserVideoGame.timeSpent
+
+    @@id([userId, runId])
 }
 
 model Video {

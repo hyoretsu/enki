@@ -85,14 +85,9 @@ export type UserVideoGame = {
     bookmarked: Generated<boolean>;
 };
 export type UserVideoGameRun = {
-    id: Generated<string>;
     userId: string;
-    videoGameId: string;
     runId: string;
-    score: number | null;
     timeSpent: string | null;
-    when: Timestamp | null;
-    bookmarked: Generated<boolean>;
 };
 export type Video = {
     id: Generated<string>;

@@ -37,12 +37,7 @@ export const VideoGameRun = t.Object({
 });
 
 export const UserVideoGameRun = t.Object({
-	id: t.String(),
 	userId: t.String(),
-	videoGameId: t.String(),
 	runId: t.String(),
-	score: t.Nullable(t.Number()),
 	timeSpent: t.Nullable(t.String()),
-	when: t.Nullable(t.Date()),
-	bookmarked: t.Boolean(),
 });
