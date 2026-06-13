@@ -33,7 +33,7 @@ export const VideoGame = t.Object({
 export const VideoGameRun = t.Object({
 	id: t.String(),
 	videoGameId: t.String(),
-	name: t.Nullable(t.String()),
+	name: t.String(),
 });
 
 export const UserVideoGameRun = t.Object({

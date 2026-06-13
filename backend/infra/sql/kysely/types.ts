@@ -123,7 +123,7 @@ export type VideoGame = {
 export type VideoGameRun = {
     id: Generated<string>;
     videoGameId: string;
-    name: string | null;
+    name: Generated<string>;
     createdAt: Generated<Timestamp>;
     updatedAt: Generated<Timestamp>;
 };
