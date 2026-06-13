@@ -113,6 +113,7 @@ model UserVideoGame {
     videoGameId BigInt
     videoGame   VideoGame          @relation(fields: [videoGameId], references: [id], onDelete: Cascade)
     score       Decimal?           @db.Decimal(3, 1)
+    review      String?            @db.Text
     timeSpent   BigInt? // grand total; runs are a detailed breakdown, NOT additive
     offset      Int?
     bookmarked  Boolean            @default(false)

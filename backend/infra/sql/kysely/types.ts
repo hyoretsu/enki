@@ -79,6 +79,7 @@ export type UserVideoGame = {
     userId: string;
     videoGameId: string;
     score: number | null;
+    review: string | null;
     timeSpent: string | null;
     offset: number | null;
     bookmarked: Generated<boolean>;
