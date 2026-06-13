@@ -12,7 +12,7 @@ AS
 $$
 BEGIN
     RETURN QUERY EXECUTE FORMAT(
-		'SELECT id, title, "releaseDate", %L AS "category", "createdAt", "updatedAt" FROM %I',
+		'SELECT id, title, "releaseDate", %L AS "category", "createdAt", "updatedAt" FROM public.%I',
 		LOWER(REGEXP_REPLACE(media, '(?<!^)([A-Z])', '_\1', 'g')),
 		media
 	);
