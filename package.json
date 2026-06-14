@@ -1,18 +1,22 @@
 {
-	"name": "enki",
-	"private": true,
-	"workspaces": ["backend/*"],
-	"scripts": {
-		"prepare": "git config --local core.hooksPath .githooks"
-	},
-	"lint-staged": {
-		"**/*.(js|jsx|json|jsonc|ts|tsx)": ["biome check --apply"]
-	},
-	"devDependencies": {
-		"@biomejs/biome": "^1.9.0",
-		"@types/node": "latest",
-		"bun-types": "latest",
-		"lint-staged": "^15.2.10",
-		"typescript": "latest"
-	}
+  "name": "enki",
+  "private": true,
+  "workspaces": ["backend/*"],
+  "scripts": {
+    "prepare": "git config --local core.hooksPath .githooks"
+  },
+  "lint-staged": {
+    "**/*.(js|jsx|json|jsonc|ts|tsx)": ["biome check --apply"]
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@types/node": "latest",
+    "bun-types": "latest",
+    "lint-staged": "^15.2.10",
+    "typescript": "latest"
+  },
+  "trustedDependencies": [
+    "@biomejs/biome",
+    "@enki/infra"
+  ]
 }

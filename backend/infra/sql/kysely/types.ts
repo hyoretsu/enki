@@ -4,6 +4,31 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   : ColumnType<T, T | undefined, T>;
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
+export const LiteraryWorkType = {
+    article: "article",
+    biography: "biography",
+    comics: "comics",
+    diary: "diary",
+    epic: "epic",
+    essay: "essay",
+    flash_fiction: "flash_fiction",
+    graphic_novel: "graphic_novel",
+    journal: "journal",
+    light_novel: "light_novel",
+    manga: "manga",
+    manhua: "manhua",
+    manhwa: "manhwa",
+    memoir: "memoir",
+    novel: "novel",
+    novelette: "novelette",
+    novella: "novella",
+    poetry: "poetry",
+    script: "script",
+    short_story: "short_story",
+    web_novel: "web_novel",
+    webtoon: "webtoon"
+} as const;
+export type LiteraryWorkType = (typeof LiteraryWorkType)[keyof typeof LiteraryWorkType];
 export type EntertainmentMedia = {
     id: string;
     title: Record<string,any>;
@@ -16,7 +41,7 @@ export type LiteraryWork = {
     id: Generated<string>;
     title: Record<string,any>;
     synopsis: Record<string,any> | null;
-    type: string;
+    type: LiteraryWorkType;
     tags: string[];
     releaseDate: Timestamp | null;
     averageTime: number | null;
@@ -85,6 +110,7 @@ export type UserVideoGame = {
     bookmarked: Generated<boolean>;
 };
 export type UserVideoGameRun = {
+    id: Generated<string>;
     userId: string;
     runId: string;
     timeSpent: string | null;

@@ -12,11 +12,36 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+enum LiteraryWorkType {
+    article
+    biography
+    comics
+    diary
+    epic
+    essay
+    flash_fiction
+    graphic_novel
+    journal
+    light_novel
+    manga
+    manhua
+    manhwa
+    memoir
+    novel
+    novelette
+    novella
+    poetry
+    script
+    short_story
+    web_novel
+    webtoon
+}
+
 model LiteraryWork {
     id          BigInt                @id @default(dbgenerated("generate_tsid('LiteraryWork')"))
     title       Json                  @db.JsonB // { "languageCode": string[] }
     synopsis    Json?                 @db.JsonB // { "languageCode": string }
-    type        String                @db.VarChar(16)
+    type        LiteraryWorkType
     tags        String[]              @db.VarChar(30)
     releaseDate DateTime?             @db.Date
     averageTime Int?                  @db.SmallInt
@@ -122,12 +147,11 @@ model UserVideoGame {
 }
 
 model UserVideoGameRun {
+    id        BigInt       @id @default(dbgenerated("generate_tsid('UserVideoGameRun')"))
     userId    BigInt
     runId     BigInt
     run       VideoGameRun @relation(fields: [runId], references: [id], onDelete: Cascade)
     timeSpent BigInt? // time on this run; subset of UserVideoGame.timeSpent
-
-    @@id([userId, runId])
 }
 
 model Video {
