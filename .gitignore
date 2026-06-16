@@ -1,27 +1,56 @@
-**/build
-**/dist
-**/node_modules
-**/static
-**/tmp
-/.vscode
-!/.vscode/extensions.json
-!/.vscode/launch.json
-!/.vscode/settings.json
-!.gitkeep
+tmp/
+.cache
 *.log
+.expo
+!opengraph.*
+certificates
 
-# IDE-specific files
-.idea
+# Artifacts
+build/
+generated/
+dist/
+out/
+
+# Dependencies
+node_modules/
+.pnp/
+.pnpm-store
+.pnp.js
 
 # Env files
-**/.env
-**/.env*.local
+.env
+.env*.local
 
-# Test files
-**/coverage
+# Git
+!.github/**/*
+!.gitkeep
 
-# typescript
-*.tsbuildinfo
+# IDEs
+.idea
+.vscode
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+
+# Lefthook
+.githooks/
+lefthook-local.yml
+
+# Vendor
+.codex
+!.codex/
+.env.iranti
+.env.iranti.local
+.next
+.shopify
+.turbo
+.vercel
+.vinext
 next-env.d.ts
 
-backend/infra/generated/
+# Test files
+coverage/
+
+# TypeScript
+*.tsbuildinfo
