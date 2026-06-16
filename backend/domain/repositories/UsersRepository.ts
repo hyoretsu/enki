@@ -1,4 +1,4 @@
-import type { TrackMediaUserDTO } from "../dtos";
+import type { TrackMediaUserDTO, TrackVideoGameRunDTO } from "../dtos";
 import type { User } from "../entities";
 
 export abstract class UsersRepository {
@@ -6,4 +6,5 @@ export abstract class UsersRepository {
 	abstract findById(id: string): Promise<User | null | undefined>;
 	abstract getTimeSpent(id: string, categories?: string[]): Promise<number>;
 	abstract track(data: TrackMediaUserDTO): Promise<void>;
+	abstract trackRun(data: TrackVideoGameRunDTO): Promise<void>;
 }

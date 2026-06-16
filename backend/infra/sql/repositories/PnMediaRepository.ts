@@ -2,6 +2,7 @@ import {
 	Category,
 	type CreateMediaDatabaseDTO,
 	type CreateVideoChannelDTO,
+	type CreateVideoGameRunDTO,
 	type LiteraryWorkChapter,
 	type Media,
 	type MediaFilters,
@@ -9,6 +10,7 @@ import {
 	type UpdateVideoChannelDTO,
 	type Video,
 	type VideoChannel,
+	type VideoGameRun,
 } from "@enki/domain";
 import type { Db } from "../prisma/db";
 
@@ -78,6 +80,13 @@ export class PnMediaRepository implements MediaRepository {
 		const channel = await this.db.orm.VideoChannel.create(data);
 
 		return channel as VideoChannel;
+	}
+
+	public async createVideoGameRun({ name, videoGameId }: CreateVideoGameRunDTO): Promise<{ id: string }> {
+		return this.db.orm.VideoGameRun.select("id").create({
+			videoGameId,
+			...(name !== undefined ? { name } : {}),
+		});
 	}
 
 	public async find(shallow: boolean, category?: Category, filters?: MediaFilters): Promise<Media[]> {
@@ -236,6 +245,14 @@ export class PnMediaRepository implements MediaRepository {
 		const video = await this.db.orm.Video.where(v => v.link.eq(url)).first();
 
 		return (video as unknown as Video) ?? undefined;
+	}
+
+	public async findVideoGameRuns(videoGameId: string): Promise<VideoGameRun[]> {
+		const runs = await this.db.orm.VideoGameRun.where({ videoGameId: uuid(videoGameId) })
+			.orderBy(run => run.name.asc())
+			.all();
+
+		return runs as VideoGameRun[];
 	}
 
 	public async updateChannel(id: string, data: UpdateVideoChannelDTO): Promise<void> {
