@@ -22,13 +22,16 @@ Domain rules of the product (challenge lifecycle, betting limits, drawdown, brea
 
 ## Git Commits — Required After Every Completed Task
 
-After finishing any task (feature, fix, refactor, or guideline addition), always create a git commit with the agent as the author and the local user as the committer:
+After finishing any task (feature, fix, refactor, or guideline addition), always create a git commit with **the agent that did the work** as the author and the local user as the committer:
 
 ```
-git -c commit.gpgsign=false -c user.name="Aran Leite" -c user.email="hyoretsu@gmail.com" commit --author="Codex <noreply@openai.com>"
+git -c commit.gpgsign=false -c user.name="Aran Leite" -c user.email="hyoretsu@gmail.com" commit --author="<Agent> <agent-email>"
 ```
 
-Never author commits under another agent's identity or any other third-party identity. In this repo, Codex work is authored by `Codex <noreply@openai.com>` and committed by `Aran Leite <hyoretsu@gmail.com>` unless the user explicitly gives a different per-instance instruction.
+Each agent authors under its **own** identity — never under another agent's or any other third-party identity. The committer is always `Aran Leite <hyoretsu@gmail.com>`. Examples:
+
+- Claude → `--author="Claude <noreply@anthropic.com>"`
+- Codex → `--author="Codex <noreply@openai.com>"`
 
 If the user requests an adjustment to something just delivered, amend or rebase rather than creating a separate noisy commit — keep history clean. Use Conventional Commits (`feat`, `fix`, `refactor`, `docs`, `style`, `chore`) with the monorepo package as scope (e.g. `feat(frontend)`, `fix(backend)`).
 
