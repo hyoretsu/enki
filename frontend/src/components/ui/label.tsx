@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { useStyletron } from "baseui";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 interface LabelProps extends ComponentPropsWithoutRef<"label"> {
@@ -6,9 +6,12 @@ interface LabelProps extends ComponentPropsWithoutRef<"label"> {
 }
 
 export function Label({ children, className, ...props }: LabelProps) {
+	const [css] = useStyletron();
+	const base = css({ display: "grid", fontSize: "0.875rem", fontWeight: 500, gap: "8px", lineHeight: 1 });
+
 	return (
 		// biome-ignore lint/a11y/noLabelWithoutControl: Callers provide the paired control as children or through htmlFor.
-		<label className={cn("grid gap-2 font-medium text-sm leading-none", className)} {...props}>
+		<label className={`${base} ${className ?? ""}`} {...props}>
 			{children}
 		</label>
 	);

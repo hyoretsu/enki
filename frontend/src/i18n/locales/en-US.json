@@ -12,6 +12,7 @@
 			"track": "Track"
 		},
 		"auth": {
+			"continueWithout": "Continue without an account",
 			"email": "Email",
 			"error": "Something went wrong. Check your credentials and try again.",
 			"name": "Name",
@@ -103,14 +104,23 @@
 			}
 		},
 		"track": {
+			"addRun": "Add run",
 			"bookmarked": "Bookmark it",
 			"category": "Category",
 			"chapterNumber": "Chapter number",
+			"chapterTitle": "Chapter title (optional)",
 			"link": "YouTube link",
 			"media": "Media",
+			"newRun": "New run",
+			"newRunPlaceholder": "e.g. Hardcore",
+			"noRun": "No run",
 			"offset": "Time offset to subtract",
 			"pages": "Pages",
 			"rating": "Rating (0-10)",
+			"releaseDate": "Release date (optional)",
+			"review": "Review",
+			"reviewPlaceholder": "Your thoughts on this game...",
+			"run": "Run",
 			"score": "Score (0-10)",
 			"selectMedia": "Select media...",
 			"submit": "Track",
@@ -118,6 +128,7 @@
 			"success": "Tracked!",
 			"timeSpent": "Time spent",
 			"title": "Track media",
+			"unnamedRun": "Default run",
 			"when": "When"
 		},
 		"stats": {
@@ -131,7 +142,15 @@
 		},
 		"profile": {
 			"language": "Language",
+			"localMode": "Local mode",
+			"localModeHint": "Your data is stored only on this device. Sign in to back it up and sync across devices.",
+			"signIn": "Sign in",
 			"signOut": "Sign out",
+			"sync": "Backup & sync",
+			"syncHint": "Two-way sync your library with Google Drive.",
+			"syncNow": "Sync with Google Drive",
+			"synced": "Synced with Google Drive.",
+			"syncing": "Syncing...",
 			"theme": "Theme",
 			"themeDark": "Dark",
 			"themeLight": "Light",

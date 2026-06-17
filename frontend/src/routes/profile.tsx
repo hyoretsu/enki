@@ -3,20 +3,37 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { supportedLngs } from "@/i18n/config";
-import { signOut, useSession } from "@/lib/auth-client";
+import { connectGoogleDrive, getDriveToken, signOut, useSession } from "@/lib/auth-client";
+import { syncWithDrive } from "@/lib/sync";
 import { type Theme, useSettingsStore } from "@/stores";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 function ProfilePage() {
 	const { i18n, t } = useTranslation();
 	const navigate = useNavigate();
 	const { data: session } = useSession();
 	const { setTheme, theme } = useSettingsStore();
+	const [syncing, setSyncing] = useState(false);
 
 	const handleSignOut = async () => {
 		await signOut();
-		navigate({ to: "/auth" });
+		navigate({ to: "/" });
+	};
+
+	const handleSync = async () => {
+		setSyncing(true);
+		try {
+			await syncWithDrive(getDriveToken);
+			toast.success(t("profile.synced"));
+		} catch {
+			// Most likely the Google account has not been linked with the Drive scope yet.
+			await connectGoogleDrive();
+		} finally {
+			setSyncing(false);
+		}
 	};
 
 	return (
@@ -24,15 +41,27 @@ function ProfilePage() {
 			<h1 className="font-bold text-2xl">{t("profile.title")}</h1>
 
 			<Card>
-				<CardContent className="flex items-center gap-4 p-4">
-					<div className="flex size-12 items-center justify-center rounded-full bg-primary font-bold text-lg text-primary-foreground">
-						{session?.user.name?.[0]?.toUpperCase() ?? "?"}
-					</div>
-					<div className="min-w-0">
-						<p className="truncate font-medium">{session?.user.name}</p>
-						<p className="truncate text-muted-foreground text-sm">{session?.user.email}</p>
-					</div>
-				</CardContent>
+				{session ? (
+					<CardContent className="flex items-center gap-4 p-4">
+						<div className="flex size-12 items-center justify-center rounded-full bg-primary font-bold text-lg text-primary-foreground">
+							{session.user.name?.[0]?.toUpperCase() ?? "?"}
+						</div>
+						<div className="min-w-0">
+							<p className="truncate font-medium">{session.user.name}</p>
+							<p className="truncate text-muted-foreground text-sm">{session.user.email}</p>
+						</div>
+					</CardContent>
+				) : (
+					<CardContent className="flex flex-col gap-3 p-4">
+						<div>
+							<p className="font-medium">{t("profile.localMode")}</p>
+							<p className="text-muted-foreground text-sm">{t("profile.localModeHint")}</p>
+						</div>
+						<Link to="/auth">
+							<Button>{t("profile.signIn")}</Button>
+						</Link>
+					</CardContent>
+				)}
 			</Card>
 
 			<Card>
@@ -62,9 +91,25 @@ function ProfilePage() {
 				</CardContent>
 			</Card>
 
-			<Button variant="outline" className="text-destructive" onClick={handleSignOut}>
-				{t("profile.signOut")}
-			</Button>
+			{session && (
+				<Card>
+					<CardContent className="flex flex-col gap-3 p-4">
+						<div>
+							<p className="font-medium">{t("profile.sync")}</p>
+							<p className="text-muted-foreground text-sm">{t("profile.syncHint")}</p>
+						</div>
+						<Button onClick={handleSync} disabled={syncing}>
+							{t(syncing ? "profile.syncing" : "profile.syncNow")}
+						</Button>
+					</CardContent>
+				</Card>
+			)}
+
+			{session && (
+				<Button variant="outline" className="text-destructive" onClick={handleSignOut}>
+					{t("profile.signOut")}
+				</Button>
+			)}
 		</div>
 	);
 }

@@ -1,18 +1,24 @@
-import { cn } from "@/lib/utils";
+import { Input as BaseInput, SIZE } from "baseui/input";
 import type { ComponentPropsWithoutRef } from "react";
 
 type InputProps = ComponentPropsWithoutRef<"input">;
 
-export function Input({ className, ...props }: InputProps) {
+// baseui only forwards a known prop set to the real <input>; native attributes
+// (name, min, max, step, required, pattern, inputMode, …) are passed through the
+// `Input` override slot so form behaviour and validation are preserved.
+export function Input({ className, type, value, onChange, placeholder, disabled, ...native }: InputProps) {
 	return (
-		<input
-			className={cn(
-				"flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm",
-				"placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-				"disabled:cursor-not-allowed disabled:opacity-50",
-				className,
-			)}
-			{...props}
+		<BaseInput
+			size={SIZE.compact}
+			type={type}
+			value={value as never}
+			onChange={onChange as never}
+			placeholder={placeholder}
+			disabled={disabled}
+			overrides={{
+				Root: { props: { className } },
+				Input: { props: native },
+			}}
 		/>
 	);
 }

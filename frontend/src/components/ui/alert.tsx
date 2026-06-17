@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { useStyletron } from "baseui";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 interface AlertProps extends ComponentPropsWithoutRef<"div"> {
@@ -6,11 +6,20 @@ interface AlertProps extends ComponentPropsWithoutRef<"div"> {
 }
 
 export function Alert({ children, className, ...props }: AlertProps) {
+	const [css, theme] = useStyletron();
+
+	const base = css({
+		backgroundColor: theme.colors.negative50 ?? "rgba(248,113,113,0.12)",
+		border: `1px solid ${theme.colors.negative}`,
+		borderRadius: theme.borders.radius300,
+		color: theme.colors.contentPrimary,
+		fontSize: "0.875rem",
+		paddingBlock: "8px",
+		paddingInline: "12px",
+	});
+
 	return (
-		<div
-			className={cn("rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm", className)}
-			{...props}
-		>
+		<div className={`${base} ${className ?? ""}`} {...props}>
 			{children}
 		</div>
 	);

@@ -12,6 +12,7 @@
 			"track": "Registar"
 		},
 		"auth": {
+			"continueWithout": "Continuar sem conta",
 			"email": "Email",
 			"error": "Algo correu mal. Verifique as suas credenciais e tente novamente.",
 			"name": "Nome",
@@ -103,14 +104,23 @@
 			}
 		},
 		"track": {
+			"addRun": "Adicionar run",
 			"bookmarked": "Marcar como favorito",
 			"category": "Categoria",
 			"chapterNumber": "Número do capítulo",
+			"chapterTitle": "Título do capítulo (opcional)",
 			"link": "Ligação do YouTube",
 			"media": "Média",
+			"newRun": "Nova run",
+			"newRunPlaceholder": "ex.: Hardcore",
+			"noRun": "Sem run",
 			"offset": "Tempo a subtrair",
 			"pages": "Páginas",
 			"rating": "Avaliação (0-10)",
+			"releaseDate": "Data de lançamento (opcional)",
+			"review": "Análise",
+			"reviewPlaceholder": "A sua opinião sobre este jogo...",
+			"run": "Run",
 			"score": "Pontuação (0-10)",
 			"selectMedia": "Selecionar média...",
 			"submit": "Registar",
@@ -118,6 +128,7 @@
 			"success": "Registado!",
 			"timeSpent": "Tempo gasto",
 			"title": "Registar média",
+			"unnamedRun": "Run predefinida",
 			"when": "Quando"
 		},
 		"stats": {
@@ -131,7 +142,15 @@
 		},
 		"profile": {
 			"language": "Idioma",
+			"localMode": "Modo local",
+			"localModeHint": "Os seus dados ficam guardados apenas neste dispositivo. Inicie sessão para os salvaguardar e sincronizar entre dispositivos.",
+			"signIn": "Iniciar sessão",
 			"signOut": "Terminar sessão",
+			"sync": "Cópia de segurança e sincronização",
+			"syncHint": "Sincronize a sua biblioteca com o Google Drive nos dois sentidos.",
+			"syncNow": "Sincronizar com o Google Drive",
+			"synced": "Sincronizado com o Google Drive.",
+			"syncing": "A sincronizar...",
 			"theme": "Tema",
 			"themeDark": "Escuro",
 			"themeLight": "Claro",

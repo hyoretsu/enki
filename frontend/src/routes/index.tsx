@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useGetMedia } from "@/lib/api";
+import { useGetMedia } from "@/lib/data";
 import { cn, pickTitle } from "@/lib/utils";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useQueryState } from "nuqs";
