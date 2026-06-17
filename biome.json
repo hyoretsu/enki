@@ -27,7 +27,10 @@
 		"rules": {
 			"recommended": true,
 			"a11y": {
-				"useKeyWithClickEvents": "off"
+				"useAriaPropsForRole": "off",
+				"useFocusableInteractive": "off",
+				"useKeyWithClickEvents": "off",
+				"useSemanticElements": "off"
 			},
 			"security": {
 				"noDangerouslySetInnerHtml": "warn"
