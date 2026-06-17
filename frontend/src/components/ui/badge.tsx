@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { useStyletron } from "baseui";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 interface BadgeProps extends ComponentPropsWithoutRef<"span"> {
@@ -6,14 +6,24 @@ interface BadgeProps extends ComponentPropsWithoutRef<"span"> {
 }
 
 export function Badge({ children, className, ...props }: BadgeProps) {
+	const [css, theme] = useStyletron();
+
+	const base = css({
+		alignItems: "center",
+		backgroundColor: theme.colors.backgroundTertiary,
+		border: `1px solid ${theme.colors.borderOpaque}`,
+		borderRadius: theme.borders.radius200,
+		color: theme.colors.contentPrimary,
+		display: "inline-flex",
+		fontSize: "0.75rem",
+		fontWeight: 500,
+		paddingBlock: "4px",
+		paddingInline: "10px",
+		width: "fit-content",
+	});
+
 	return (
-		<span
-			className={cn(
-				"inline-flex w-fit items-center rounded-md border border-primary/30 bg-primary/10 px-2.5 py-1 font-medium text-primary text-xs",
-				className,
-			)}
-			{...props}
-		>
+		<span className={`${base} ${className ?? ""}`} {...props}>
 			{children}
 		</span>
 	);

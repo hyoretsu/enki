@@ -1,14 +1,18 @@
-import { cn } from "@/lib/utils";
+import { Checkbox as BaseCheckbox } from "baseui/checkbox";
 import type { ComponentPropsWithoutRef } from "react";
 
 interface CheckboxProps extends Omit<ComponentPropsWithoutRef<"input">, "type"> {}
 
-export function Checkbox({ className, ...props }: CheckboxProps) {
+export function Checkbox({ className, checked, onChange, disabled, ...native }: CheckboxProps) {
 	return (
-		<input
-			type="checkbox"
-			className={cn("size-4 cursor-pointer rounded border-input bg-background accent-primary", className)}
-			{...props}
+		<BaseCheckbox
+			checked={checked}
+			onChange={onChange as never}
+			disabled={disabled}
+			overrides={{
+				Root: { props: { className } },
+				Input: { props: native },
+			}}
 		/>
 	);
 }
