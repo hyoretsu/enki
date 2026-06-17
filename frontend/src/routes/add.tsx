@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
-import { useGetMedia, usePostMedia } from "@/lib/api";
+import { useGetMedia, usePostMedia } from "@/lib/data";
 import { pickTitle } from "@/lib/utils";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { type FormEvent, useState } from "react";
