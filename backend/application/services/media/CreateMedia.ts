@@ -32,10 +32,9 @@ export class CreateMedia {
 				break;
 			}
 			case Category.LITERARY_WORK: {
-				const { currentChapters, ...rest } = data;
+				const { currentChapters, tags, ...rest } = data;
 
-				// @ts-expect-error
-				const { id } = await this.mediaRepository.create(rest);
+				const { id } = await this.mediaRepository.create({ ...rest, tags: tags ?? [] });
 
 				if (currentChapters) {
 					await this.mediaRepository.createChapters(id, currentChapters);
