@@ -1,4 +1,5 @@
 import appCss from "@/globals.css?url";
+import { useAutoSync } from "@/hooks/use-auto-sync";
 import { cn } from "@/lib/utils";
 import { Providers } from "@/providers";
 import { useSettingsStore } from "@/stores";
@@ -84,6 +85,9 @@ function RootComponent() {
 	// Auth is optional: the app runs fully on local data. Signing in is only needed to unlock
 	// premium features (Google Drive sync), so there is no redirect for anonymous users.
 	const isAuthRoute = pathname.startsWith("/auth");
+
+	// Best-effort background Drive sync while signed in (no-op for anonymous users).
+	useAutoSync();
 
 	useEffect(() => {
 		document.documentElement.classList.toggle("dark", theme === "dark");
