@@ -32,8 +32,10 @@ export default defineConfig({
 			router: {
 				routeFileIgnorePattern: "^components$",
 			},
+			// Host required by the sitemap builder. Falls back to localhost so CI/throwaway
+			// builds (which don't set VITE_APP_URL) don't fail; real deploys set the var.
 			sitemap: {
-				host: process.env.VITE_APP_URL,
+				host: process.env.VITE_APP_URL || "http://localhost:5173",
 			},
 			spa: {
 				enabled: true,
