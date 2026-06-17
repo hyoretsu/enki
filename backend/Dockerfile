@@ -15,30 +15,21 @@ FROM deps AS build
 
 WORKDIR /app
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+ENV NODE_ENV=production
 
 COPY . .
 
 RUN bunx turbo -F backend build
 
-FROM oven/bun:1.3.12 AS runtime
+FROM gcr.io/distroless/base-debian12:nonroot AS runtime
 
 WORKDIR /app
 
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/backend/node_modules ./backend/node_modules
-COPY --from=build /app/packages/sql/node_modules ./packages/sql/node_modules
-COPY --from=build /app/package.json ./package.json
-COPY --from=build /app/backend/package.json /app/backend/tsconfig.json ./backend/
-COPY --from=build /app/packages/sql/package.json ./packages/sql/
-COPY --from=build /app/backend/dist ./backend/dist
-COPY --from=build /app/packages/sql/out ./packages/sql/out
+ENV NODE_ENV=production
 
-WORKDIR /app/backend
-
-RUN mkdir -p static
+RUN mkdir -p backend/static
+COPY --from=build /app/backend/dist/server ./server
 
 EXPOSE 3333
 
-CMD ["./dist/server"]
+CMD ["./server"]

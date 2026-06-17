@@ -1,0 +1,12 @@
+# Suggested commands
+- Install deps: `bun i --frozen-lockfile --linker=isolated`.
+- Run all dev tasks: `bun run dev`.
+- Build affected graph: `bun run build` or scoped Turbo such as `bunx turbo -F backend build`.
+- Type-check: `bun run check-types`.
+- Format/fix: `bun run format`.
+- Tests: `bun run test`, backend-specific `cd backend && bun run test:unit` / `bun run test:e2e`.
+- Backend OpenAPI export: `cd backend && bun run export`.
+- Frontend SDK generate: `cd frontend && bun run generate`.
+- Prisma Next SQL contract emit: `cd packages/sql && bun run export` (`prisma-next contract emit`).
+- Prisma Next migrate/init/update need local DATABASE_URL: `cd packages/sql && bun run migrate`, `db:init`, `db:update`.
+- Docker backend build currently expects BuildKit secret: `docker build --secret id=DATABASE_URL,env=DATABASE_URL -f backend/Dockerfile .`.
