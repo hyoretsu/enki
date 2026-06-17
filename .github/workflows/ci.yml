@@ -63,25 +63,68 @@ jobs:
     needs: detect
     if: needs.detect.outputs.deployable == 'true'
     runs-on: ubuntu-latest
+    services:
+      # Disposable shadow DB. Seeded from production below so the migration check runs
+      # against real prod data — the whole point is to catch migrations that would break
+      # existing rows, not just verify they apply on an empty schema.
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: enki_shadow
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     strategy:
       fail-fast: false
       matrix:
         package: ${{ fromJSON(needs.detect.outputs.tasks)['migrate:deploy'] }}
+    env:
+      SHADOW_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/enki_shadow
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+
+      # Copy production (schema + data + prisma-next signature) into the shadow DB so the
+      # migration runs against a faithful prod replica. pg_dump's plain SQL is piped
+      # straight into the shadow; ON_ERROR_STOP makes any restore error fail the job.
+      - name: Seed shadow DB from production
+        env:
+          PROD_DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          pg_dump --no-owner --no-privileges --clean --if-exists "$PROD_DATABASE_URL" \
+            | psql --variable=ON_ERROR_STOP=1 "$SHADOW_DATABASE_URL"
 
       - name: Check safety of new migrations
         uses: ./.github/actions/migrate-db
         with:
           check: "true"
-          database-url: ${{ secrets.SHADOW_DATABASE_URL }}
+          database-url: ${{ env.SHADOW_DATABASE_URL }}
 
   test_e2e:
     name: "${{ matrix.package }} / E2E tests"
     needs: detect
     if: needs.detect.outputs.deployable == 'true'
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: enki_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     strategy:
       fail-fast: false
       matrix:
@@ -94,7 +137,8 @@ jobs:
         uses: ./.github/actions/test-e2e
         with:
           package: ${{ matrix.package }}
-          database-url: ${{ secrets.DATABASE_TEST_URL }}
+          # Disposable Postgres service (above) — no external secret needed.
+          database-url: postgresql://postgres:postgres@localhost:5432/enki_test
 
   test_unit:
     name: "${{ matrix.package }} / Unit tests"

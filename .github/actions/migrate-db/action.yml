@@ -1,12 +1,14 @@
 name: Apply pending migrations
 description: >
-  Install deps and apply pending Prisma migrations. In check mode the Turbo task
-  result is cached (safe verification against a disposable DB); otherwise the task
-  is forced so it always runs against the target database.
+  Install deps and apply pending Prisma Next migrations with `migrate`. In check mode the
+  target is a disposable shadow database seeded from production (so the run proves the
+  pending migrations apply cleanly on top of real prod data); otherwise it deploys to the
+  target database. The shadow/prod DB is already initialized & signed, so `migrate` advances
+  it — never `db init`, which would baseline a fresh DB and skip the existing-data check.
 
 inputs:
   check:
-    description: When true, only verify migration safety and allow Turbo to cache the result; when false, force a real deploy.
+    description: When true, verify migrations against the seeded shadow DB and allow Turbo to cache the result; when false, force a real deploy.
     default: "false"
   database-url:
     description: Connection string for the target migration database.
