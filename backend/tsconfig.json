@@ -4,12 +4,15 @@
 		"module": "Preserve",
 		"moduleResolution": "bundler",
 		"noEmit": true,
+		"paths": {
+			"@/*": ["./src/*"]
+		},
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"strict": true,
 		"target": "ESNext",
 		"types": ["bun-types"]
 	},
-	"exclude": ["node_modules"],
-	"include": ["src/**/*.ts"]
+	"exclude": ["node_modules", "dist"],
+	"include": ["src/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts"]
 }

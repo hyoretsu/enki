@@ -2,25 +2,22 @@ FROM oven/bun AS backend_build
 
 WORKDIR /app
 
-# Create necessary directories
-RUN mkdir -p ./backend/application ./backend/domain ./backend/infra
-
-# Copy dependency files
-COPY bun.lockb package.json ./
-COPY backend/application/package.json ./backend/application
-COPY backend/domain/package.json ./backend/domain
-COPY backend/infra/package.json ./backend/infra
+# Copy dependency manifests (root + the workspaces the backend needs)
+COPY bun.lock package.json ./
+COPY backend/package.json ./backend/package.json
+COPY packages/sql/package.json ./packages/sql/package.json
 
 # Install dependencies
 RUN bun install --ignore-scripts
 
-# Copy backend source code
+# Copy source code
 COPY ./backend ./backend
+COPY ./packages ./packages
 
 ENV NODE_ENV=production
 
-# Build the backend from infra module
-RUN bun run --filter "@enki/infra" build
+# Compile the backend into a single self-contained binary
+RUN bun run --filter backend build
 
 FROM gcr.io/distroless/base AS backend
 

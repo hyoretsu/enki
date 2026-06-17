@@ -1,0 +1,2368 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Enki API",
+        "description": "",
+        "version": "1.0.0",
+        "contact": {
+            "email": "enki@midas-abgl.com",
+            "name": "Midas Group",
+            "url": "https://midas-abgl.com"
+        }
+    },
+    "tags": [
+        {
+            "name": "Media",
+            "description": "Media categories."
+        },
+        {
+            "name": "Users",
+            "description": "Users of the app."
+        }
+    ],
+    "paths": {
+        "/media/": {
+            "get": {
+                "parameters": [
+                    {
+                        "description": "Media category.",
+                        "schema": {
+                            "anyOf": [
+                                {
+                                    "const": "chapter",
+                                    "type": "string"
+                                },
+                                {
+                                    "const": "literary_work",
+                                    "type": "string"
+                                },
+                                {
+                                    "const": "movie",
+                                    "type": "string"
+                                },
+                                {
+                                    "const": "video",
+                                    "type": "string"
+                                },
+                                {
+                                    "const": "video_game",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "in": "query",
+                        "name": "category",
+                        "required": false
+                    },
+                    {
+                        "description": "Media ID filter. When used alongside 'category', fetches more media details.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "in": "query",
+                        "name": "mediaId",
+                        "required": false
+                    },
+                    {
+                        "description": "Media title filter.",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "name": "title",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "description": "List of media.",
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "title": {
+                                            "anyOf": [
+                                                {
+                                                    "type": "object",
+                                                    "patternProperties": {
+                                                        "^(.*)$": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "type": "string"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        },
+                                        "category": {
+                                            "type": "string"
+                                        },
+                                        "releaseDate": {
+                                            "anyOf": [
+                                                {
+                                                    "anyOf": [
+                                                        {
+                                                            "type": "Date"
+                                                        },
+                                                        {
+                                                            "format": "date",
+                                                            "default": "2026-06-17T01:03:01.410Z",
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "format": "date-time",
+                                                            "default": "2026-06-17T01:03:01.410Z",
+                                                            "type": "string"
+                                                        },
+                                                        {
+                                                            "type": "number"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "null"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "required": [
+                                        "id",
+                                        "title",
+                                        "category",
+                                        "releaseDate"
+                                    ]
+                                },
+                                {
+                                    "description": "Full media information.",
+                                    "type": "object",
+                                    "patternProperties": {
+                                        "^(.*)$": {}
+                                    }
+                                }
+                            ]
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "anyOf": [
+                                            {
+                                                "description": "List of media.",
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "title": {
+                                                        "anyOf": [
+                                                            {
+                                                                "type": "object",
+                                                                "patternProperties": {
+                                                                    "^(.*)$": {
+                                                                        "type": "array",
+                                                                        "items": {
+                                                                            "type": "string"
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                "type": "null"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "category": {
+                                                        "type": "string"
+                                                    },
+                                                    "releaseDate": {
+                                                        "anyOf": [
+                                                            {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "type": "Date"
+                                                                    },
+                                                                    {
+                                                                        "format": "date",
+                                                                        "default": "2026-06-17T01:03:01.410Z",
+                                                                        "type": "string"
+                                                                    },
+                                                                    {
+                                                                        "format": "date-time",
+                                                                        "default": "2026-06-17T01:03:01.410Z",
+                                                                        "type": "string"
+                                                                    },
+                                                                    {
+                                                                        "type": "number"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "type": "null"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "required": [
+                                                    "id",
+                                                    "title",
+                                                    "category",
+                                                    "releaseDate"
+                                                ]
+                                            },
+                                            {
+                                                "description": "Full media information.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {}
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "multipart/form-data": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "anyOf": [
+                                            {
+                                                "description": "List of media.",
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "title": {
+                                                        "anyOf": [
+                                                            {
+                                                                "type": "object",
+                                                                "patternProperties": {
+                                                                    "^(.*)$": {
+                                                                        "type": "array",
+                                                                        "items": {
+                                                                            "type": "string"
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                "type": "null"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "category": {
+                                                        "type": "string"
+                                                    },
+                                                    "releaseDate": {
+                                                        "anyOf": [
+                                                            {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "type": "Date"
+                                                                    },
+                                                                    {
+                                                                        "format": "date",
+                                                                        "default": "2026-06-17T01:03:01.410Z",
+                                                                        "type": "string"
+                                                                    },
+                                                                    {
+                                                                        "format": "date-time",
+                                                                        "default": "2026-06-17T01:03:01.410Z",
+                                                                        "type": "string"
+                                                                    },
+                                                                    {
+                                                                        "type": "number"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "type": "null"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "required": [
+                                                    "id",
+                                                    "title",
+                                                    "category",
+                                                    "releaseDate"
+                                                ]
+                                            },
+                                            {
+                                                "description": "Full media information.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {}
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "text/plain": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "anyOf": [
+                                            {
+                                                "description": "List of media.",
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "string"
+                                                    },
+                                                    "title": {
+                                                        "anyOf": [
+                                                            {
+                                                                "type": "object",
+                                                                "patternProperties": {
+                                                                    "^(.*)$": {
+                                                                        "type": "array",
+                                                                        "items": {
+                                                                            "type": "string"
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                "type": "null"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "category": {
+                                                        "type": "string"
+                                                    },
+                                                    "releaseDate": {
+                                                        "anyOf": [
+                                                            {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "type": "Date"
+                                                                    },
+                                                                    {
+                                                                        "format": "date",
+                                                                        "default": "2026-06-17T01:03:01.410Z",
+                                                                        "type": "string"
+                                                                    },
+                                                                    {
+                                                                        "format": "date-time",
+                                                                        "default": "2026-06-17T01:03:01.410Z",
+                                                                        "type": "string"
+                                                                    },
+                                                                    {
+                                                                        "type": "number"
+                                                                    }
+                                                                ]
+                                                            },
+                                                            {
+                                                                "type": "null"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "required": [
+                                                    "id",
+                                                    "title",
+                                                    "category",
+                                                    "releaseDate"
+                                                ]
+                                            },
+                                            {
+                                                "description": "Full media information.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {}
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "operationId": "getMedia",
+                "tags": [
+                    "Media"
+                ]
+            },
+            "post": {
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Created media ID.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "Created media ID.",
+                                    "type": "string"
+                                }
+                            },
+                            "multipart/form-data": {
+                                "schema": {
+                                    "description": "Created media ID.",
+                                    "type": "string"
+                                }
+                            },
+                            "text/plain": {
+                                "schema": {
+                                    "description": "Created media ID.",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "operationId": "postMedia",
+                "tags": [
+                    "Media"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "examples": [
+                                    {
+                                        "category": "chapter",
+                                        "number": 1,
+                                        "pages": 12,
+                                        "releaseDate": "2024-12-25T00:00:00-03:00",
+                                        "sourceId": "27914233761075200",
+                                        "title": {
+                                            "en": [
+                                                "The beginning of everything"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "category": "literary_work",
+                                        "currentChapters": 1,
+                                        "ongoing": false,
+                                        "synopsis": {
+                                            "en": "A story about everything."
+                                        },
+                                        "tags": [
+                                            "Cultivation"
+                                        ],
+                                        "title": {
+                                            "en": [
+                                                "I don't know"
+                                            ]
+                                        },
+                                        "type": "manhua"
+                                    },
+                                    {
+                                        "category": "movie",
+                                        "duration": "PT2H5M30S",
+                                        "releaseDate": "2024-12-25T00:00:00-03:00",
+                                        "title": {
+                                            "en": [
+                                                "Awesome movie"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "category": "video",
+                                        "link": "https://www.youtube.com/watch?v=1234"
+                                    },
+                                    {
+                                        "category": "video_game",
+                                        "title": {
+                                            "en": [
+                                                "The game"
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "anyOf": [
+                                    {
+                                        "additionalProperties": false,
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "const": "chapter",
+                                                "type": "string"
+                                            },
+                                            "number": {
+                                                "description": "Chapter's number in the series.",
+                                                "type": "number"
+                                            },
+                                            "pages": {
+                                                "description": "Number of pages in the chapter.",
+                                                "type": "integer"
+                                            },
+                                            "releaseDate": {
+                                                "description": "Chapter's original release date.",
+                                                "anyOf": [
+                                                    {
+                                                        "description": "Chapter's original release date.",
+                                                        "type": "Date"
+                                                    },
+                                                    {
+                                                        "format": "date",
+                                                        "default": "2026-06-17T01:03:01.408Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "format": "date-time",
+                                                        "default": "2026-06-17T01:03:01.408Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "type": "number"
+                                                    }
+                                                ]
+                                            },
+                                            "sourceId": {
+                                                "description": "The literary work's ID.",
+                                                "type": "string"
+                                            },
+                                            "title": {
+                                                "description": "Titles by language code.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "number",
+                                            "sourceId"
+                                        ]
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "const": "literary_work",
+                                                "type": "string"
+                                            },
+                                            "currentChapters": {
+                                                "description": "Number of chapters already released. Automatically creates them without title and pages.",
+                                                "type": "integer"
+                                            },
+                                            "ongoing": {
+                                                "description": "Is the work not finished yet?",
+                                                "type": "boolean"
+                                            },
+                                            "synopsis": {
+                                                "description": "Synopsis by language code.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "tags": {
+                                                "description": "Category/genre tags",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "title": {
+                                                "description": "Titles by language code.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "type": {
+                                                "anyOf": [
+                                                    {
+                                                        "const": "article",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "biography",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "comics",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "diary",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "epic",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "essay",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "flash_fiction",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "graphic_novel",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "journal",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "light_novel",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "manga",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "manhua",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "manhwa",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "memoir",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "novel",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "novelette",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "novella",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "poetry",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "script",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "short_story",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "web_novel",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "webtoon",
+                                                        "type": "string"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "title",
+                                            "type"
+                                        ]
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "const": "movie",
+                                                "type": "string"
+                                            },
+                                            "duration": {
+                                                "description": "ISO 8601 duration.",
+                                                "examples": [
+                                                    "PT_H_M_S"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "releaseDate": {
+                                                "examples": [
+                                                    "2024-12-25T00:00:00.000-03:00"
+                                                ],
+                                                "anyOf": [
+                                                    {
+                                                        "examples": [
+                                                            "2024-12-25T00:00:00.000-03:00"
+                                                        ],
+                                                        "type": "Date"
+                                                    },
+                                                    {
+                                                        "format": "date",
+                                                        "default": "2026-06-17T01:03:01.410Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "format": "date-time",
+                                                        "default": "2026-06-17T01:03:01.410Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "type": "number"
+                                                    }
+                                                ]
+                                            },
+                                            "title": {
+                                                "description": "Titles by language code.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "title"
+                                        ]
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "const": "video",
+                                                "type": "string"
+                                            },
+                                            "link": {
+                                                "description": "A youtube URL.",
+                                                "format": "uri",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "link"
+                                        ]
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "const": "video_game",
+                                                "type": "string"
+                                            },
+                                            "title": {
+                                                "description": "Title by language code.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "title"
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "examples": [
+                                    {
+                                        "category": "chapter",
+                                        "number": 1,
+                                        "pages": 12,
+                                        "releaseDate": "2024-12-25T00:00:00-03:00",
+                                        "sourceId": "27914233761075200",
+                                        "title": {
+                                            "en": [
+                                                "The beginning of everything"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "category": "literary_work",
+                                        "currentChapters": 1,
+                                        "ongoing": false,
+                                        "synopsis": {
+                                            "en": "A story about everything."
+                                        },
+                                        "tags": [
+                                            "Cultivation"
+                                        ],
+                                        "title": {
+                                            "en": [
+                                                "I don't know"
+                                            ]
+                                        },
+                                        "type": "manhua"
+                                    },
+                                    {
+                                        "category": "movie",
+                                        "duration": "PT2H5M30S",
+                                        "releaseDate": "2024-12-25T00:00:00-03:00",
+                                        "title": {
+                                            "en": [
+                                                "Awesome movie"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "category": "video",
+                                        "link": "https://www.youtube.com/watch?v=1234"
+                                    },
+                                    {
+                                        "category": "video_game",
+                                        "title": {
+                                            "en": [
+                                                "The game"
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "anyOf": [
+                                    {
+                                        "additionalProperties": false,
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "const": "chapter",
+                                                "type": "string"
+                                            },
+                                            "number": {
+                                                "description": "Chapter's number in the series.",
+                                                "type": "number"
+                                            },
+                                            "pages": {
+                                                "description": "Number of pages in the chapter.",
+                                                "type": "integer"
+                                            },
+                                            "releaseDate": {
+                                                "description": "Chapter's original release date.",
+                                                "anyOf": [
+                                                    {
+                                                        "description": "Chapter's original release date.",
+                                                        "type": "Date"
+                                                    },
+                                                    {
+                                                        "format": "date",
+                                                        "default": "2026-06-17T01:03:01.408Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "format": "date-time",
+                                                        "default": "2026-06-17T01:03:01.408Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "type": "number"
+                                                    }
+                                                ]
+                                            },
+                                            "sourceId": {
+                                                "description": "The literary work's ID.",
+                                                "type": "string"
+                                            },
+                                            "title": {
+                                                "description": "Titles by language code.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "number",
+                                            "sourceId"
+                                        ]
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "const": "literary_work",
+                                                "type": "string"
+                                            },
+                                            "currentChapters": {
+                                                "description": "Number of chapters already released. Automatically creates them without title and pages.",
+                                                "type": "integer"
+                                            },
+                                            "ongoing": {
+                                                "description": "Is the work not finished yet?",
+                                                "type": "boolean"
+                                            },
+                                            "synopsis": {
+                                                "description": "Synopsis by language code.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "tags": {
+                                                "description": "Category/genre tags",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "title": {
+                                                "description": "Titles by language code.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "type": {
+                                                "anyOf": [
+                                                    {
+                                                        "const": "article",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "biography",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "comics",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "diary",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "epic",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "essay",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "flash_fiction",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "graphic_novel",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "journal",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "light_novel",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "manga",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "manhua",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "manhwa",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "memoir",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "novel",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "novelette",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "novella",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "poetry",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "script",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "short_story",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "web_novel",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "webtoon",
+                                                        "type": "string"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "title",
+                                            "type"
+                                        ]
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "const": "movie",
+                                                "type": "string"
+                                            },
+                                            "duration": {
+                                                "description": "ISO 8601 duration.",
+                                                "examples": [
+                                                    "PT_H_M_S"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "releaseDate": {
+                                                "examples": [
+                                                    "2024-12-25T00:00:00.000-03:00"
+                                                ],
+                                                "anyOf": [
+                                                    {
+                                                        "examples": [
+                                                            "2024-12-25T00:00:00.000-03:00"
+                                                        ],
+                                                        "type": "Date"
+                                                    },
+                                                    {
+                                                        "format": "date",
+                                                        "default": "2026-06-17T01:03:01.410Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "format": "date-time",
+                                                        "default": "2026-06-17T01:03:01.410Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "type": "number"
+                                                    }
+                                                ]
+                                            },
+                                            "title": {
+                                                "description": "Titles by language code.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "title"
+                                        ]
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "const": "video",
+                                                "type": "string"
+                                            },
+                                            "link": {
+                                                "description": "A youtube URL.",
+                                                "format": "uri",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "link"
+                                        ]
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "const": "video_game",
+                                                "type": "string"
+                                            },
+                                            "title": {
+                                                "description": "Title by language code.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "title"
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "text/plain": {
+                            "schema": {
+                                "examples": [
+                                    {
+                                        "category": "chapter",
+                                        "number": 1,
+                                        "pages": 12,
+                                        "releaseDate": "2024-12-25T00:00:00-03:00",
+                                        "sourceId": "27914233761075200",
+                                        "title": {
+                                            "en": [
+                                                "The beginning of everything"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "category": "literary_work",
+                                        "currentChapters": 1,
+                                        "ongoing": false,
+                                        "synopsis": {
+                                            "en": "A story about everything."
+                                        },
+                                        "tags": [
+                                            "Cultivation"
+                                        ],
+                                        "title": {
+                                            "en": [
+                                                "I don't know"
+                                            ]
+                                        },
+                                        "type": "manhua"
+                                    },
+                                    {
+                                        "category": "movie",
+                                        "duration": "PT2H5M30S",
+                                        "releaseDate": "2024-12-25T00:00:00-03:00",
+                                        "title": {
+                                            "en": [
+                                                "Awesome movie"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "category": "video",
+                                        "link": "https://www.youtube.com/watch?v=1234"
+                                    },
+                                    {
+                                        "category": "video_game",
+                                        "title": {
+                                            "en": [
+                                                "The game"
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "anyOf": [
+                                    {
+                                        "additionalProperties": false,
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "const": "chapter",
+                                                "type": "string"
+                                            },
+                                            "number": {
+                                                "description": "Chapter's number in the series.",
+                                                "type": "number"
+                                            },
+                                            "pages": {
+                                                "description": "Number of pages in the chapter.",
+                                                "type": "integer"
+                                            },
+                                            "releaseDate": {
+                                                "description": "Chapter's original release date.",
+                                                "anyOf": [
+                                                    {
+                                                        "description": "Chapter's original release date.",
+                                                        "type": "Date"
+                                                    },
+                                                    {
+                                                        "format": "date",
+                                                        "default": "2026-06-17T01:03:01.408Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "format": "date-time",
+                                                        "default": "2026-06-17T01:03:01.408Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "type": "number"
+                                                    }
+                                                ]
+                                            },
+                                            "sourceId": {
+                                                "description": "The literary work's ID.",
+                                                "type": "string"
+                                            },
+                                            "title": {
+                                                "description": "Titles by language code.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "number",
+                                            "sourceId"
+                                        ]
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "const": "literary_work",
+                                                "type": "string"
+                                            },
+                                            "currentChapters": {
+                                                "description": "Number of chapters already released. Automatically creates them without title and pages.",
+                                                "type": "integer"
+                                            },
+                                            "ongoing": {
+                                                "description": "Is the work not finished yet?",
+                                                "type": "boolean"
+                                            },
+                                            "synopsis": {
+                                                "description": "Synopsis by language code.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "tags": {
+                                                "description": "Category/genre tags",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "title": {
+                                                "description": "Titles by language code.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "type": {
+                                                "anyOf": [
+                                                    {
+                                                        "const": "article",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "biography",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "comics",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "diary",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "epic",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "essay",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "flash_fiction",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "graphic_novel",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "journal",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "light_novel",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "manga",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "manhua",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "manhwa",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "memoir",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "novel",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "novelette",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "novella",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "poetry",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "script",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "short_story",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "web_novel",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "const": "webtoon",
+                                                        "type": "string"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "title",
+                                            "type"
+                                        ]
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "const": "movie",
+                                                "type": "string"
+                                            },
+                                            "duration": {
+                                                "description": "ISO 8601 duration.",
+                                                "examples": [
+                                                    "PT_H_M_S"
+                                                ],
+                                                "type": "string"
+                                            },
+                                            "releaseDate": {
+                                                "examples": [
+                                                    "2024-12-25T00:00:00.000-03:00"
+                                                ],
+                                                "anyOf": [
+                                                    {
+                                                        "examples": [
+                                                            "2024-12-25T00:00:00.000-03:00"
+                                                        ],
+                                                        "type": "Date"
+                                                    },
+                                                    {
+                                                        "format": "date",
+                                                        "default": "2026-06-17T01:03:01.410Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "format": "date-time",
+                                                        "default": "2026-06-17T01:03:01.410Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "type": "number"
+                                                    }
+                                                ]
+                                            },
+                                            "title": {
+                                                "description": "Titles by language code.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "title"
+                                        ]
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "const": "video",
+                                                "type": "string"
+                                            },
+                                            "link": {
+                                                "description": "A youtube URL.",
+                                                "format": "uri",
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "link"
+                                        ]
+                                    },
+                                    {
+                                        "additionalProperties": false,
+                                        "type": "object",
+                                        "properties": {
+                                            "category": {
+                                                "const": "video_game",
+                                                "type": "string"
+                                            },
+                                            "title": {
+                                                "description": "Title by language code.",
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "title"
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/media/track": {
+            "post": {
+                "parameters": [],
+                "responses": {
+                    "200": {}
+                },
+                "operationId": "postMediaTrack",
+                "tags": [
+                    "Media"
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "anyOf": [
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "bookmarked": {
+                                                "type": "boolean"
+                                            },
+                                            "category": {
+                                                "const": "chapter",
+                                                "type": "string"
+                                            },
+                                            "mediaId": {
+                                                "type": "string"
+                                            },
+                                            "number": {
+                                                "type": "number"
+                                            },
+                                            "pages": {
+                                                "type": "integer"
+                                            },
+                                            "releaseDate": {
+                                                "anyOf": [
+                                                    {
+                                                        "type": "Date"
+                                                    },
+                                                    {
+                                                        "format": "date",
+                                                        "default": "2026-06-17T01:03:01.411Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "format": "date-time",
+                                                        "default": "2026-06-17T01:03:01.411Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "type": "number"
+                                                    }
+                                                ]
+                                            },
+                                            "timeSpent": {
+                                                "type": "string"
+                                            },
+                                            "when": {
+                                                "anyOf": [
+                                                    {
+                                                        "anyOf": [
+                                                            {
+                                                                "type": "Date"
+                                                            },
+                                                            {
+                                                                "format": "date",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "format": "date-time",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "type": "number"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            },
+                                            "title": {
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "mediaId",
+                                            "number",
+                                            "timeSpent"
+                                        ]
+                                    },
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "bookmarked": {
+                                                "type": "boolean"
+                                            },
+                                            "category": {
+                                                "const": "movie",
+                                                "type": "string"
+                                            },
+                                            "mediaId": {
+                                                "type": "string"
+                                            },
+                                            "rating": {
+                                                "type": "number"
+                                            },
+                                            "when": {
+                                                "anyOf": [
+                                                    {
+                                                        "anyOf": [
+                                                            {
+                                                                "type": "Date"
+                                                            },
+                                                            {
+                                                                "format": "date",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "format": "date-time",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "type": "number"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "mediaId"
+                                        ]
+                                    },
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "bookmarked": {
+                                                "type": "boolean"
+                                            },
+                                            "category": {
+                                                "const": "video",
+                                                "type": "string"
+                                            },
+                                            "link": {
+                                                "format": "uri",
+                                                "type": "string"
+                                            },
+                                            "timeSpent": {
+                                                "type": "string"
+                                            },
+                                            "when": {
+                                                "anyOf": [
+                                                    {
+                                                        "anyOf": [
+                                                            {
+                                                                "type": "Date"
+                                                            },
+                                                            {
+                                                                "format": "date",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "format": "date-time",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "type": "number"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "required": [
+                                            "category"
+                                        ]
+                                    },
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "bookmarked": {
+                                                "type": "boolean"
+                                            },
+                                            "category": {
+                                                "const": "video_game",
+                                                "type": "string"
+                                            },
+                                            "mediaId": {
+                                                "type": "string"
+                                            },
+                                            "score": {
+                                                "anyOf": [
+                                                    {
+                                                        "type": "number"
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            },
+                                            "offset": {
+                                                "anyOf": [
+                                                    {
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            },
+                                            "timeSpent": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "mediaId"
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "multipart/form-data": {
+                            "schema": {
+                                "anyOf": [
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "bookmarked": {
+                                                "type": "boolean"
+                                            },
+                                            "category": {
+                                                "const": "chapter",
+                                                "type": "string"
+                                            },
+                                            "mediaId": {
+                                                "type": "string"
+                                            },
+                                            "number": {
+                                                "type": "number"
+                                            },
+                                            "pages": {
+                                                "type": "integer"
+                                            },
+                                            "releaseDate": {
+                                                "anyOf": [
+                                                    {
+                                                        "type": "Date"
+                                                    },
+                                                    {
+                                                        "format": "date",
+                                                        "default": "2026-06-17T01:03:01.411Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "format": "date-time",
+                                                        "default": "2026-06-17T01:03:01.411Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "type": "number"
+                                                    }
+                                                ]
+                                            },
+                                            "timeSpent": {
+                                                "type": "string"
+                                            },
+                                            "when": {
+                                                "anyOf": [
+                                                    {
+                                                        "anyOf": [
+                                                            {
+                                                                "type": "Date"
+                                                            },
+                                                            {
+                                                                "format": "date",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "format": "date-time",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "type": "number"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            },
+                                            "title": {
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "mediaId",
+                                            "number",
+                                            "timeSpent"
+                                        ]
+                                    },
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "bookmarked": {
+                                                "type": "boolean"
+                                            },
+                                            "category": {
+                                                "const": "movie",
+                                                "type": "string"
+                                            },
+                                            "mediaId": {
+                                                "type": "string"
+                                            },
+                                            "rating": {
+                                                "type": "number"
+                                            },
+                                            "when": {
+                                                "anyOf": [
+                                                    {
+                                                        "anyOf": [
+                                                            {
+                                                                "type": "Date"
+                                                            },
+                                                            {
+                                                                "format": "date",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "format": "date-time",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "type": "number"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "mediaId"
+                                        ]
+                                    },
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "bookmarked": {
+                                                "type": "boolean"
+                                            },
+                                            "category": {
+                                                "const": "video",
+                                                "type": "string"
+                                            },
+                                            "link": {
+                                                "format": "uri",
+                                                "type": "string"
+                                            },
+                                            "timeSpent": {
+                                                "type": "string"
+                                            },
+                                            "when": {
+                                                "anyOf": [
+                                                    {
+                                                        "anyOf": [
+                                                            {
+                                                                "type": "Date"
+                                                            },
+                                                            {
+                                                                "format": "date",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "format": "date-time",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "type": "number"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "required": [
+                                            "category"
+                                        ]
+                                    },
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "bookmarked": {
+                                                "type": "boolean"
+                                            },
+                                            "category": {
+                                                "const": "video_game",
+                                                "type": "string"
+                                            },
+                                            "mediaId": {
+                                                "type": "string"
+                                            },
+                                            "score": {
+                                                "anyOf": [
+                                                    {
+                                                        "type": "number"
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            },
+                                            "offset": {
+                                                "anyOf": [
+                                                    {
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            },
+                                            "timeSpent": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "mediaId"
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        "text/plain": {
+                            "schema": {
+                                "anyOf": [
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "bookmarked": {
+                                                "type": "boolean"
+                                            },
+                                            "category": {
+                                                "const": "chapter",
+                                                "type": "string"
+                                            },
+                                            "mediaId": {
+                                                "type": "string"
+                                            },
+                                            "number": {
+                                                "type": "number"
+                                            },
+                                            "pages": {
+                                                "type": "integer"
+                                            },
+                                            "releaseDate": {
+                                                "anyOf": [
+                                                    {
+                                                        "type": "Date"
+                                                    },
+                                                    {
+                                                        "format": "date",
+                                                        "default": "2026-06-17T01:03:01.411Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "format": "date-time",
+                                                        "default": "2026-06-17T01:03:01.411Z",
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "type": "number"
+                                                    }
+                                                ]
+                                            },
+                                            "timeSpent": {
+                                                "type": "string"
+                                            },
+                                            "when": {
+                                                "anyOf": [
+                                                    {
+                                                        "anyOf": [
+                                                            {
+                                                                "type": "Date"
+                                                            },
+                                                            {
+                                                                "format": "date",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "format": "date-time",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "type": "number"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            },
+                                            "title": {
+                                                "type": "object",
+                                                "patternProperties": {
+                                                    "^(.*)$": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "mediaId",
+                                            "number",
+                                            "timeSpent"
+                                        ]
+                                    },
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "bookmarked": {
+                                                "type": "boolean"
+                                            },
+                                            "category": {
+                                                "const": "movie",
+                                                "type": "string"
+                                            },
+                                            "mediaId": {
+                                                "type": "string"
+                                            },
+                                            "rating": {
+                                                "type": "number"
+                                            },
+                                            "when": {
+                                                "anyOf": [
+                                                    {
+                                                        "anyOf": [
+                                                            {
+                                                                "type": "Date"
+                                                            },
+                                                            {
+                                                                "format": "date",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "format": "date-time",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "type": "number"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "mediaId"
+                                        ]
+                                    },
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "bookmarked": {
+                                                "type": "boolean"
+                                            },
+                                            "category": {
+                                                "const": "video",
+                                                "type": "string"
+                                            },
+                                            "link": {
+                                                "format": "uri",
+                                                "type": "string"
+                                            },
+                                            "timeSpent": {
+                                                "type": "string"
+                                            },
+                                            "when": {
+                                                "anyOf": [
+                                                    {
+                                                        "anyOf": [
+                                                            {
+                                                                "type": "Date"
+                                                            },
+                                                            {
+                                                                "format": "date",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "format": "date-time",
+                                                                "default": "2026-06-17T01:03:01.411Z",
+                                                                "type": "string"
+                                                            },
+                                                            {
+                                                                "type": "number"
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "required": [
+                                            "category"
+                                        ]
+                                    },
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "bookmarked": {
+                                                "type": "boolean"
+                                            },
+                                            "category": {
+                                                "const": "video_game",
+                                                "type": "string"
+                                            },
+                                            "mediaId": {
+                                                "type": "string"
+                                            },
+                                            "score": {
+                                                "anyOf": [
+                                                    {
+                                                        "type": "number"
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            },
+                                            "offset": {
+                                                "anyOf": [
+                                                    {
+                                                        "type": "string"
+                                                    },
+                                                    {
+                                                        "type": "null"
+                                                    }
+                                                ]
+                                            },
+                                            "timeSpent": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "required": [
+                                            "category",
+                                            "mediaId"
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/stats": {
+            "get": {
+                "parameters": [
+                    {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "anyOf": [
+                                    {
+                                        "const": "chapter",
+                                        "type": "string"
+                                    },
+                                    {
+                                        "const": "literary_work",
+                                        "type": "string"
+                                    },
+                                    {
+                                        "const": "movie",
+                                        "type": "string"
+                                    },
+                                    {
+                                        "const": "video",
+                                        "type": "string"
+                                    },
+                                    {
+                                        "const": "video_game",
+                                        "type": "string"
+                                    }
+                                ]
+                            }
+                        },
+                        "in": "query",
+                        "name": "categories",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "totalTime": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "totalTime"
+                                    ]
+                                }
+                            },
+                            "multipart/form-data": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "totalTime": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "totalTime"
+                                    ]
+                                }
+                            },
+                            "text/plain": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "totalTime": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "integer"
+                                            }
+                                        }
+                                    },
+                                    "required": [
+                                        "totalTime"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "operationId": "getUsersStats",
+                "tags": [
+                    "Users"
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    }
+}
