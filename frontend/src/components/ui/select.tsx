@@ -1,20 +1,43 @@
-import { cn } from "@/lib/utils";
-import type { ComponentPropsWithoutRef } from "react";
+import { Children, type ReactNode, isValidElement } from "react";
+import { CustomSelect, type SelectOption } from "./CustomSelect";
 
-interface SelectProps extends ComponentPropsWithoutRef<"select"> {}
+// Drop-in replacement for the old native <select>: keeps the `<option>`-children API the
+// call sites use, but renders the portal-based CustomSelect (no native <select>, per the
+// design-system rule). `onChange` still receives an event-like `{ target: { value } }`.
+interface SelectProps {
+	children?: ReactNode;
+	className?: string;
+	defaultValue?: string;
+	disabled?: boolean;
+	id?: string;
+	name?: string;
+	onChange?: (event: { target: { value: string } }) => void;
+	required?: boolean;
+	value?: string;
+}
 
-export function Select({ className, children, ...props }: SelectProps) {
+function extractOptions(children: ReactNode): SelectOption[] {
+	const options: SelectOption[] = [];
+
+	Children.forEach(children, child => {
+		if (!isValidElement(child)) return;
+
+		const props = child.props as { children?: ReactNode; value?: string | number };
+		if (props.value === undefined) return;
+
+		options.push({ label: String(props.children ?? props.value), value: String(props.value) });
+	});
+
+	return options;
+}
+
+export function Select({ children, className, defaultValue, onChange, value }: SelectProps) {
 	return (
-		<select
-			className={cn(
-				"flex h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-				"disabled:cursor-not-allowed disabled:opacity-50",
-				className,
-			)}
-			{...props}
-		>
-			{children}
-		</select>
+		<CustomSelect
+			className={className}
+			onChange={next => onChange?.({ target: { value: next } })}
+			options={extractOptions(children)}
+			value={value ?? defaultValue ?? ""}
+		/>
 	);
 }

@@ -1,7 +1,18 @@
+import appCss from "@/globals.css?url";
 import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
+import { Providers } from "@/providers";
 import { useSettingsStore } from "@/stores";
-import { Link, Outlet, createRootRoute, useLocation, useNavigate } from "@tanstack/react-router";
+import interCss from "@fontsource-variable/inter/index.css?url";
+import {
+	HeadContent,
+	Link,
+	Outlet,
+	Scripts,
+	createRootRoute,
+	useLocation,
+	useNavigate,
+} from "@tanstack/react-router";
 import { type ReactNode, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import type { IconType } from "react-icons";
@@ -85,6 +96,7 @@ function RootComponent() {
 
 	useEffect(() => {
 		document.documentElement.classList.toggle("dark", theme === "dark");
+		document.documentElement.classList.toggle("light", theme === "light");
 	}, [theme]);
 
 	useEffect(() => {
@@ -108,6 +120,39 @@ function RootComponent() {
 	);
 }
 
+function RootDocument({ children }: { children: ReactNode }) {
+	return (
+		<html className="dark" lang="en">
+			<head>
+				<HeadContent />
+			</head>
+			<body>
+				<Providers>{children}</Providers>
+				<Scripts />
+			</body>
+		</html>
+	);
+}
+
 export const Route = createRootRoute({
 	component: RootComponent,
+	head: () => ({
+		links: [
+			{ href: appCss, rel: "stylesheet" },
+			{ href: interCss, rel: "stylesheet" },
+		],
+		meta: [
+			{ charSet: "utf-8" },
+			{
+				content:
+					"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover",
+				name: "viewport",
+			},
+			{ title: "enki" },
+			{ content: "#0b1120", name: "theme-color" },
+			{ content: "yes", name: "apple-mobile-web-app-capable" },
+			{ content: "black-translucent", name: "apple-mobile-web-app-status-bar-style" },
+		],
+	}),
+	shellComponent: RootDocument,
 });

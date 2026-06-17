@@ -5,7 +5,7 @@
 			"dependsOn": ["^export", "generate"],
 			"inputs": ["src/**", "!src/**/generated/**"],
 			"outputLogs": "new-only",
-			"outputs": ["build/**", "dist/**", "out/**", ".next/**", "!.next/cache/**"]
+			"outputs": ["build/**", "dist/**", "out/**"]
 		},
 		"check-types": {
 			"dependsOn": ["^export", "generate"],
@@ -19,10 +19,10 @@
 		},
 		"export": {
 			"dependsOn": ["^export", "generate"],
-			"env": ["DATABASE_URL"],
+			"env": ["DATABASE_URL", "WEB_URL"],
 			"inputs": ["src/**", "!src/**/generated/**"],
 			"outputLogs": "new-only",
-			"outputs": ["out/**"]
+			"outputs": ["out/**", "src/prisma/contract.json", "src/prisma/contract.d.ts"]
 		},
 		"frontend#generate": {
 			"dependsOn": ["^export"],
