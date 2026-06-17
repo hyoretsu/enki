@@ -3,20 +3,37 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
 import { supportedLngs } from "@/i18n/config";
-import { signOut, useSession } from "@/lib/auth-client";
+import { connectGoogleDrive, getDriveToken, signOut, useSession } from "@/lib/auth-client";
+import { syncWithDrive } from "@/lib/sync";
 import { type Theme, useSettingsStore } from "@/stores";
 import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 function ProfilePage() {
 	const { i18n, t } = useTranslation();
 	const navigate = useNavigate();
 	const { data: session } = useSession();
 	const { setTheme, theme } = useSettingsStore();
+	const [syncing, setSyncing] = useState(false);
 
 	const handleSignOut = async () => {
 		await signOut();
 		navigate({ to: "/" });
+	};
+
+	const handleSync = async () => {
+		setSyncing(true);
+		try {
+			await syncWithDrive(getDriveToken);
+			toast.success(t("profile.synced"));
+		} catch {
+			// Most likely the Google account has not been linked with the Drive scope yet.
+			await connectGoogleDrive();
+		} finally {
+			setSyncing(false);
+		}
 	};
 
 	return (
@@ -73,6 +90,20 @@ function ProfilePage() {
 					</div>
 				</CardContent>
 			</Card>
+
+			{session && (
+				<Card>
+					<CardContent className="flex flex-col gap-3 p-4">
+						<div>
+							<p className="font-medium">{t("profile.sync")}</p>
+							<p className="text-muted-foreground text-sm">{t("profile.syncHint")}</p>
+						</div>
+						<Button onClick={handleSync} disabled={syncing}>
+							{t(syncing ? "profile.syncing" : "profile.syncNow")}
+						</Button>
+					</CardContent>
+				</Card>
+			)}
 
 			{session && (
 				<Button variant="outline" className="text-destructive" onClick={handleSignOut}>

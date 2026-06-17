@@ -1,5 +1,6 @@
 import { getExecutor } from "./executor";
 import { now, uuid } from "./ids";
+import { SYNC_TABLES } from "./schema";
 import type { SqlExecutor } from "./types";
 
 // Local single-user mirror of the backend media/users use cases (CreateMedia, ListMedia,
@@ -426,4 +427,32 @@ export async function getStatistics(categories?: string[]): Promise<{ totalTime:
 	}
 
 	return { totalTime: toParts(seconds) };
+}
+
+export type Snapshot = Record<string, Record<string, unknown>[]>;
+
+/** Dumps every sync table (including tombstoned rows) for Drive sync. */
+export async function exportSnapshot(): Promise<Snapshot> {
+	const db = await getExecutor();
+	const snapshot: Snapshot = {};
+	for (const table of SYNC_TABLES) {
+		snapshot[table] = await db.select(`SELECT * FROM ${table}`);
+	}
+	return snapshot;
+}
+
+/** Applies a merged snapshot back into local SQLite (upsert by primary key). */
+export async function importSnapshot(snapshot: Snapshot): Promise<void> {
+	const db = await getExecutor();
+	for (const table of SYNC_TABLES) {
+		for (const row of snapshot[table] ?? []) {
+			const columns = Object.keys(row);
+			if (!columns.length) continue;
+			const placeholders = columns.map(() => "?").join(", ");
+			await db.execute(
+				`INSERT OR REPLACE INTO ${table} (${columns.join(", ")}) VALUES (${placeholders})`,
+				columns.map(column => (row as Record<string, unknown>)[column]),
+			);
+		}
+	}
 }
