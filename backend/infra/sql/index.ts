@@ -1,9 +1,9 @@
-import { db } from "./prisma/db";
+import { db as database } from "sql";
 import { PnMediaRepository, PnUsersRepository } from "./repositories";
 
+export * from "sql";
 export * from "./betterAuth";
-export * from "./prisma/db";
 export * from "./repositories";
 
-export const mediaRepository = new PnMediaRepository(db);
-export const usersRepository = new PnUsersRepository(db);
+export const mediaRepository = new PnMediaRepository(database);
+export const usersRepository = new PnUsersRepository(database);

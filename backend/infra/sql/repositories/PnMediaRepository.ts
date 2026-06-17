@@ -10,7 +10,7 @@ import {
 	type Video,
 	type VideoChannel,
 } from "@enki/domain";
-import type { Db } from "../prisma/db";
+import type { Db } from "sql";
 
 /** Erases the branded `Char<36>` id codec type so plain strings can be used in filters. */
 const uuid = (value: string) => value as never;

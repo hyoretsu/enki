@@ -1,6 +1,6 @@
 import { Category, type TrackMediaUserDTO, type User, type UsersRepository } from "@enki/domain";
 import { sum } from "@hyoretsu/utils";
-import type { Db } from "../prisma/db";
+import type { Db } from "sql";
 
 const int4 = { codecId: "pg/int4@1", nullable: true } as const;
 

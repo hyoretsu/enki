@@ -5,8 +5,9 @@
 		"maxSize": 10485760,
 		"ignore": [
 			"**/generated/**",
-			"backend/infra/sql/migrations/**",
-			"backend/infra/sql/prisma/contract.d.ts",
+			"packages/sql/src/migrations/**",
+			"packages/sql/src/prisma/contract.d.ts",
+			"packages/sql/src/prisma/contract.json",
 			"frontend/src/routeTree.gen.ts"
 		]
 	},
