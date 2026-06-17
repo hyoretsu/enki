@@ -1,0 +1,20 @@
+name: Migrate prod DB
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - packages/sql/src/migrations/**
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v5
+
+      - name: Apply all pending migrations to the database
+        uses: ./.github/actions/migrate-db
+        with:
+          database-url: ${{ secrets.DATABASE_URL }}
