@@ -3,6 +3,7 @@
 **/node_modules
 **/static
 **/tmp
+.turbo
 /.vscode
 !/.vscode/extensions.json
 !/.vscode/launch.json

@@ -1,12 +1,21 @@
 {
 	"name": "enki",
 	"private": true,
+	"type": "module",
+	"packageManager": "bun@1.3.11",
 	"workspaces": [
 		"backend/*",
-		"frontend"
+		"frontend",
+		"packages/*"
 	],
 	"scripts": {
-		"prepare": "git config --local core.hooksPath .githooks"
+		"build": "turbo build",
+		"check-types": "turbo check-types",
+		"dev": "turbo dev",
+		"format": "biome check --write --unsafe .",
+		"prepare": "lefthook install || true",
+		"start": "turbo start",
+		"test": "turbo test"
 	},
 	"lint-staged": {
 		"**/*.(js|jsx|json|jsonc|ts|tsx)": [
@@ -15,9 +24,14 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.0",
+		"@commitlint/cli": "^20.5.3",
+		"@commitlint/config-conventional": "^20.5.3",
+		"@commitlint/types": "^20.5.0",
 		"@types/node": "latest",
 		"bun-types": "latest",
+		"lefthook": "^2.1.8",
 		"lint-staged": "^15.2.10",
+		"turbo": "^2.9.7",
 		"typescript": "latest"
 	},
 	"overrides": {
@@ -25,6 +39,7 @@
 	},
 	"trustedDependencies": [
 		"@biomejs/biome",
-		"@enki/infra"
+		"backend",
+		"lefthook"
 	]
 }
