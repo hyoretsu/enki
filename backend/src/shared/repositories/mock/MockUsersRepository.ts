@@ -1,4 +1,4 @@
-import type { TrackMediaUserDTO, TrackVideoGameRunDTO } from "@/shared/dtos";
+import type { TrackMediaUserDTO, TrackVideoGamePlaythroughDTO } from "@/shared/dtos";
 import type { UsersRepository } from "@/shared/repositories";
 import type { User } from "@/shared/types";
 
@@ -6,7 +6,7 @@ import type { User } from "@/shared/types";
 export class MockUsersRepository implements UsersRepository {
 	public users: User[] = [];
 	public tracked: TrackMediaUserDTO[] = [];
-	public trackedRuns: TrackVideoGameRunDTO[] = [];
+	public trackedRuns: TrackVideoGamePlaythroughDTO[] = [];
 	public timeSpent = 0;
 
 	public seedUser(partial: Partial<User> = {}): User {
@@ -40,7 +40,7 @@ export class MockUsersRepository implements UsersRepository {
 		this.tracked.push(data);
 	}
 
-	public async trackRun(data: TrackVideoGameRunDTO): Promise<void> {
+	public async trackPlaythrough(data: TrackVideoGamePlaythroughDTO): Promise<void> {
 		this.trackedRuns.push(data);
 	}
 }

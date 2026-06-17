@@ -77,7 +77,7 @@ export const SCHEMA_STATEMENTS: string[] = [
 		updated_at INTEGER NOT NULL,
 		deleted_at INTEGER
 	)`,
-	`CREATE TABLE IF NOT EXISTS video_game_run (
+	`CREATE TABLE IF NOT EXISTS video_game_playthrough (
 		id TEXT PRIMARY KEY,
 		name TEXT NOT NULL DEFAULT '',
 		video_game_id TEXT NOT NULL,
@@ -124,9 +124,9 @@ export const SCHEMA_STATEMENTS: string[] = [
 		updated_at INTEGER NOT NULL,
 		deleted_at INTEGER
 	)`,
-	`CREATE TABLE IF NOT EXISTS user_video_game_run (
+	`CREATE TABLE IF NOT EXISTS user_video_game_playthrough (
 		id TEXT PRIMARY KEY,
-		run_id TEXT NOT NULL UNIQUE,
+		playthrough_id TEXT NOT NULL UNIQUE,
 		time_spent INTEGER,
 		updated_at INTEGER NOT NULL,
 		deleted_at INTEGER
@@ -142,12 +142,12 @@ export const SYNC_TABLES = [
 	"video_playlist",
 	"video",
 	"video_game",
-	"video_game_run",
+	"video_game_playthrough",
 	"user_chapter",
 	"user_movie",
 	"user_video",
 	"user_video_game",
-	"user_video_game_run",
+	"user_video_game_playthrough",
 ] as const;
 
 export type SyncTable = (typeof SYNC_TABLES)[number];

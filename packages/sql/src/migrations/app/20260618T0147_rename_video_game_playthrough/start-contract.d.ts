@@ -31,9 +31,9 @@ import type {
 } from '@prisma-next/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'sha256:6350063979dd52ab2ef87a5d18154e2b4e01f5ca58745ac0f6f3a52cd7975c1d'>;
+  StorageHashBase<'sha256:3892b770e75e8a8fa77bb0558c0801250ff4a59259583034acb8d97ba9cc744e'>;
 export type ExecutionHash =
-  ExecutionHashBase<'sha256:1c73ccfb50a171a0a9831528f4ffcb371851e4e4841795ce4aeedb2d2b938f17'>;
+  ExecutionHashBase<'sha256:46bc671fea63391b338f2baa7ad1e0fd7ac3785c798109bbeb0556f14ae87d48'>;
 export type ProfileHash =
   ProfileHashBase<'sha256:9c8aa3114e84ed3b7ea2bd57526d9c2e1bf7c5292be694e9d3801f566fda7ccb'>;
 
@@ -167,10 +167,10 @@ export type FieldOutputTypes = {
     readonly offset: CodecTypes['pg/int4@1']['output'] | null;
     readonly bookmarked: CodecTypes['pg/bool@1']['output'];
   };
-  readonly UserVideoGamePlaythrough: {
+  readonly UserVideoGameRun: {
     readonly id: Char<36>;
     readonly userId: CodecTypes['pg/text@1']['output'];
-    readonly playthroughId: CodecTypes['pg/text@1']['output'];
+    readonly runId: CodecTypes['pg/text@1']['output'];
     readonly timeSpent: CodecTypes['pg/int4@1']['output'] | null;
   };
   readonly Verification: {
@@ -207,7 +207,7 @@ export type FieldOutputTypes = {
     readonly createdAt: CodecTypes['pg/timestamptz@1']['output'];
     readonly updatedAt: CodecTypes['pg/timestamptz@1']['output'];
   };
-  readonly VideoGamePlaythrough: {
+  readonly VideoGameRun: {
     readonly id: Char<36>;
     readonly videoGameId: CodecTypes['pg/text@1']['output'];
     readonly name: CodecTypes['pg/text@1']['output'];
@@ -324,10 +324,10 @@ export type FieldInputTypes = {
     readonly offset: CodecTypes['pg/int4@1']['input'] | null;
     readonly bookmarked: CodecTypes['pg/bool@1']['input'];
   };
-  readonly UserVideoGamePlaythrough: {
+  readonly UserVideoGameRun: {
     readonly id: CodecTypes['sql/char@1']['input'];
     readonly userId: CodecTypes['pg/text@1']['input'];
-    readonly playthroughId: CodecTypes['pg/text@1']['input'];
+    readonly runId: CodecTypes['pg/text@1']['input'];
     readonly timeSpent: CodecTypes['pg/int4@1']['input'] | null;
   };
   readonly Verification: {
@@ -364,7 +364,7 @@ export type FieldInputTypes = {
     readonly createdAt: CodecTypes['pg/timestamptz@1']['input'];
     readonly updatedAt: CodecTypes['pg/timestamptz@1']['input'];
   };
-  readonly VideoGamePlaythrough: {
+  readonly VideoGameRun: {
     readonly id: CodecTypes['sql/char@1']['input'];
     readonly videoGameId: CodecTypes['pg/text@1']['input'];
     readonly name: CodecTypes['pg/text@1']['input'];
@@ -1069,7 +1069,7 @@ type ContractBase = Omit<
                   },
                 ];
               };
-              readonly userVideoGamePlaythrough: {
+              readonly userVideoGameRun: {
                 columns: {
                   readonly id: {
                     readonly nativeType: 'character';
@@ -1082,7 +1082,7 @@ type ContractBase = Omit<
                     readonly codecId: 'pg/text@1';
                     readonly nullable: false;
                   };
-                  readonly playthroughId: {
+                  readonly runId: {
                     readonly nativeType: 'text';
                     readonly codecId: 'pg/text@1';
                     readonly nullable: false;
@@ -1100,12 +1100,12 @@ type ContractBase = Omit<
                   {
                     readonly source: {
                       readonly namespaceId: 'public' & NamespaceId;
-                      readonly tableName: 'userVideoGamePlaythrough';
-                      readonly columns: readonly ['playthroughId'];
+                      readonly tableName: 'userVideoGameRun';
+                      readonly columns: readonly ['runId'];
                     };
                     readonly target: {
                       readonly namespaceId: 'public' & NamespaceId;
-                      readonly tableName: 'videoGamePlaythrough';
+                      readonly tableName: 'videoGameRun';
                       readonly columns: readonly ['id'];
                     };
                     readonly constraint: true;
@@ -1316,7 +1316,7 @@ type ContractBase = Omit<
                 indexes: readonly [];
                 foreignKeys: readonly [];
               };
-              readonly videoGamePlaythrough: {
+              readonly videoGameRun: {
                 columns: {
                   readonly id: {
                     readonly nativeType: 'character';
@@ -1358,7 +1358,7 @@ type ContractBase = Omit<
                   {
                     readonly source: {
                       readonly namespaceId: 'public' & NamespaceId;
-                      readonly tableName: 'videoGamePlaythrough';
+                      readonly tableName: 'videoGameRun';
                       readonly columns: readonly ['videoGameId'];
                     };
                     readonly target: {
@@ -2217,7 +2217,7 @@ type ContractBase = Omit<
           };
         };
       };
-      readonly UserVideoGamePlaythrough: {
+      readonly UserVideoGameRun: {
         readonly fields: {
           readonly id: {
             readonly nullable: false;
@@ -2231,7 +2231,7 @@ type ContractBase = Omit<
             readonly nullable: false;
             readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
           };
-          readonly playthroughId: {
+          readonly runId: {
             readonly nullable: false;
             readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
           };
@@ -2241,25 +2241,25 @@ type ContractBase = Omit<
           };
         };
         readonly relations: {
-          readonly playthrough: {
+          readonly run: {
             readonly to: {
               readonly namespace: 'public' & NamespaceId;
-              readonly model: 'VideoGamePlaythrough';
+              readonly model: 'VideoGameRun';
             };
             readonly cardinality: 'N:1';
             readonly on: {
-              readonly localFields: readonly ['playthroughId'];
+              readonly localFields: readonly ['runId'];
               readonly targetFields: readonly ['id'];
             };
           };
         };
         readonly storage: {
-          readonly table: 'userVideoGamePlaythrough';
+          readonly table: 'userVideoGameRun';
           readonly namespaceId: 'public';
           readonly fields: {
             readonly id: { readonly column: 'id' };
             readonly userId: { readonly column: 'userId' };
-            readonly playthroughId: { readonly column: 'playthroughId' };
+            readonly runId: { readonly column: 'runId' };
             readonly timeSpent: { readonly column: 'timeSpent' };
           };
         };
@@ -2507,10 +2507,10 @@ type ContractBase = Omit<
               readonly targetFields: readonly ['videoGameId'];
             };
           };
-          readonly playthroughs: {
+          readonly runs: {
             readonly to: {
               readonly namespace: 'public' & NamespaceId;
-              readonly model: 'VideoGamePlaythrough';
+              readonly model: 'VideoGameRun';
             };
             readonly cardinality: '1:N';
             readonly on: {
@@ -2531,7 +2531,7 @@ type ContractBase = Omit<
           };
         };
       };
-      readonly VideoGamePlaythrough: {
+      readonly VideoGameRun: {
         readonly fields: {
           readonly id: {
             readonly nullable: false;
@@ -2562,12 +2562,12 @@ type ContractBase = Omit<
           readonly playedBy: {
             readonly to: {
               readonly namespace: 'public' & NamespaceId;
-              readonly model: 'UserVideoGamePlaythrough';
+              readonly model: 'UserVideoGameRun';
             };
             readonly cardinality: '1:N';
             readonly on: {
               readonly localFields: readonly ['id'];
-              readonly targetFields: readonly ['playthroughId'];
+              readonly targetFields: readonly ['runId'];
             };
           };
           readonly videoGame: {
@@ -2583,7 +2583,7 @@ type ContractBase = Omit<
           };
         };
         readonly storage: {
-          readonly table: 'videoGamePlaythrough';
+          readonly table: 'videoGameRun';
           readonly namespaceId: 'public';
           readonly fields: {
             readonly id: { readonly column: 'id' };
@@ -2688,9 +2688,9 @@ type ContractBase = Omit<
       readonly model: 'VideoChannel';
     };
     readonly videoGame: { readonly namespace: 'public' & NamespaceId; readonly model: 'VideoGame' };
-    readonly videoGamePlaythrough: {
+    readonly videoGameRun: {
       readonly namespace: 'public' & NamespaceId;
-      readonly model: 'VideoGamePlaythrough';
+      readonly model: 'VideoGameRun';
     };
     readonly videoPlaylist: {
       readonly namespace: 'public' & NamespaceId;
@@ -2706,9 +2706,9 @@ type ContractBase = Omit<
       readonly namespace: 'public' & NamespaceId;
       readonly model: 'UserVideoGame';
     };
-    readonly userVideoGamePlaythrough: {
+    readonly userVideoGameRun: {
       readonly namespace: 'public' & NamespaceId;
-      readonly model: 'UserVideoGamePlaythrough';
+      readonly model: 'UserVideoGameRun';
     };
   };
   readonly domain: {
@@ -3478,7 +3478,7 @@ type ContractBase = Omit<
               };
             };
           };
-          readonly UserVideoGamePlaythrough: {
+          readonly UserVideoGameRun: {
             readonly fields: {
               readonly id: {
                 readonly nullable: false;
@@ -3492,7 +3492,7 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
-              readonly playthroughId: {
+              readonly runId: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -3502,25 +3502,25 @@ type ContractBase = Omit<
               };
             };
             readonly relations: {
-              readonly playthrough: {
+              readonly run: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'VideoGamePlaythrough';
+                  readonly model: 'VideoGameRun';
                 };
                 readonly cardinality: 'N:1';
                 readonly on: {
-                  readonly localFields: readonly ['playthroughId'];
+                  readonly localFields: readonly ['runId'];
                   readonly targetFields: readonly ['id'];
                 };
               };
             };
             readonly storage: {
-              readonly table: 'userVideoGamePlaythrough';
+              readonly table: 'userVideoGameRun';
               readonly namespaceId: 'public';
               readonly fields: {
                 readonly id: { readonly column: 'id' };
                 readonly userId: { readonly column: 'userId' };
-                readonly playthroughId: { readonly column: 'playthroughId' };
+                readonly runId: { readonly column: 'runId' };
                 readonly timeSpent: { readonly column: 'timeSpent' };
               };
             };
@@ -3771,10 +3771,10 @@ type ContractBase = Omit<
                   readonly targetFields: readonly ['videoGameId'];
                 };
               };
-              readonly playthroughs: {
+              readonly runs: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'VideoGamePlaythrough';
+                  readonly model: 'VideoGameRun';
                 };
                 readonly cardinality: '1:N';
                 readonly on: {
@@ -3795,7 +3795,7 @@ type ContractBase = Omit<
               };
             };
           };
-          readonly VideoGamePlaythrough: {
+          readonly VideoGameRun: {
             readonly fields: {
               readonly id: {
                 readonly nullable: false;
@@ -3826,12 +3826,12 @@ type ContractBase = Omit<
               readonly playedBy: {
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'UserVideoGamePlaythrough';
+                  readonly model: 'UserVideoGameRun';
                 };
                 readonly cardinality: '1:N';
                 readonly on: {
                   readonly localFields: readonly ['id'];
-                  readonly targetFields: readonly ['playthroughId'];
+                  readonly targetFields: readonly ['runId'];
                 };
               };
               readonly videoGame: {
@@ -3847,7 +3847,7 @@ type ContractBase = Omit<
               };
             };
             readonly storage: {
-              readonly table: 'videoGamePlaythrough';
+              readonly table: 'videoGameRun';
               readonly namespaceId: 'public';
               readonly fields: {
                 readonly id: { readonly column: 'id' };
@@ -3992,7 +3992,7 @@ type ContractBase = Omit<
           readonly onCreate: { readonly kind: 'generator'; readonly id: 'uuidv4' };
         },
         {
-          readonly ref: { readonly table: 'userVideoGamePlaythrough'; readonly column: 'id' };
+          readonly ref: { readonly table: 'userVideoGameRun'; readonly column: 'id' };
           readonly onCreate: { readonly kind: 'generator'; readonly id: 'uuidv4' };
         },
         {
@@ -4012,7 +4012,7 @@ type ContractBase = Omit<
           readonly onCreate: { readonly kind: 'generator'; readonly id: 'uuidv4' };
         },
         {
-          readonly ref: { readonly table: 'videoGamePlaythrough'; readonly column: 'id' };
+          readonly ref: { readonly table: 'videoGameRun'; readonly column: 'id' };
           readonly onCreate: { readonly kind: 'generator'; readonly id: 'uuidv4' };
         },
         {

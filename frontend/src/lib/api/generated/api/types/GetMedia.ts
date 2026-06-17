@@ -28,12 +28,12 @@ export type GetMedia200 = ({
     id: string;
     title: ({
         [key: string]: string[];
-    } | null);
+    } | null) | null;
     /**
      * @type string
     */
     category: string;
-    releaseDate: ((Date | Date | number) | null);
+    releaseDate: ((Date | Date | number) | null) | null;
 } | {
     [key: string]: any;
 })[];

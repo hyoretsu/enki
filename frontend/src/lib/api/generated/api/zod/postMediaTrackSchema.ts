@@ -12,10 +12,10 @@ export const postMediaTrackMutationRequestSchema = z.union([z.object({
 "category": z.string(),
 "mediaId": z.string(),
 "number": z.number(),
-"pages": z.optional(z.int()),
+"pages": z.optional(z.union([z.int(), z.string()])),
 "releaseDate": z.optional(z.union([z.iso.datetime(), z.iso.date(), z.number()])),
 "timeSpent": z.string(),
-"when": z.optional(z.union([z.union([z.iso.datetime(), z.iso.date(), z.number()]), z.null()])),
+"when": z.union([z.union([z.iso.datetime(), z.iso.date(), z.number()]), z.null()]).nullish(),
 "title": z.optional(z.object({
     
     }))
@@ -24,19 +24,20 @@ export const postMediaTrackMutationRequestSchema = z.union([z.object({
 "category": z.string(),
 "mediaId": z.string(),
 "rating": z.optional(z.number()),
-"when": z.optional(z.union([z.union([z.iso.datetime(), z.iso.date(), z.number()]), z.null()]))
+"when": z.union([z.union([z.iso.datetime(), z.iso.date(), z.number()]), z.null()]).nullish()
     }), z.object({
     "bookmarked": z.optional(z.boolean()),
 "category": z.string(),
 "link": z.optional(z.url()),
 "timeSpent": z.optional(z.string()),
-"when": z.optional(z.union([z.union([z.iso.datetime(), z.iso.date(), z.number()]), z.null()]))
+"when": z.union([z.union([z.iso.datetime(), z.iso.date(), z.number()]), z.null()]).nullish()
     }), z.object({
     "bookmarked": z.optional(z.boolean()),
 "category": z.string(),
 "mediaId": z.string(),
-"score": z.optional(z.union([z.number(), z.null()])),
-"offset": z.optional(z.union([z.string(), z.null()])),
+"score": z.union([z.number(), z.null()]).nullish(),
+"offset": z.union([z.string(), z.null()]).nullish(),
+"review": z.union([z.string(), z.null()]).nullish(),
 "timeSpent": z.optional(z.string())
     })])
 

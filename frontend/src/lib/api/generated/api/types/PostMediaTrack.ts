@@ -23,16 +23,13 @@ export type PostMediaTrackMutationRequest = ({
      * @type number
     */
     number: number;
-    /**
-     * @type integer | undefined
-    */
-    pages?: number;
+    pages?: (string | number);
     releaseDate?: (Date | Date | number);
     /**
      * @type string
     */
     timeSpent: string;
-    when?: ((Date | Date | number) | null);
+    when?: ((Date | Date | number) | null) | null;
     /**
      * @type object | undefined
     */
@@ -56,7 +53,7 @@ export type PostMediaTrackMutationRequest = ({
      * @type number | undefined
     */
     rating?: number;
-    when?: ((Date | Date | number) | null);
+    when?: ((Date | Date | number) | null) | null;
 } | {
     /**
      * @type boolean | undefined
@@ -74,7 +71,7 @@ export type PostMediaTrackMutationRequest = ({
      * @type string | undefined
     */
     timeSpent?: string;
-    when?: ((Date | Date | number) | null);
+    when?: ((Date | Date | number) | null) | null;
 } | {
     /**
      * @type boolean | undefined
@@ -88,8 +85,9 @@ export type PostMediaTrackMutationRequest = ({
      * @type string
     */
     mediaId: string;
-    score?: (number | null);
-    offset?: (string | null);
+    score?: (number | null) | null;
+    offset?: (string | null) | null;
+    review?: (string | null) | null;
     /**
      * @type string | undefined
     */

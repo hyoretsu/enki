@@ -10,7 +10,7 @@ export const getUsersStatsQueryParamsSchema = z.object({
     }).optional()
 
 export const getUsersStats200Schema = z.object({
-    "totalTime": z.array(z.int())
+    "totalTime": z.array(z.union([z.int(), z.string()]))
     })
 
 export const getUsersStatsQueryResponseSchema = z.lazy(() => getUsersStats200Schema)

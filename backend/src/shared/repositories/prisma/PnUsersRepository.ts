@@ -1,4 +1,4 @@
-import type { TrackMediaUserDTO, TrackVideoGameRunDTO } from "@/shared/dtos";
+import type { TrackMediaUserDTO, TrackVideoGamePlaythroughDTO } from "@/shared/dtos";
 import type { UsersRepository } from "@/shared/repositories";
 import { Category, type User } from "@/shared/types";
 import { sum } from "@hyoretsu/utils";
@@ -132,22 +132,22 @@ export class PnUsersRepository implements UsersRepository {
 		}
 	}
 
-	/** Upserts the user's playthrough of a run kind, keyed by (userId, runId). */
-	public async trackRun({ runId, timeSpent, userId }: TrackVideoGameRunDTO): Promise<void> {
+	/** Upserts the user's playthrough of a run kind, keyed by (userId, playthroughId). */
+	public async trackPlaythrough({ playthroughId, timeSpent, userId }: TrackVideoGamePlaythroughDTO): Promise<void> {
 		const { orm } = this.db;
 
-		const existing = await orm.UserVideoGameRun.first({ runId: uuid(runId), userId: uuid(userId) });
+		const existing = await orm.UserVideoGamePlaythrough.first({ playthroughId: uuid(playthroughId), userId: uuid(userId) });
 
 		if (existing) {
 			if (timeSpent !== undefined) {
-				await orm.UserVideoGameRun.where(run => run.id.eq(existing.id)).update({ timeSpent });
+				await orm.UserVideoGamePlaythrough.where(run => run.id.eq(existing.id)).update({ timeSpent });
 			}
 
 			return;
 		}
 
-		await orm.UserVideoGameRun.create({
-			runId,
+		await orm.UserVideoGamePlaythrough.create({
+			playthroughId,
 			userId,
 			...(timeSpent !== undefined ? { timeSpent } : {}),
 		});

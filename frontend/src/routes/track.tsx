@@ -5,11 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import {
-	useCreateVideoGameRun,
+	useCreateVideoGamePlaythrough,
 	useGetMedia,
-	useGetVideoGameRuns,
+	useGetVideoGamePlaythroughs,
 	usePostMediaTrack,
-	useTrackVideoGameRun,
+	useTrackVideoGamePlaythrough,
 } from "@/lib/data";
 import { pickTitle } from "@/lib/utils";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
@@ -49,8 +49,8 @@ function TrackMediaPage() {
 	const [offset, setOffset] = useState<DurationValue>(emptyDuration);
 	const [bookmarked, setBookmarked] = useState(false);
 	const [review, setReview] = useState("");
-	const [runId, setRunId] = useState("");
-	const [newRun, setNewRun] = useState("");
+	const [playthroughId, setPlaythroughId] = useState("");
+	const [newPlaythrough, setNewPlaythrough] = useState("");
 	const [chapterTitle, setChapterTitle] = useState<IntlText>({ lang: "en", text: "" });
 
 	const listedCategory = mediaCategoryFor[category];
@@ -59,19 +59,19 @@ function TrackMediaPage() {
 		{ query: { enabled: !!listedCategory } },
 	);
 
-	const { data: runs } = useGetVideoGameRuns(mediaId, {
+	const { data: playthroughs } = useGetVideoGamePlaythroughs(mediaId, {
 		query: { enabled: category === "video_game" && !!mediaId },
 	});
-	const { mutateAsync: createRun } = useCreateVideoGameRun();
-	const { mutateAsync: trackRun } = useTrackVideoGameRun();
+	const { mutateAsync: createPlaythrough } = useCreateVideoGamePlaythrough();
+	const { mutateAsync: trackPlaythrough } = useTrackVideoGamePlaythrough();
 
 	const { isPending, mutateAsync: postMediaTrack } = usePostMediaTrack();
 
-	const handleCreateRun = async () => {
-		if (!newRun.trim() || !mediaId) return;
-		const id = await createRun({ videoGameId: mediaId, name: newRun.trim() });
-		setNewRun("");
-		setRunId(id);
+	const handleCreatePlaythrough = async () => {
+		if (!newPlaythrough.trim() || !mediaId) return;
+		const id = await createPlaythrough({ videoGameId: mediaId, name: newPlaythrough.trim() });
+		setNewPlaythrough("");
+		setPlaythroughId(id);
 	};
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -132,9 +132,9 @@ function TrackMediaPage() {
 		try {
 			await postMediaTrack({ data: data as any });
 
-			// A selected run records the same play time against that specific playthrough.
-			if (category === "video_game" && runId) {
-				await trackRun({ runId, timeSpent: toIsoDuration(timeSpent) ?? null });
+			// A selected playthrough records the same play time against that specific playthrough.
+			if (category === "video_game" && playthroughId) {
+				await trackPlaythrough({ playthroughId, timeSpent: toIsoDuration(timeSpent) ?? null });
 			}
 
 			toast.success(t("track.success"));
@@ -226,27 +226,27 @@ function TrackMediaPage() {
 								</FormField>
 								<DurationInput label={t("track.offset")} value={offset} onChange={setOffset} />
 
-								<FormField label={t("track.run")} htmlFor="run">
-									<Select id="run" value={runId} onChange={event => setRunId(event.target.value)}>
-										<option value="">{t("track.noRun")}</option>
-										{(runs ?? []).map((run: Record<string, any>) => (
-											<option key={run.id} value={run.id}>
-												{run.name || t("track.unnamedRun")}
+								<FormField label={t("track.playthrough")} htmlFor="playthrough">
+									<Select id="playthrough" value={playthroughId} onChange={event => setPlaythroughId(event.target.value)}>
+										<option value="">{t("track.noPlaythrough")}</option>
+										{(playthroughs ?? []).map((playthrough: Record<string, any>) => (
+											<option key={playthrough.id} value={playthrough.id}>
+												{playthrough.name || t("track.unnamedPlaythrough")}
 											</option>
 										))}
 									</Select>
 								</FormField>
 								<div className="flex items-end gap-2">
-									<FormField label={t("track.newRun")} htmlFor="newRun">
+									<FormField label={t("track.newPlaythrough")} htmlFor="newPlaythrough">
 										<Input
-											id="newRun"
-											value={newRun}
-											placeholder={t("track.newRunPlaceholder")}
-											onChange={event => setNewRun(event.currentTarget.value)}
+											id="newPlaythrough"
+											value={newPlaythrough}
+											placeholder={t("track.newPlaythroughPlaceholder")}
+											onChange={event => setNewPlaythrough(event.currentTarget.value)}
 										/>
 									</FormField>
-									<Button type="button" variant="outline" onClick={handleCreateRun} disabled={!newRun.trim()}>
-										{t("track.addRun")}
+									<Button type="button" variant="outline" onClick={handleCreatePlaythrough} disabled={!newPlaythrough.trim()}>
+										{t("track.addPlaythrough")}
 									</Button>
 								</div>
 

@@ -103,8 +103,8 @@ async function deepMedia(db: SqlExecutor, category: string, id: string): Promise
 				[id],
 			);
 			if (!game) return undefined;
-			const runs = await db.select<Json>(
-				"SELECT id, name FROM video_game_run WHERE video_game_id = ? AND deleted_at IS NULL ORDER BY created_at",
+			const playthroughs = await db.select<Json>(
+				"SELECT id, name FROM video_game_playthrough WHERE video_game_id = ? AND deleted_at IS NULL ORDER BY created_at",
 				[id],
 			);
 			return {
@@ -112,7 +112,7 @@ async function deepMedia(db: SqlExecutor, category: string, id: string): Promise
 				category,
 				title: parse(game.title, {}),
 				releaseDate: game.release_date ?? null,
-				runs,
+				playthroughs,
 			};
 		}
 	}
@@ -360,32 +360,32 @@ export async function trackMedia(data: Json): Promise<void> {
 	}
 }
 
-export async function createVideoGameRun(videoGameId: string, name = ""): Promise<string> {
+export async function createVideoGamePlaythrough(videoGameId: string, name = ""): Promise<string> {
 	const db = await getExecutor();
 	const id = uuid();
 	const timestamp = now();
 	await db.execute(
-		"INSERT INTO video_game_run (id, name, video_game_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?)",
+		"INSERT INTO video_game_playthrough (id, name, video_game_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?)",
 		[id, name, videoGameId, timestamp, timestamp],
 	);
 	return id;
 }
 
-export async function findVideoGameRuns(videoGameId: string): Promise<Json[]> {
+export async function findVideoGamePlaythroughs(videoGameId: string): Promise<Json[]> {
 	const db = await getExecutor();
 	return db.select<Json>(
-		"SELECT id, name FROM video_game_run WHERE video_game_id = ? AND deleted_at IS NULL ORDER BY created_at",
+		"SELECT id, name FROM video_game_playthrough WHERE video_game_id = ? AND deleted_at IS NULL ORDER BY created_at",
 		[videoGameId],
 	);
 }
 
-export async function trackRun(runId: string, timeSpent: string | null): Promise<void> {
+export async function trackPlaythrough(playthroughId: string, timeSpent: string | null): Promise<void> {
 	const db = await getExecutor();
 	const timestamp = now();
 	await db.execute(
-		`INSERT INTO user_video_game_run (id, run_id, time_spent, updated_at) VALUES (?, ?, ?, ?)
-		 ON CONFLICT(run_id) DO UPDATE SET time_spent = excluded.time_spent, updated_at = excluded.updated_at, deleted_at = NULL`,
-		[uuid(), runId, isoToSeconds(timeSpent ?? undefined) ?? null, timestamp],
+		`INSERT INTO user_video_game_playthrough (id, playthrough_id, time_spent, updated_at) VALUES (?, ?, ?, ?)
+		 ON CONFLICT(playthrough_id) DO UPDATE SET time_spent = excluded.time_spent, updated_at = excluded.updated_at, deleted_at = NULL`,
+		[uuid(), playthroughId, isoToSeconds(timeSpent ?? undefined) ?? null, timestamp],
 	);
 }
 

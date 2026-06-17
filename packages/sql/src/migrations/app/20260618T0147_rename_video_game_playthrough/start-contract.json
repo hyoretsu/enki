@@ -44,8 +44,8 @@
       "model": "UserVideoGame",
       "namespace": "public"
     },
-    "userVideoGamePlaythrough": {
-      "model": "UserVideoGamePlaythrough",
+    "userVideoGameRun": {
+      "model": "UserVideoGameRun",
       "namespace": "public"
     },
     "verification": {
@@ -64,8 +64,8 @@
       "model": "VideoGame",
       "namespace": "public"
     },
-    "videoGamePlaythrough": {
-      "model": "VideoGamePlaythrough",
+    "videoGameRun": {
+      "model": "VideoGameRun",
       "namespace": "public"
     },
     "videoPlaylist": {
@@ -1328,7 +1328,7 @@
               "table": "userVideoGame"
             }
           },
-          "UserVideoGamePlaythrough": {
+          "UserVideoGameRun": {
             "fields": {
               "id": {
                 "nullable": false,
@@ -1340,7 +1340,7 @@
                   }
                 }
               },
-              "playthroughId": {
+              "runId": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
@@ -1363,18 +1363,18 @@
               }
             },
             "relations": {
-              "playthrough": {
+              "run": {
                 "cardinality": "N:1",
                 "on": {
                   "localFields": [
-                    "playthroughId"
+                    "runId"
                   ],
                   "targetFields": [
                     "id"
                   ]
                 },
                 "to": {
-                  "model": "VideoGamePlaythrough",
+                  "model": "VideoGameRun",
                   "namespace": "public"
                 }
               }
@@ -1384,8 +1384,8 @@
                 "id": {
                   "column": "id"
                 },
-                "playthroughId": {
-                  "column": "playthroughId"
+                "runId": {
+                  "column": "runId"
                 },
                 "timeSpent": {
                   "column": "timeSpent"
@@ -1395,7 +1395,7 @@
                 }
               },
               "namespaceId": "public",
-              "table": "userVideoGamePlaythrough"
+              "table": "userVideoGameRun"
             }
           },
           "Verification": {
@@ -1784,7 +1784,7 @@
                   "namespace": "public"
                 }
               },
-              "playthroughs": {
+              "runs": {
                 "cardinality": "1:N",
                 "on": {
                   "localFields": [
@@ -1795,7 +1795,7 @@
                   ]
                 },
                 "to": {
-                  "model": "VideoGamePlaythrough",
+                  "model": "VideoGameRun",
                   "namespace": "public"
                 }
               }
@@ -1822,7 +1822,7 @@
               "table": "videoGame"
             }
           },
-          "VideoGamePlaythrough": {
+          "VideoGameRun": {
             "fields": {
               "createdAt": {
                 "nullable": false,
@@ -1871,11 +1871,11 @@
                     "id"
                   ],
                   "targetFields": [
-                    "playthroughId"
+                    "runId"
                   ]
                 },
                 "to": {
-                  "model": "UserVideoGamePlaythrough",
+                  "model": "UserVideoGameRun",
                   "namespace": "public"
                 }
               },
@@ -1914,7 +1914,7 @@
                 }
               },
               "namespaceId": "public",
-              "table": "videoGamePlaythrough"
+              "table": "videoGameRun"
             }
           },
           "VideoPlaylist": {
@@ -2872,7 +2872,7 @@
                 }
               ]
             },
-            "userVideoGamePlaythrough": {
+            "userVideoGameRun": {
               "columns": {
                 "id": {
                   "codecId": "sql/char@1",
@@ -2882,7 +2882,7 @@
                     "length": 36
                   }
                 },
-                "playthroughId": {
+                "runId": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
                   "nullable": false
@@ -2904,17 +2904,17 @@
                   "index": true,
                   "source": {
                     "columns": [
-                      "playthroughId"
+                      "runId"
                     ],
                     "namespaceId": "public",
-                    "tableName": "userVideoGamePlaythrough"
+                    "tableName": "userVideoGameRun"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "videoGamePlaythrough"
+                    "tableName": "videoGameRun"
                   }
                 }
               ],
@@ -3185,7 +3185,7 @@
               },
               "uniques": []
             },
-            "videoGamePlaythrough": {
+            "videoGameRun": {
               "columns": {
                 "createdAt": {
                   "codecId": "pg/timestamptz@1",
@@ -3237,7 +3237,7 @@
                       "videoGameId"
                     ],
                     "namespaceId": "public",
-                    "tableName": "videoGamePlaythrough"
+                    "tableName": "videoGameRun"
                   },
                   "target": {
                     "columns": [
@@ -3373,10 +3373,10 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "sha256:6350063979dd52ab2ef87a5d18154e2b4e01f5ca58745ac0f6f3a52cd7975c1d"
+    "storageHash": "sha256:3892b770e75e8a8fa77bb0558c0801250ff4a59259583034acb8d97ba9cc744e"
   },
   "execution": {
-    "executionHash": "sha256:1c73ccfb50a171a0a9831528f4ffcb371851e4e4841795ce4aeedb2d2b938f17",
+    "executionHash": "sha256:46bc671fea63391b338f2baa7ad1e0fd7ac3785c798109bbeb0556f14ae87d48",
     "mutations": {
       "defaults": [
         {
@@ -3486,7 +3486,7 @@
           },
           "ref": {
             "column": "id",
-            "table": "userVideoGamePlaythrough"
+            "table": "userVideoGameRun"
           }
         },
         {
@@ -3536,7 +3536,7 @@
           },
           "ref": {
             "column": "id",
-            "table": "videoGamePlaythrough"
+            "table": "videoGameRun"
           }
         },
         {

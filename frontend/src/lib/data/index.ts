@@ -3,9 +3,9 @@ import {
 	getStatistics,
 	listMedia,
 	trackMedia,
-	createVideoGameRun as repoCreateRun,
-	findVideoGameRuns as repoFindRuns,
-	trackRun as repoTrackRun,
+	createVideoGamePlaythrough as repoCreatePlaythrough,
+	findVideoGamePlaythroughs as repoFindPlaythroughs,
+	trackPlaythrough as repoTrackPlaythrough,
 } from "@/lib/local/repository";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -51,29 +51,29 @@ export function usePostMediaTrack() {
 	});
 }
 
-export function useGetVideoGameRuns(videoGameId: string, options: QueryOptions = {}) {
+export function useGetVideoGamePlaythroughs(videoGameId: string, options: QueryOptions = {}) {
 	return useQuery({
-		queryKey: ["video-game-runs", videoGameId],
-		queryFn: () => repoFindRuns(videoGameId),
+		queryKey: ["video-game-playthroughs", videoGameId],
+		queryFn: () => repoFindPlaythroughs(videoGameId),
 		enabled: options.query?.enabled,
 	});
 }
 
-export function useCreateVideoGameRun() {
+export function useCreateVideoGamePlaythrough() {
 	const client = useQueryClient();
 	return useMutation({
 		mutationFn: ({ videoGameId, name }: { videoGameId: string; name?: string }) =>
-			repoCreateRun(videoGameId, name),
+			repoCreatePlaythrough(videoGameId, name),
 		onSuccess: (_id, { videoGameId }) =>
-			client.invalidateQueries({ queryKey: ["video-game-runs", videoGameId] }),
+			client.invalidateQueries({ queryKey: ["video-game-playthroughs", videoGameId] }),
 	});
 }
 
-export function useTrackVideoGameRun() {
+export function useTrackVideoGamePlaythrough() {
 	const client = useQueryClient();
 	return useMutation({
-		mutationFn: ({ runId, timeSpent }: { runId: string; timeSpent: string | null }) =>
-			repoTrackRun(runId, timeSpent),
+		mutationFn: ({ playthroughId, timeSpent }: { playthroughId: string; timeSpent: string | null }) =>
+			repoTrackPlaythrough(playthroughId, timeSpent),
 		onSuccess: () => client.invalidateQueries({ queryKey: ["stats"] }),
 	});
 }
