@@ -1,5 +1,0 @@
-ALTER TABLE "Movie" ALTER COLUMN "duration" SET DATA TYPE SMALLINT;
-
-ALTER TABLE "UserMovie" ADD COLUMN "progress" SMALLINT;
-
-ALTER TABLE "UserVideo" RENAME COLUMN "timeSpent" TO "progress";

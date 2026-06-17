@@ -1,0 +1,23 @@
+[test]
+preload = ["./tests/setup.ts"]
+# Coverage is opt-in (emitted only when `--coverage` is passed; the unit suite does).
+coverageReporter = ["text", "lcov"]
+coverageDir = "coverage"
+coverageSkipTestFiles = true
+# Gate: the unit suite (run with --coverage) must stay at/above this fraction or
+# `bun test` exits non-zero — wired into the lefthook pre-commit job.
+coverageThreshold = 0.95
+# Measure only unit-testable domain logic (the use-cases). I/O adapters, infra,
+# factories, generated SQL and the process entrypoints are covered by e2e instead.
+coveragePathIgnorePatterns = [
+	"**/packages/**",
+	"**/repositories/**",
+	"**/infra/**",
+	"**/clients/**",
+	"**/factories.ts",
+	"**/*.factory.ts",
+	"tests/**",
+	"**/main.ts",
+	"**/server.ts",
+	"**/generateOpenApi.ts",
+]

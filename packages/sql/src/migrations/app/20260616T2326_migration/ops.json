@@ -1,0 +1,1761 @@
+[
+  {
+    "id": "type.LiteraryWorkType",
+    "label": "Create enum type \"LiteraryWorkType\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "type",
+        "name": "LiteraryWorkType"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure type \"LiteraryWorkType\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1\n  FROM pg_type t\n  JOIN pg_namespace n ON t.typnamespace = n.oid\n  WHERE n.nspname = 'public'\n    AND t.typname = 'LiteraryWorkType'\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create enum type \"LiteraryWorkType\"",
+        "sql": "CREATE TYPE \"public\".\"LiteraryWorkType\" AS ENUM ('article', 'biography', 'comics', 'diary', 'epic', 'essay', 'flash_fiction', 'graphic_novel', 'journal', 'light_novel', 'manga', 'manhua', 'manhwa', 'memoir', 'novel', 'novelette', 'novella', 'poetry', 'script', 'short_story', 'web_novel', 'webtoon')"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify type \"LiteraryWorkType\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1\n  FROM pg_type t\n  JOIN pg_namespace n ON t.typnamespace = n.oid\n  WHERE n.nspname = 'public'\n    AND t.typname = 'LiteraryWorkType'\n)"
+      }
+    ]
+  },
+  {
+    "id": "table.account",
+    "label": "Create table \"account\"",
+    "summary": "Creates table \"account\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "account"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"account\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"account\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"account\"",
+        "sql": "CREATE TABLE \"public\".\"account\" (\n  \"accessToken\" text,\n  \"accessTokenExpiresAt\" timestamptz,\n  \"accountId\" text NOT NULL,\n  \"createdAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"id\" character(36) NOT NULL,\n  \"idToken\" text,\n  \"password\" text,\n  \"providerId\" text NOT NULL,\n  \"refreshToken\" text,\n  \"refreshTokenExpiresAt\" timestamptz,\n  \"scope\" text,\n  \"updatedAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"userId\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"account\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"account\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.literaryWork",
+    "label": "Create table \"literaryWork\"",
+    "summary": "Creates table \"literaryWork\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "literaryWork"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"literaryWork\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"literaryWork\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"literaryWork\"",
+        "sql": "CREATE TABLE \"public\".\"literaryWork\" (\n  \"averageTime\" int4,\n  \"createdAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"id\" character(36) NOT NULL,\n  \"ongoing\" bool NOT NULL DEFAULT true,\n  \"releaseDate\" timestamptz,\n  \"synopsis\" jsonb,\n  \"tags\" jsonb NOT NULL,\n  \"title\" jsonb NOT NULL,\n  \"type\" \"LiteraryWorkType\" NOT NULL,\n  \"updatedAt\" timestamptz NOT NULL DEFAULT (now()),\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"literaryWork\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"literaryWork\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.literaryWorkChapter",
+    "label": "Create table \"literaryWorkChapter\"",
+    "summary": "Creates table \"literaryWorkChapter\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "literaryWorkChapter"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"literaryWorkChapter\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"literaryWorkChapter\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"literaryWorkChapter\"",
+        "sql": "CREATE TABLE \"public\".\"literaryWorkChapter\" (\n  \"averageTime\" int4,\n  \"createdAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"id\" character(36) NOT NULL,\n  \"number\" float8 NOT NULL,\n  \"pages\" int4,\n  \"releaseDate\" timestamptz,\n  \"sourceId\" text NOT NULL,\n  \"title\" jsonb,\n  \"updatedAt\" timestamptz NOT NULL DEFAULT (now()),\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"literaryWorkChapter\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"literaryWorkChapter\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.movie",
+    "label": "Create table \"movie\"",
+    "summary": "Creates table \"movie\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "movie"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"movie\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"movie\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"movie\"",
+        "sql": "CREATE TABLE \"public\".\"movie\" (\n  \"createdAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"duration\" int4,\n  \"id\" character(36) NOT NULL,\n  \"releaseDate\" timestamptz,\n  \"title\" jsonb NOT NULL,\n  \"updatedAt\" timestamptz NOT NULL DEFAULT (now()),\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"movie\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"movie\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.session",
+    "label": "Create table \"session\"",
+    "summary": "Creates table \"session\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "session"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"session\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"session\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"session\"",
+        "sql": "CREATE TABLE \"public\".\"session\" (\n  \"createdAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"expiresAt\" timestamptz NOT NULL,\n  \"id\" character(36) NOT NULL,\n  \"ipAddress\" text,\n  \"token\" text NOT NULL,\n  \"updatedAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"userAgent\" text,\n  \"userId\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"session\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"session\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.user",
+    "label": "Create table \"user\"",
+    "summary": "Creates table \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"user\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"user\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"user\"",
+        "sql": "CREATE TABLE \"public\".\"user\" (\n  \"createdAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"email\" text NOT NULL,\n  \"emailVerified\" bool NOT NULL,\n  \"id\" character(36) NOT NULL,\n  \"image\" text,\n  \"name\" text NOT NULL,\n  \"updatedAt\" timestamptz NOT NULL DEFAULT (now()),\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"user\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"user\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.userChapter",
+    "label": "Create table \"userChapter\"",
+    "summary": "Creates table \"userChapter\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "userChapter"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"userChapter\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userChapter\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"userChapter\"",
+        "sql": "CREATE TABLE \"public\".\"userChapter\" (\n  \"bookmarked\" bool NOT NULL,\n  \"chapterId\" text NOT NULL,\n  \"id\" character(36) NOT NULL,\n  \"timeSpent\" int4,\n  \"userId\" text NOT NULL,\n  \"when\" timestamptz,\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"userChapter\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userChapter\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.userMovie",
+    "label": "Create table \"userMovie\"",
+    "summary": "Creates table \"userMovie\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "userMovie"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"userMovie\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userMovie\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"userMovie\"",
+        "sql": "CREATE TABLE \"public\".\"userMovie\" (\n  \"bookmarked\" bool NOT NULL,\n  \"id\" character(36) NOT NULL,\n  \"movieId\" text NOT NULL,\n  \"progress\" int4,\n  \"rating\" float8,\n  \"userId\" text NOT NULL,\n  \"when\" timestamptz,\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"userMovie\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userMovie\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.userVideo",
+    "label": "Create table \"userVideo\"",
+    "summary": "Creates table \"userVideo\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "userVideo"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"userVideo\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userVideo\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"userVideo\"",
+        "sql": "CREATE TABLE \"public\".\"userVideo\" (\n  \"bookmarked\" bool NOT NULL,\n  \"id\" character(36) NOT NULL,\n  \"progress\" int4,\n  \"userId\" text NOT NULL,\n  \"videoId\" text NOT NULL,\n  \"when\" timestamptz,\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"userVideo\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userVideo\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.userVideoGame",
+    "label": "Create table \"userVideoGame\"",
+    "summary": "Creates table \"userVideoGame\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "userVideoGame"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"userVideoGame\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userVideoGame\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"userVideoGame\"",
+        "sql": "CREATE TABLE \"public\".\"userVideoGame\" (\n  \"bookmarked\" bool NOT NULL,\n  \"id\" character(36) NOT NULL,\n  \"offset\" int4,\n  \"review\" text,\n  \"score\" float8,\n  \"timeSpent\" int4,\n  \"userId\" text NOT NULL,\n  \"videoGameId\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"userVideoGame\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userVideoGame\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.userVideoGameRun",
+    "label": "Create table \"userVideoGameRun\"",
+    "summary": "Creates table \"userVideoGameRun\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "userVideoGameRun"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"userVideoGameRun\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userVideoGameRun\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"userVideoGameRun\"",
+        "sql": "CREATE TABLE \"public\".\"userVideoGameRun\" (\n  \"id\" character(36) NOT NULL,\n  \"runId\" text NOT NULL,\n  \"timeSpent\" int4,\n  \"userId\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"userVideoGameRun\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userVideoGameRun\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.verification",
+    "label": "Create table \"verification\"",
+    "summary": "Creates table \"verification\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "verification"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"verification\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"verification\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"verification\"",
+        "sql": "CREATE TABLE \"public\".\"verification\" (\n  \"createdAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"expiresAt\" timestamptz NOT NULL,\n  \"id\" character(36) NOT NULL,\n  \"identifier\" text NOT NULL,\n  \"updatedAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"value\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"verification\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"verification\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.video",
+    "label": "Create table \"video\"",
+    "summary": "Creates table \"video\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "video"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"video\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"video\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"video\"",
+        "sql": "CREATE TABLE \"public\".\"video\" (\n  \"channelId\" text NOT NULL,\n  \"createdAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"duration\" int4,\n  \"id\" character(36) NOT NULL,\n  \"link\" text,\n  \"playlistId\" text,\n  \"releaseDate\" timestamptz,\n  \"title\" jsonb NOT NULL,\n  \"updatedAt\" timestamptz NOT NULL DEFAULT (now()),\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"video\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"video\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.videoChannel",
+    "label": "Create table \"videoChannel\"",
+    "summary": "Creates table \"videoChannel\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "videoChannel"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"videoChannel\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"videoChannel\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"videoChannel\"",
+        "sql": "CREATE TABLE \"public\".\"videoChannel\" (\n  \"createdAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"externalId\" text,\n  \"id\" character(36) NOT NULL,\n  \"link\" text,\n  \"name\" text NOT NULL,\n  \"updatedAt\" timestamptz NOT NULL DEFAULT (now()),\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"videoChannel\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"videoChannel\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.videoGame",
+    "label": "Create table \"videoGame\"",
+    "summary": "Creates table \"videoGame\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "videoGame"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"videoGame\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"videoGame\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"videoGame\"",
+        "sql": "CREATE TABLE \"public\".\"videoGame\" (\n  \"createdAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"id\" character(36) NOT NULL,\n  \"releaseDate\" timestamptz,\n  \"title\" jsonb NOT NULL,\n  \"updatedAt\" timestamptz NOT NULL DEFAULT (now()),\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"videoGame\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"videoGame\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.videoGameRun",
+    "label": "Create table \"videoGameRun\"",
+    "summary": "Creates table \"videoGameRun\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "videoGameRun"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"videoGameRun\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"videoGameRun\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"videoGameRun\"",
+        "sql": "CREATE TABLE \"public\".\"videoGameRun\" (\n  \"createdAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"id\" character(36) NOT NULL,\n  \"name\" text NOT NULL DEFAULT '',\n  \"updatedAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"videoGameId\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"videoGameRun\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"videoGameRun\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.videoPlaylist",
+    "label": "Create table \"videoPlaylist\"",
+    "summary": "Creates table \"videoPlaylist\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "videoPlaylist"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"videoPlaylist\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"videoPlaylist\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"videoPlaylist\"",
+        "sql": "CREATE TABLE \"public\".\"videoPlaylist\" (\n  \"channelId\" text,\n  \"createdAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"id\" character(36) NOT NULL,\n  \"link\" text,\n  \"title\" text NOT NULL,\n  \"updatedAt\" timestamptz NOT NULL DEFAULT (now()),\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"videoPlaylist\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"videoPlaylist\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "unique.literaryWorkChapter.literaryWorkChapter_sourceId_number_key",
+    "label": "Add unique constraint on \"literaryWorkChapter\" (sourceId, number)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "literaryWorkChapter_sourceId_number_key",
+        "table": "literaryWorkChapter"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"literaryWorkChapter_sourceId_number_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'literaryWorkChapter_sourceId_number_key'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"literaryWorkChapter\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"literaryWorkChapter_sourceId_number_key\"",
+        "sql": "ALTER TABLE \"public\".\"literaryWorkChapter\" ADD CONSTRAINT \"literaryWorkChapter_sourceId_number_key\" UNIQUE (\"sourceId\", \"number\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"literaryWorkChapter_sourceId_number_key\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'literaryWorkChapter_sourceId_number_key'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"literaryWorkChapter\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "unique.session.session_token_key",
+    "label": "Add unique constraint on \"session\" (token)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "session_token_key",
+        "table": "session"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"session_token_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'session_token_key'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"session\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"session_token_key\"",
+        "sql": "ALTER TABLE \"public\".\"session\" ADD CONSTRAINT \"session_token_key\" UNIQUE (\"token\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"session_token_key\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'session_token_key'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"session\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "unique.user.user_email_key",
+    "label": "Add unique constraint on \"user\" (email)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "user_email_key",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"user_email_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'user_email_key'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"user\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"user_email_key\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD CONSTRAINT \"user_email_key\" UNIQUE (\"email\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"user_email_key\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'user_email_key'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"user\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "unique.userVideoGame.userVideoGame_userId_videoGameId_key",
+    "label": "Add unique constraint on \"userVideoGame\" (userId, videoGameId)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "userVideoGame_userId_videoGameId_key",
+        "table": "userVideoGame"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"userVideoGame_userId_videoGameId_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userVideoGame_userId_videoGameId_key'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userVideoGame\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"userVideoGame_userId_videoGameId_key\"",
+        "sql": "ALTER TABLE \"public\".\"userVideoGame\" ADD CONSTRAINT \"userVideoGame_userId_videoGameId_key\" UNIQUE (\"userId\", \"videoGameId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"userVideoGame_userId_videoGameId_key\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userVideoGame_userId_videoGameId_key'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userVideoGame\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "unique.videoGameRun.videoGameRun_videoGameId_name_key",
+    "label": "Add unique constraint on \"videoGameRun\" (videoGameId, name)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "videoGameRun_videoGameId_name_key",
+        "table": "videoGameRun"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"videoGameRun_videoGameId_name_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'videoGameRun_videoGameId_name_key'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"videoGameRun\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"videoGameRun_videoGameId_name_key\"",
+        "sql": "ALTER TABLE \"public\".\"videoGameRun\" ADD CONSTRAINT \"videoGameRun_videoGameId_name_key\" UNIQUE (\"videoGameId\", \"name\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"videoGameRun_videoGameId_name_key\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'videoGameRun_videoGameId_name_key'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"videoGameRun\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "index.account.account_userId_idx",
+    "label": "Create index \"account_userId_idx\" on \"account\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "account_userId_idx",
+        "table": "account"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"account_userId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"account_userId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"account_userId_idx\"",
+        "sql": "CREATE INDEX \"account_userId_idx\" ON \"public\".\"account\" (\"userId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"account_userId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"account_userId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "index.literaryWorkChapter.literaryWorkChapter_sourceId_idx",
+    "label": "Create index \"literaryWorkChapter_sourceId_idx\" on \"literaryWorkChapter\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "literaryWorkChapter_sourceId_idx",
+        "table": "literaryWorkChapter"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"literaryWorkChapter_sourceId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"literaryWorkChapter_sourceId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"literaryWorkChapter_sourceId_idx\"",
+        "sql": "CREATE INDEX \"literaryWorkChapter_sourceId_idx\" ON \"public\".\"literaryWorkChapter\" (\"sourceId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"literaryWorkChapter_sourceId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"literaryWorkChapter_sourceId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "index.session.session_userId_idx",
+    "label": "Create index \"session_userId_idx\" on \"session\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "session_userId_idx",
+        "table": "session"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"session_userId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"session_userId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"session_userId_idx\"",
+        "sql": "CREATE INDEX \"session_userId_idx\" ON \"public\".\"session\" (\"userId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"session_userId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"session_userId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "index.userChapter.userChapter_userId_idx",
+    "label": "Create index \"userChapter_userId_idx\" on \"userChapter\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "userChapter_userId_idx",
+        "table": "userChapter"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"userChapter_userId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userChapter_userId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"userChapter_userId_idx\"",
+        "sql": "CREATE INDEX \"userChapter_userId_idx\" ON \"public\".\"userChapter\" (\"userId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"userChapter_userId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userChapter_userId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "index.userChapter.userChapter_chapterId_idx",
+    "label": "Create index \"userChapter_chapterId_idx\" on \"userChapter\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "userChapter_chapterId_idx",
+        "table": "userChapter"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"userChapter_chapterId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userChapter_chapterId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"userChapter_chapterId_idx\"",
+        "sql": "CREATE INDEX \"userChapter_chapterId_idx\" ON \"public\".\"userChapter\" (\"chapterId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"userChapter_chapterId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userChapter_chapterId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "index.userMovie.userMovie_userId_idx",
+    "label": "Create index \"userMovie_userId_idx\" on \"userMovie\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "userMovie_userId_idx",
+        "table": "userMovie"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"userMovie_userId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userMovie_userId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"userMovie_userId_idx\"",
+        "sql": "CREATE INDEX \"userMovie_userId_idx\" ON \"public\".\"userMovie\" (\"userId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"userMovie_userId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userMovie_userId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "index.userMovie.userMovie_movieId_idx",
+    "label": "Create index \"userMovie_movieId_idx\" on \"userMovie\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "userMovie_movieId_idx",
+        "table": "userMovie"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"userMovie_movieId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userMovie_movieId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"userMovie_movieId_idx\"",
+        "sql": "CREATE INDEX \"userMovie_movieId_idx\" ON \"public\".\"userMovie\" (\"movieId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"userMovie_movieId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userMovie_movieId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "index.userVideo.userVideo_userId_idx",
+    "label": "Create index \"userVideo_userId_idx\" on \"userVideo\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "userVideo_userId_idx",
+        "table": "userVideo"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"userVideo_userId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userVideo_userId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"userVideo_userId_idx\"",
+        "sql": "CREATE INDEX \"userVideo_userId_idx\" ON \"public\".\"userVideo\" (\"userId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"userVideo_userId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userVideo_userId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "index.userVideo.userVideo_videoId_idx",
+    "label": "Create index \"userVideo_videoId_idx\" on \"userVideo\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "userVideo_videoId_idx",
+        "table": "userVideo"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"userVideo_videoId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userVideo_videoId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"userVideo_videoId_idx\"",
+        "sql": "CREATE INDEX \"userVideo_videoId_idx\" ON \"public\".\"userVideo\" (\"videoId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"userVideo_videoId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userVideo_videoId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "index.userVideoGame.userVideoGame_userId_idx",
+    "label": "Create index \"userVideoGame_userId_idx\" on \"userVideoGame\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "userVideoGame_userId_idx",
+        "table": "userVideoGame"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"userVideoGame_userId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userVideoGame_userId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"userVideoGame_userId_idx\"",
+        "sql": "CREATE INDEX \"userVideoGame_userId_idx\" ON \"public\".\"userVideoGame\" (\"userId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"userVideoGame_userId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userVideoGame_userId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "index.userVideoGame.userVideoGame_videoGameId_idx",
+    "label": "Create index \"userVideoGame_videoGameId_idx\" on \"userVideoGame\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "userVideoGame_videoGameId_idx",
+        "table": "userVideoGame"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"userVideoGame_videoGameId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userVideoGame_videoGameId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"userVideoGame_videoGameId_idx\"",
+        "sql": "CREATE INDEX \"userVideoGame_videoGameId_idx\" ON \"public\".\"userVideoGame\" (\"videoGameId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"userVideoGame_videoGameId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userVideoGame_videoGameId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "index.userVideoGameRun.userVideoGameRun_runId_idx",
+    "label": "Create index \"userVideoGameRun_runId_idx\" on \"userVideoGameRun\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "userVideoGameRun_runId_idx",
+        "table": "userVideoGameRun"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"userVideoGameRun_runId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userVideoGameRun_runId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"userVideoGameRun_runId_idx\"",
+        "sql": "CREATE INDEX \"userVideoGameRun_runId_idx\" ON \"public\".\"userVideoGameRun\" (\"runId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"userVideoGameRun_runId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userVideoGameRun_runId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "index.video.video_channelId_idx",
+    "label": "Create index \"video_channelId_idx\" on \"video\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "video_channelId_idx",
+        "table": "video"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"video_channelId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"video_channelId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"video_channelId_idx\"",
+        "sql": "CREATE INDEX \"video_channelId_idx\" ON \"public\".\"video\" (\"channelId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"video_channelId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"video_channelId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "index.video.video_playlistId_idx",
+    "label": "Create index \"video_playlistId_idx\" on \"video\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "video_playlistId_idx",
+        "table": "video"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"video_playlistId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"video_playlistId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"video_playlistId_idx\"",
+        "sql": "CREATE INDEX \"video_playlistId_idx\" ON \"public\".\"video\" (\"playlistId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"video_playlistId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"video_playlistId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "index.videoGameRun.videoGameRun_videoGameId_idx",
+    "label": "Create index \"videoGameRun_videoGameId_idx\" on \"videoGameRun\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "videoGameRun_videoGameId_idx",
+        "table": "videoGameRun"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"videoGameRun_videoGameId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"videoGameRun_videoGameId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"videoGameRun_videoGameId_idx\"",
+        "sql": "CREATE INDEX \"videoGameRun_videoGameId_idx\" ON \"public\".\"videoGameRun\" (\"videoGameId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"videoGameRun_videoGameId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"videoGameRun_videoGameId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "index.videoPlaylist.videoPlaylist_channelId_idx",
+    "label": "Create index \"videoPlaylist_channelId_idx\" on \"videoPlaylist\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "videoPlaylist_channelId_idx",
+        "table": "videoPlaylist"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"videoPlaylist_channelId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"videoPlaylist_channelId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"videoPlaylist_channelId_idx\"",
+        "sql": "CREATE INDEX \"videoPlaylist_channelId_idx\" ON \"public\".\"videoPlaylist\" (\"channelId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"videoPlaylist_channelId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"videoPlaylist_channelId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.account.account_userId_fkey",
+    "label": "Add foreign key \"account_userId_fkey\" on \"account\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "account_userId_fkey",
+        "table": "account"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"account_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'account_userId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"account\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"account_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"account\"\nADD CONSTRAINT \"account_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"user\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"account_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'account_userId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"account\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.literaryWorkChapter.literaryWorkChapter_sourceId_fkey",
+    "label": "Add foreign key \"literaryWorkChapter_sourceId_fkey\" on \"literaryWorkChapter\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "literaryWorkChapter_sourceId_fkey",
+        "table": "literaryWorkChapter"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"literaryWorkChapter_sourceId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'literaryWorkChapter_sourceId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"literaryWorkChapter\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"literaryWorkChapter_sourceId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"literaryWorkChapter\"\nADD CONSTRAINT \"literaryWorkChapter_sourceId_fkey\"\nFOREIGN KEY (\"sourceId\")\nREFERENCES \"public\".\"literaryWork\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"literaryWorkChapter_sourceId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'literaryWorkChapter_sourceId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"literaryWorkChapter\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.session.session_userId_fkey",
+    "label": "Add foreign key \"session_userId_fkey\" on \"session\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "session_userId_fkey",
+        "table": "session"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"session_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'session_userId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"session\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"session_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"session\"\nADD CONSTRAINT \"session_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"user\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"session_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'session_userId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"session\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.userChapter.userChapter_userId_fkey",
+    "label": "Add foreign key \"userChapter_userId_fkey\" on \"userChapter\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "userChapter_userId_fkey",
+        "table": "userChapter"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"userChapter_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userChapter_userId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userChapter\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"userChapter_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"userChapter\"\nADD CONSTRAINT \"userChapter_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"user\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"userChapter_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userChapter_userId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userChapter\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.userChapter.userChapter_chapterId_fkey",
+    "label": "Add foreign key \"userChapter_chapterId_fkey\" on \"userChapter\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "userChapter_chapterId_fkey",
+        "table": "userChapter"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"userChapter_chapterId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userChapter_chapterId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userChapter\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"userChapter_chapterId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"userChapter\"\nADD CONSTRAINT \"userChapter_chapterId_fkey\"\nFOREIGN KEY (\"chapterId\")\nREFERENCES \"public\".\"literaryWorkChapter\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"userChapter_chapterId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userChapter_chapterId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userChapter\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.userMovie.userMovie_userId_fkey",
+    "label": "Add foreign key \"userMovie_userId_fkey\" on \"userMovie\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "userMovie_userId_fkey",
+        "table": "userMovie"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"userMovie_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userMovie_userId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userMovie\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"userMovie_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"userMovie\"\nADD CONSTRAINT \"userMovie_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"user\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"userMovie_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userMovie_userId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userMovie\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.userMovie.userMovie_movieId_fkey",
+    "label": "Add foreign key \"userMovie_movieId_fkey\" on \"userMovie\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "userMovie_movieId_fkey",
+        "table": "userMovie"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"userMovie_movieId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userMovie_movieId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userMovie\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"userMovie_movieId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"userMovie\"\nADD CONSTRAINT \"userMovie_movieId_fkey\"\nFOREIGN KEY (\"movieId\")\nREFERENCES \"public\".\"movie\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"userMovie_movieId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userMovie_movieId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userMovie\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.userVideo.userVideo_userId_fkey",
+    "label": "Add foreign key \"userVideo_userId_fkey\" on \"userVideo\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "userVideo_userId_fkey",
+        "table": "userVideo"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"userVideo_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userVideo_userId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userVideo\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"userVideo_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"userVideo\"\nADD CONSTRAINT \"userVideo_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"user\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"userVideo_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userVideo_userId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userVideo\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.userVideo.userVideo_videoId_fkey",
+    "label": "Add foreign key \"userVideo_videoId_fkey\" on \"userVideo\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "userVideo_videoId_fkey",
+        "table": "userVideo"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"userVideo_videoId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userVideo_videoId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userVideo\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"userVideo_videoId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"userVideo\"\nADD CONSTRAINT \"userVideo_videoId_fkey\"\nFOREIGN KEY (\"videoId\")\nREFERENCES \"public\".\"video\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"userVideo_videoId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userVideo_videoId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userVideo\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.userVideoGame.userVideoGame_userId_fkey",
+    "label": "Add foreign key \"userVideoGame_userId_fkey\" on \"userVideoGame\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "userVideoGame_userId_fkey",
+        "table": "userVideoGame"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"userVideoGame_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userVideoGame_userId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userVideoGame\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"userVideoGame_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"userVideoGame\"\nADD CONSTRAINT \"userVideoGame_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"user\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"userVideoGame_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userVideoGame_userId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userVideoGame\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.userVideoGame.userVideoGame_videoGameId_fkey",
+    "label": "Add foreign key \"userVideoGame_videoGameId_fkey\" on \"userVideoGame\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "userVideoGame_videoGameId_fkey",
+        "table": "userVideoGame"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"userVideoGame_videoGameId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userVideoGame_videoGameId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userVideoGame\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"userVideoGame_videoGameId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"userVideoGame\"\nADD CONSTRAINT \"userVideoGame_videoGameId_fkey\"\nFOREIGN KEY (\"videoGameId\")\nREFERENCES \"public\".\"videoGame\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"userVideoGame_videoGameId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userVideoGame_videoGameId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userVideoGame\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.userVideoGameRun.userVideoGameRun_runId_fkey",
+    "label": "Add foreign key \"userVideoGameRun_runId_fkey\" on \"userVideoGameRun\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "userVideoGameRun_runId_fkey",
+        "table": "userVideoGameRun"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"userVideoGameRun_runId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userVideoGameRun_runId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userVideoGameRun\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"userVideoGameRun_runId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"userVideoGameRun\"\nADD CONSTRAINT \"userVideoGameRun_runId_fkey\"\nFOREIGN KEY (\"runId\")\nREFERENCES \"public\".\"videoGameRun\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"userVideoGameRun_runId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userVideoGameRun_runId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userVideoGameRun\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.video.video_channelId_fkey",
+    "label": "Add foreign key \"video_channelId_fkey\" on \"video\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "video_channelId_fkey",
+        "table": "video"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"video_channelId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'video_channelId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"video\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"video_channelId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"video\"\nADD CONSTRAINT \"video_channelId_fkey\"\nFOREIGN KEY (\"channelId\")\nREFERENCES \"public\".\"videoChannel\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"video_channelId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'video_channelId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"video\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.video.video_playlistId_fkey",
+    "label": "Add foreign key \"video_playlistId_fkey\" on \"video\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "video_playlistId_fkey",
+        "table": "video"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"video_playlistId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'video_playlistId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"video\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"video_playlistId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"video\"\nADD CONSTRAINT \"video_playlistId_fkey\"\nFOREIGN KEY (\"playlistId\")\nREFERENCES \"public\".\"videoPlaylist\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"video_playlistId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'video_playlistId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"video\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.videoGameRun.videoGameRun_videoGameId_fkey",
+    "label": "Add foreign key \"videoGameRun_videoGameId_fkey\" on \"videoGameRun\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "videoGameRun_videoGameId_fkey",
+        "table": "videoGameRun"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"videoGameRun_videoGameId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'videoGameRun_videoGameId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"videoGameRun\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"videoGameRun_videoGameId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"videoGameRun\"\nADD CONSTRAINT \"videoGameRun_videoGameId_fkey\"\nFOREIGN KEY (\"videoGameId\")\nREFERENCES \"public\".\"videoGame\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"videoGameRun_videoGameId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'videoGameRun_videoGameId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"videoGameRun\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.videoPlaylist.videoPlaylist_channelId_fkey",
+    "label": "Add foreign key \"videoPlaylist_channelId_fkey\" on \"videoPlaylist\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "videoPlaylist_channelId_fkey",
+        "table": "videoPlaylist"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"videoPlaylist_channelId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'videoPlaylist_channelId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"videoPlaylist\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"videoPlaylist_channelId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"videoPlaylist\"\nADD CONSTRAINT \"videoPlaylist_channelId_fkey\"\nFOREIGN KEY (\"channelId\")\nREFERENCES \"public\".\"videoChannel\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"videoPlaylist_channelId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'videoPlaylist_channelId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"videoPlaylist\"')\n)"
+      }
+    ]
+  }
+]

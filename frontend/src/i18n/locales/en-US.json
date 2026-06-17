@@ -1,0 +1,141 @@
+{
+	"common": {
+		"app": {
+			"name": "enki",
+			"tagline": "Track everything you read, watch and play."
+		},
+		"nav": {
+			"add": "Add",
+			"library": "Library",
+			"profile": "Profile",
+			"stats": "Stats",
+			"track": "Track"
+		},
+		"auth": {
+			"email": "Email",
+			"error": "Something went wrong. Check your credentials and try again.",
+			"name": "Name",
+			"password": "Password",
+			"signIn": "Sign in",
+			"signingIn": "Signing in...",
+			"signingUp": "Creating account...",
+			"signUp": "Create account",
+			"switchToSignIn": "Already have an account? Sign in",
+			"switchToSignUp": "No account yet? Create one"
+		},
+		"category": {
+			"chapter": "Chapter",
+			"literary_work": "Literary work",
+			"movie": "Movie",
+			"video": "Video",
+			"video_game": "Video game"
+		},
+		"library": {
+			"all": "All",
+			"empty": "Nothing here yet. Add some media to get started!",
+			"search": "Search by title...",
+			"title": "Library"
+		},
+		"detail": {
+			"chapters": "Chapters",
+			"channel": "Channel",
+			"duration": "Duration",
+			"link": "Link",
+			"notFound": "Media not found.",
+			"number": "Number",
+			"ongoing": "Ongoing",
+			"finished": "Finished",
+			"pages": "Pages",
+			"releaseDate": "Release date",
+			"synopsis": "Synopsis",
+			"tags": "Tags",
+			"trackThis": "Track this",
+			"type": "Type",
+			"yes": "Yes",
+			"no": "No"
+		},
+		"add": {
+			"category": "Category",
+			"chapterNumber": "Chapter number",
+			"currentChapters": "Chapters released so far",
+			"currentChaptersHint": "Creates that many chapters automatically.",
+			"duration": "Duration",
+			"hours": "Hours",
+			"language": "Title language",
+			"link": "YouTube link",
+			"minutes": "Minutes",
+			"ongoing": "Still ongoing?",
+			"pages": "Pages",
+			"releaseDate": "Release date",
+			"seconds": "Seconds",
+			"sourceWork": "Literary work",
+			"submit": "Add media",
+			"submitting": "Adding...",
+			"success": "Media added!",
+			"synopsis": "Synopsis",
+			"tags": "Tags (comma-separated)",
+			"title": "Add media",
+			"titleField": "Title",
+			"type": "Type",
+			"workType": {
+				"article": "Article",
+				"biography": "Biography",
+				"comics": "Comics",
+				"diary": "Diary",
+				"epic": "Epic",
+				"essay": "Essay",
+				"flash_fiction": "Flash fiction",
+				"graphic_novel": "Graphic novel",
+				"journal": "Journal",
+				"light_novel": "Light novel",
+				"manga": "Manga",
+				"manhua": "Manhua",
+				"manhwa": "Manhwa",
+				"memoir": "Memoir",
+				"novel": "Novel",
+				"novelette": "Novelette",
+				"novella": "Novella",
+				"poetry": "Poetry",
+				"script": "Script",
+				"short_story": "Short story",
+				"web_novel": "Web novel",
+				"webtoon": "Webtoon"
+			}
+		},
+		"track": {
+			"bookmarked": "Bookmark it",
+			"category": "Category",
+			"chapterNumber": "Chapter number",
+			"link": "YouTube link",
+			"media": "Media",
+			"offset": "Time offset to subtract",
+			"pages": "Pages",
+			"rating": "Rating (0-10)",
+			"score": "Score (0-10)",
+			"selectMedia": "Select media...",
+			"submit": "Track",
+			"submitting": "Tracking...",
+			"success": "Tracked!",
+			"timeSpent": "Time spent",
+			"title": "Track media",
+			"when": "When"
+		},
+		"stats": {
+			"categories": "Categories",
+			"days": "days",
+			"hours": "hours",
+			"minutes": "minutes",
+			"seconds": "seconds",
+			"title": "Statistics",
+			"totalTime": "Total time spent"
+		},
+		"profile": {
+			"language": "Language",
+			"signOut": "Sign out",
+			"theme": "Theme",
+			"themeDark": "Dark",
+			"themeLight": "Light",
+			"title": "Profile"
+		}
+	}
+}

@@ -1,0 +1,141 @@
+{
+	"common": {
+		"app": {
+			"name": "enki",
+			"tagline": "Acompanhe tudo o que lê, vê e joga."
+		},
+		"nav": {
+			"add": "Adicionar",
+			"library": "Biblioteca",
+			"profile": "Perfil",
+			"stats": "Estatísticas",
+			"track": "Registar"
+		},
+		"auth": {
+			"email": "Email",
+			"error": "Algo correu mal. Verifique as suas credenciais e tente novamente.",
+			"name": "Nome",
+			"password": "Palavra-passe",
+			"signIn": "Entrar",
+			"signingIn": "A entrar...",
+			"signingUp": "A criar conta...",
+			"signUp": "Criar conta",
+			"switchToSignIn": "Já tem conta? Entre",
+			"switchToSignUp": "Ainda não tem conta? Crie uma"
+		},
+		"category": {
+			"chapter": "Capítulo",
+			"literary_work": "Obra literária",
+			"movie": "Filme",
+			"video": "Vídeo",
+			"video_game": "Videojogo"
+		},
+		"library": {
+			"all": "Tudo",
+			"empty": "Ainda não há nada aqui. Adicione média para começar!",
+			"search": "Pesquisar por título...",
+			"title": "Biblioteca"
+		},
+		"detail": {
+			"chapters": "Capítulos",
+			"channel": "Canal",
+			"duration": "Duração",
+			"link": "Ligação",
+			"notFound": "Média não encontrada.",
+			"number": "Número",
+			"ongoing": "Em curso",
+			"finished": "Terminada",
+			"pages": "Páginas",
+			"releaseDate": "Data de lançamento",
+			"synopsis": "Sinopse",
+			"tags": "Etiquetas",
+			"trackThis": "Registar",
+			"type": "Tipo",
+			"yes": "Sim",
+			"no": "Não"
+		},
+		"add": {
+			"category": "Categoria",
+			"chapterNumber": "Número do capítulo",
+			"currentChapters": "Capítulos lançados até agora",
+			"currentChaptersHint": "Cria automaticamente esse número de capítulos.",
+			"duration": "Duração",
+			"hours": "Horas",
+			"language": "Idioma do título",
+			"link": "Ligação do YouTube",
+			"minutes": "Minutos",
+			"ongoing": "Ainda em curso?",
+			"pages": "Páginas",
+			"releaseDate": "Data de lançamento",
+			"seconds": "Segundos",
+			"sourceWork": "Obra literária",
+			"submit": "Adicionar média",
+			"submitting": "A adicionar...",
+			"success": "Média adicionada!",
+			"synopsis": "Sinopse",
+			"tags": "Etiquetas (separadas por vírgulas)",
+			"title": "Adicionar média",
+			"titleField": "Título",
+			"type": "Tipo",
+			"workType": {
+				"article": "Artigo",
+				"biography": "Biografia",
+				"comics": "Banda desenhada",
+				"diary": "Diário",
+				"epic": "Épico",
+				"essay": "Ensaio",
+				"flash_fiction": "Microconto",
+				"graphic_novel": "Romance gráfico",
+				"journal": "Jornal",
+				"light_novel": "Light novel",
+				"manga": "Manga",
+				"manhua": "Manhua",
+				"manhwa": "Manhwa",
+				"memoir": "Memórias",
+				"novel": "Romance",
+				"novelette": "Noveleta",
+				"novella": "Novela",
+				"poetry": "Poesia",
+				"script": "Guião",
+				"short_story": "Conto",
+				"web_novel": "Web novel",
+				"webtoon": "Webtoon"
+			}
+		},
+		"track": {
+			"bookmarked": "Marcar como favorito",
+			"category": "Categoria",
+			"chapterNumber": "Número do capítulo",
+			"link": "Ligação do YouTube",
+			"media": "Média",
+			"offset": "Tempo a subtrair",
+			"pages": "Páginas",
+			"rating": "Avaliação (0-10)",
+			"score": "Pontuação (0-10)",
+			"selectMedia": "Selecionar média...",
+			"submit": "Registar",
+			"submitting": "A registar...",
+			"success": "Registado!",
+			"timeSpent": "Tempo gasto",
+			"title": "Registar média",
+			"when": "Quando"
+		},
+		"stats": {
+			"categories": "Categorias",
+			"days": "dias",
+			"hours": "horas",
+			"minutes": "minutos",
+			"seconds": "segundos",
+			"title": "Estatísticas",
+			"totalTime": "Tempo total gasto"
+		},
+		"profile": {
+			"language": "Idioma",
+			"signOut": "Terminar sessão",
+			"theme": "Tema",
+			"themeDark": "Escuro",
+			"themeLight": "Claro",
+			"title": "Perfil"
+		}
+	}
+}

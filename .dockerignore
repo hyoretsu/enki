@@ -1,1 +1,6 @@
+.next
+build
+dist
+generated
 node_modules
+out

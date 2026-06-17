@@ -1,0 +1,7 @@
+{
+	"compilerOptions": {
+		"types": ["bun", "node", "vite/client"]
+	},
+	"extends": "@hyoretsu/configs/ts",
+	"include": ["vite.config.ts"]
+}
