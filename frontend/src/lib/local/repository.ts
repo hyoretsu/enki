@@ -333,12 +333,12 @@ export async function trackMedia(data: Json): Promise<void> {
 			}
 			// Unique per game: upsert so re-tracking updates the aggregate row.
 			await db.execute(
-				`INSERT INTO user_video_game (id, video_game_id, score, time_spent, offset, review, bookmarked, updated_at)
+				`INSERT INTO user_video_game (id, video_game_id, score, time_spent, play_offset, review, bookmarked, updated_at)
 				 VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 				 ON CONFLICT(video_game_id) DO UPDATE SET
 				   score = excluded.score,
 				   time_spent = excluded.time_spent,
-				   offset = excluded.offset,
+				   play_offset = excluded.play_offset,
 				   review = excluded.review,
 				   bookmarked = excluded.bookmarked,
 				   updated_at = excluded.updated_at,
@@ -419,7 +419,7 @@ export async function getStatistics(categories?: string[]): Promise<{ totalTime:
 	}
 	if (include("video_game")) {
 		const [row] = await db.select<{ total: number | null }>(
-			`SELECT SUM(COALESCE(time_spent, 0) - COALESCE(offset, 0)) AS total
+			`SELECT SUM(COALESCE(time_spent, 0) - COALESCE(play_offset, 0)) AS total
 			 FROM user_video_game WHERE deleted_at IS NULL`,
 		);
 		seconds += Number(row?.total ?? 0);

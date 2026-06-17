@@ -104,14 +104,23 @@
 			}
 		},
 		"track": {
+			"addRun": "Add run",
 			"bookmarked": "Bookmark it",
 			"category": "Category",
 			"chapterNumber": "Chapter number",
+			"chapterTitle": "Chapter title (optional)",
 			"link": "YouTube link",
 			"media": "Media",
+			"newRun": "New run",
+			"newRunPlaceholder": "e.g. Hardcore",
+			"noRun": "No run",
 			"offset": "Time offset to subtract",
 			"pages": "Pages",
 			"rating": "Rating (0-10)",
+			"releaseDate": "Release date (optional)",
+			"review": "Review",
+			"reviewPlaceholder": "Your thoughts on this game...",
+			"run": "Run",
 			"score": "Score (0-10)",
 			"selectMedia": "Select media...",
 			"submit": "Track",
@@ -119,6 +128,7 @@
 			"success": "Tracked!",
 			"timeSpent": "Time spent",
 			"title": "Track media",
+			"unnamedRun": "Default run",
 			"when": "When"
 		},
 		"stats": {

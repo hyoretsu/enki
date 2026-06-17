@@ -118,7 +118,7 @@ export const SCHEMA_STATEMENTS: string[] = [
 		video_game_id TEXT NOT NULL UNIQUE,
 		score REAL,
 		time_spent INTEGER,
-		offset INTEGER,
+		play_offset INTEGER,
 		review TEXT,
 		bookmarked INTEGER NOT NULL DEFAULT 0,
 		updated_at INTEGER NOT NULL,
