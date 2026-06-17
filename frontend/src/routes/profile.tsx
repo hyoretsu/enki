@@ -5,7 +5,7 @@ import { Select } from "@/components/ui/select";
 import { supportedLngs } from "@/i18n/config";
 import { signOut, useSession } from "@/lib/auth-client";
 import { type Theme, useSettingsStore } from "@/stores";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 
 function ProfilePage() {
@@ -16,7 +16,7 @@ function ProfilePage() {
 
 	const handleSignOut = async () => {
 		await signOut();
-		navigate({ to: "/auth" });
+		navigate({ to: "/" });
 	};
 
 	return (
@@ -24,15 +24,27 @@ function ProfilePage() {
 			<h1 className="font-bold text-2xl">{t("profile.title")}</h1>
 
 			<Card>
-				<CardContent className="flex items-center gap-4 p-4">
-					<div className="flex size-12 items-center justify-center rounded-full bg-primary font-bold text-lg text-primary-foreground">
-						{session?.user.name?.[0]?.toUpperCase() ?? "?"}
-					</div>
-					<div className="min-w-0">
-						<p className="truncate font-medium">{session?.user.name}</p>
-						<p className="truncate text-muted-foreground text-sm">{session?.user.email}</p>
-					</div>
-				</CardContent>
+				{session ? (
+					<CardContent className="flex items-center gap-4 p-4">
+						<div className="flex size-12 items-center justify-center rounded-full bg-primary font-bold text-lg text-primary-foreground">
+							{session.user.name?.[0]?.toUpperCase() ?? "?"}
+						</div>
+						<div className="min-w-0">
+							<p className="truncate font-medium">{session.user.name}</p>
+							<p className="truncate text-muted-foreground text-sm">{session.user.email}</p>
+						</div>
+					</CardContent>
+				) : (
+					<CardContent className="flex flex-col gap-3 p-4">
+						<div>
+							<p className="font-medium">{t("profile.localMode")}</p>
+							<p className="text-muted-foreground text-sm">{t("profile.localModeHint")}</p>
+						</div>
+						<Link to="/auth">
+							<Button>{t("profile.signIn")}</Button>
+						</Link>
+					</CardContent>
+				)}
 			</Card>
 
 			<Card>
@@ -62,9 +74,11 @@ function ProfilePage() {
 				</CardContent>
 			</Card>
 
-			<Button variant="outline" className="text-destructive" onClick={handleSignOut}>
-				{t("profile.signOut")}
-			</Button>
+			{session && (
+				<Button variant="outline" className="text-destructive" onClick={handleSignOut}>
+					{t("profile.signOut")}
+				</Button>
+			)}
 		</div>
 	);
 }

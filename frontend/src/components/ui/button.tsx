@@ -19,8 +19,9 @@ export function Button({ children, className, variant = "default", type, ...prop
 		<BaseButton
 			kind={variantKind[variant]}
 			size={SIZE.compact}
-			type={type}
-			overrides={{ BaseButton: { props: { className } } }}
+			// baseui defaults the DOM button to type="button" and ignores a top-level `type`,
+			// so it is forwarded through the BaseButton slot to keep form submission working.
+			overrides={{ BaseButton: { props: { className, type: type ?? "button" } } }}
 			{...(props as Record<string, unknown>)}
 		>
 			{children}

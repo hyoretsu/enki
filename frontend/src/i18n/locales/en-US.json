@@ -12,6 +12,7 @@
 			"track": "Track"
 		},
 		"auth": {
+			"continueWithout": "Continue without an account",
 			"email": "Email",
 			"error": "Something went wrong. Check your credentials and try again.",
 			"name": "Name",
@@ -131,6 +132,9 @@
 		},
 		"profile": {
 			"language": "Language",
+			"localMode": "Local mode",
+			"localModeHint": "Your data is stored only on this device. Sign in to back it up and sync across devices.",
+			"signIn": "Sign in",
 			"signOut": "Sign out",
 			"theme": "Theme",
 			"themeDark": "Dark",

@@ -12,6 +12,7 @@
 			"track": "Registar"
 		},
 		"auth": {
+			"continueWithout": "Continuar sem conta",
 			"email": "Email",
 			"error": "Algo correu mal. Verifique as suas credenciais e tente novamente.",
 			"name": "Nome",
@@ -131,6 +132,9 @@
 		},
 		"profile": {
 			"language": "Idioma",
+			"localMode": "Modo local",
+			"localModeHint": "Os seus dados ficam guardados apenas neste dispositivo. Inicie sessão para os salvaguardar e sincronizar entre dispositivos.",
+			"signIn": "Iniciar sessão",
 			"signOut": "Terminar sessão",
 			"theme": "Tema",
 			"themeDark": "Escuro",

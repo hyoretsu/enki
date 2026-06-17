@@ -48,6 +48,7 @@ export function IntlTextInput({
 					onChange={event => onChange({ ...value, lang: event.target.value })}
 				/>
 				<Input
+					aria-label={label}
 					className="flex-1"
 					required={required}
 					value={value.text}
