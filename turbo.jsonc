@@ -22,7 +22,7 @@
 			"env": ["DATABASE_URL", "WEB_URL"],
 			"inputs": ["src/**", "!src/**/generated/**"],
 			"outputLogs": "new-only",
-			"outputs": ["out/**", "src/prisma/contract.json", "src/prisma/contract.d.ts"]
+			"outputs": ["out/**"]
 		},
 		"frontend#generate": {
 			"dependsOn": ["^export"],

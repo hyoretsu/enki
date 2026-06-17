@@ -9,7 +9,7 @@
 	"scripts": {
 		"db:init": "prisma-next db init --db $DATABASE_URL",
 		"db:update": "prisma-next db update --db $DATABASE_URL",
-		"export": "prisma-next contract emit",
+		"export": "prisma-next contract emit --output-path ./out",
 		"migrate": "prisma-next migrate --db $DATABASE_URL",
 		"migrate:deploy": "prisma-next migrate --db $DATABASE_URL",
 		"migrate:legacy": "psql $DATABASE_URL -v ON_ERROR_STOP=1 -f ./src/legacy/migrate_tsid_to_uuid.sql",

@@ -20,7 +20,7 @@ ENV NODE_ENV=${NODE_ENV}
 
 COPY . .
 
-RUN --mount=type=secret,id=DATABASE_URL DATABASE_URL="$(cat /run/secrets/DATABASE_URL)" bunx turbo -F backend build
+RUN bunx turbo -F backend build
 
 FROM oven/bun:1.3.12 AS runtime
 
@@ -41,4 +41,4 @@ RUN mkdir -p static
 
 EXPOSE 3333
 
-CMD ["bun", "dist/main.js"]
+CMD ["./dist/server"]
