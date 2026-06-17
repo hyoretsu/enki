@@ -44,8 +44,8 @@ WHERE u."password" IS NOT NULL;
 -- Media
 INSERT INTO "literaryWork"
 	("id", "title", "synopsis", "type", "tags", "releaseDate", "averageTime", "ongoing", "createdAt", "updatedAt")
-SELECT m."newId", lw."title", lw."synopsis", lw."type", to_jsonb(lw."tags"), lw."releaseDate", lw."averageTime",
-	lw."ongoing", lw."createdAt", lw."updatedAt"
+SELECT m."newId", lw."title", lw."synopsis", lw."type", COALESCE(to_jsonb(lw."tags"), '[]'::jsonb),
+	lw."releaseDate", lw."averageTime", lw."ongoing", lw."createdAt", lw."updatedAt"
 FROM "LiteraryWork" lw
 JOIN "map_literaryWork" m ON m."oldId" = lw."id";
 
