@@ -1,4 +1,3 @@
-import { fileURLToPath } from "node:url";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import react from "@vitejs/plugin-react";
@@ -14,7 +13,7 @@ export default defineConfig({
 		target: "es2022",
 	},
 	clearScreen: false,
-	envPrefix: ["VITE_", "TAURI_"],
+	envPrefix: ["TAURI_", "VITE_"],
 	plugins: [
 		tanstackStart({
 			// Explicit allowlist of public, data-light routes to prerender to static HTML
@@ -35,7 +34,7 @@ export default defineConfig({
 			// Host required by the sitemap builder. Falls back to localhost so CI/throwaway
 			// builds (which don't set VITE_APP_URL) don't fail; real deploys set the var.
 			sitemap: {
-				host: process.env.VITE_APP_URL || "http://localhost:5173",
+				host: process.env.VITE_APP_URL || host || "http://localhost:5173",
 			},
 			spa: {
 				enabled: true,
@@ -52,9 +51,7 @@ export default defineConfig({
 		host: "127.0.0.1",
 	},
 	resolve: {
-		alias: {
-			"@": fileURLToPath(new URL("./src", import.meta.url)),
-		},
+		tsconfigPaths: true,
 	},
 	server: {
 		allowedHosts: [process.env.VITE_APP_URL || ""]
