@@ -13,11 +13,11 @@ export const getMediaQueryParamsSchema = z.object({
 
 export const getMedia200Schema = z.array(z.union([z.object({
     "id": z.string(),
-"title": z.union([z.object({
+"title": z.nullable(z.union([z.object({
     
-    }), z.null()]),
+    }), z.null()])),
 "category": z.string(),
-"releaseDate": z.union([z.union([z.iso.datetime(), z.iso.date(), z.number()]), z.null()])
+"releaseDate": z.nullable(z.union([z.union([z.iso.datetime(), z.iso.date(), z.number()]), z.null()]))
     }), z.object({
     
     })]))

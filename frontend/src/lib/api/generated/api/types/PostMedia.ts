@@ -21,9 +21,8 @@ export type PostMediaMutationRequest = ({
     number: number;
     /**
      * @description Number of pages in the chapter.
-     * @type integer | undefined
     */
-    pages?: number;
+    pages?: (string | number);
     /**
      * @description Chapter\'s original release date.
     */
@@ -47,9 +46,8 @@ export type PostMediaMutationRequest = ({
     category: string;
     /**
      * @description Number of chapters already released. Automatically creates them without title and pages.
-     * @type integer | undefined
     */
-    currentChapters?: number;
+    currentChapters?: (string | number);
     /**
      * @description Is the work not finished yet?
      * @type boolean | undefined

@@ -1,18 +1,10 @@
 import appCss from "@/globals.css?url";
-import { useSession } from "@/lib/auth-client";
+import { useAutoSync } from "@/hooks/use-auto-sync";
 import { cn } from "@/lib/utils";
 import { Providers } from "@/providers";
 import { useSettingsStore } from "@/stores";
 import interCss from "@fontsource-variable/inter/index.css?url";
-import {
-	HeadContent,
-	Link,
-	Outlet,
-	Scripts,
-	createRootRoute,
-	useLocation,
-	useNavigate,
-} from "@tanstack/react-router";
+import { HeadContent, Link, Outlet, Scripts, createRootRoute, useLocation } from "@tanstack/react-router";
 import { type ReactNode, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import type { IconType } from "react-icons";
@@ -87,30 +79,25 @@ function Shell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
-	const { data: session, isPending } = useSession();
 	const { pathname } = useLocation();
-	const navigate = useNavigate();
 	const theme = useSettingsStore(state => state.theme);
 
+	// Auth is optional: the app runs fully on local data. Signing in is only needed to unlock
+	// premium features (Google Drive sync), so there is no redirect for anonymous users.
 	const isAuthRoute = pathname.startsWith("/auth");
+
+	// Best-effort background Drive sync while signed in (no-op for anonymous users).
+	useAutoSync();
 
 	useEffect(() => {
 		document.documentElement.classList.toggle("dark", theme === "dark");
 		document.documentElement.classList.toggle("light", theme === "light");
 	}, [theme]);
 
-	useEffect(() => {
-		if (!isPending && !session && !isAuthRoute) {
-			navigate({ to: "/auth" });
-		}
-	}, [isPending, session, isAuthRoute, navigate]);
-
 	return (
 		<div className="min-h-screen bg-background text-foreground">
 			{isAuthRoute ? (
 				<Outlet />
-			) : isPending || !session ? (
-				<div className="flex min-h-screen items-center justify-center text-muted-foreground">...</div>
 			) : (
 				<Shell>
 					<Outlet />

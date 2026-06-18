@@ -13,7 +13,7 @@ export const postMedia200Schema = z.string().describe("Created media ID.")
 export const postMediaMutationRequestSchema = z.union([z.object({
     "category": z.string(),
 "number": z.number().describe("Chapter's number in the series."),
-"pages": z.optional(z.int().describe("Number of pages in the chapter.")),
+"pages": z.optional(z.union([z.int(), z.string()]).describe("Number of pages in the chapter.")),
 "releaseDate": z.optional(z.union([z.iso.datetime(), z.iso.date(), z.number()]).describe("Chapter's original release date.")),
 "sourceId": z.string().describe("The literary work's ID."),
 "title": z.optional(z.object({
@@ -21,7 +21,7 @@ export const postMediaMutationRequestSchema = z.union([z.object({
     }).describe("Titles by language code."))
     }), z.object({
     "category": z.string(),
-"currentChapters": z.optional(z.int().describe("Number of chapters already released. Automatically creates them without title and pages.")),
+"currentChapters": z.optional(z.union([z.int(), z.string()]).describe("Number of chapters already released. Automatically creates them without title and pages.")),
 "ongoing": z.optional(z.boolean().describe("Is the work not finished yet?")),
 "synopsis": z.optional(z.object({
     

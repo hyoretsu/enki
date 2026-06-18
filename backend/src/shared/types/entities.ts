@@ -73,7 +73,7 @@ export type VideoGame = {
 	updatedAt: Date;
 };
 
-export type VideoGameRun = {
+export type VideoGamePlaythrough = {
 	id: string;
 	videoGameId: string;
 	name: string;

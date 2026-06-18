@@ -1,0 +1,288 @@
+[
+  {
+    "id": "dropTable.userVideoGameRun",
+    "label": "Drop table \"userVideoGameRun\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "userVideoGameRun"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"userVideoGameRun\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userVideoGameRun\"') IS NOT NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop table \"userVideoGameRun\"",
+        "sql": "DROP TABLE \"public\".\"userVideoGameRun\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"userVideoGameRun\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userVideoGameRun\"') IS NULL"
+      }
+    ]
+  },
+  {
+    "id": "dropTable.videoGameRun",
+    "label": "Drop table \"videoGameRun\"",
+    "operationClass": "destructive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "videoGameRun"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"videoGameRun\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"videoGameRun\"') IS NOT NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop table \"videoGameRun\"",
+        "sql": "DROP TABLE \"public\".\"videoGameRun\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"videoGameRun\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"videoGameRun\"') IS NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.userVideoGamePlaythrough",
+    "label": "Create table \"userVideoGamePlaythrough\"",
+    "summary": "Creates table \"userVideoGamePlaythrough\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "userVideoGamePlaythrough"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"userVideoGamePlaythrough\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userVideoGamePlaythrough\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"userVideoGamePlaythrough\"",
+        "sql": "CREATE TABLE \"public\".\"userVideoGamePlaythrough\" (\n  \"id\" character(36) NOT NULL,\n  \"playthroughId\" text NOT NULL,\n  \"timeSpent\" int4,\n  \"userId\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"userVideoGamePlaythrough\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userVideoGamePlaythrough\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "table.videoGamePlaythrough",
+    "label": "Create table \"videoGamePlaythrough\"",
+    "summary": "Creates table \"videoGamePlaythrough\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "videoGamePlaythrough"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"videoGamePlaythrough\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"videoGamePlaythrough\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"videoGamePlaythrough\"",
+        "sql": "CREATE TABLE \"public\".\"videoGamePlaythrough\" (\n  \"createdAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"id\" character(36) NOT NULL,\n  \"name\" text NOT NULL DEFAULT '',\n  \"updatedAt\" timestamptz NOT NULL DEFAULT (now()),\n  \"videoGameId\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"videoGamePlaythrough\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"videoGamePlaythrough\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "unique.videoGamePlaythrough.videoGamePlaythrough_videoGameId_name_key",
+    "label": "Add unique constraint on \"videoGamePlaythrough\" (videoGameId, name)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "videoGamePlaythrough_videoGameId_name_key",
+        "table": "videoGamePlaythrough"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"videoGamePlaythrough_videoGameId_name_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'videoGamePlaythrough_videoGameId_name_key'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"videoGamePlaythrough\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"videoGamePlaythrough_videoGameId_name_key\"",
+        "sql": "ALTER TABLE \"public\".\"videoGamePlaythrough\" ADD CONSTRAINT \"videoGamePlaythrough_videoGameId_name_key\" UNIQUE (\"videoGameId\", \"name\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"videoGamePlaythrough_videoGameId_name_key\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'videoGamePlaythrough_videoGameId_name_key'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"videoGamePlaythrough\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "index.userVideoGamePlaythrough.userVideoGamePlaythrough_playthroughId_idx",
+    "label": "Create index \"userVideoGamePlaythrough_playthroughId_idx\" on \"userVideoGamePlaythrough\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "userVideoGamePlaythrough_playthroughId_idx",
+        "table": "userVideoGamePlaythrough"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"userVideoGamePlaythrough_playthroughId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"userVideoGamePlaythrough_playthroughId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"userVideoGamePlaythrough_playthroughId_idx\"",
+        "sql": "CREATE INDEX \"userVideoGamePlaythrough_playthroughId_idx\" ON \"public\".\"userVideoGamePlaythrough\" (\"playthroughId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"userVideoGamePlaythrough_playthroughId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"userVideoGamePlaythrough_playthroughId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "index.videoGamePlaythrough.videoGamePlaythrough_videoGameId_idx",
+    "label": "Create index \"videoGamePlaythrough_videoGameId_idx\" on \"videoGamePlaythrough\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "videoGamePlaythrough_videoGameId_idx",
+        "table": "videoGamePlaythrough"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"videoGamePlaythrough_videoGameId_idx\" does not exist",
+        "sql": "SELECT to_regclass('\"public\".\"videoGamePlaythrough_videoGameId_idx\"') IS NULL"
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"videoGamePlaythrough_videoGameId_idx\"",
+        "sql": "CREATE INDEX \"videoGamePlaythrough_videoGameId_idx\" ON \"public\".\"videoGamePlaythrough\" (\"videoGameId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"videoGamePlaythrough_videoGameId_idx\" exists",
+        "sql": "SELECT to_regclass('\"public\".\"videoGamePlaythrough_videoGameId_idx\"') IS NOT NULL"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.userVideoGamePlaythrough.userVideoGamePlaythrough_playthroughId_fkey",
+    "label": "Add foreign key \"userVideoGamePlaythrough_playthroughId_fkey\" on \"userVideoGamePlaythrough\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "userVideoGamePlaythrough_playthroughId_fkey",
+        "table": "userVideoGamePlaythrough"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"userVideoGamePlaythrough_playthroughId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userVideoGamePlaythrough_playthroughId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userVideoGamePlaythrough\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"userVideoGamePlaythrough_playthroughId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"userVideoGamePlaythrough\"\nADD CONSTRAINT \"userVideoGamePlaythrough_playthroughId_fkey\"\nFOREIGN KEY (\"playthroughId\")\nREFERENCES \"public\".\"videoGamePlaythrough\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"userVideoGamePlaythrough_playthroughId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'userVideoGamePlaythrough_playthroughId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"userVideoGamePlaythrough\"')\n)"
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.videoGamePlaythrough.videoGamePlaythrough_videoGameId_fkey",
+    "label": "Add foreign key \"videoGamePlaythrough_videoGameId_fkey\" on \"videoGamePlaythrough\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "videoGamePlaythrough_videoGameId_fkey",
+        "table": "videoGamePlaythrough"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"videoGamePlaythrough_videoGameId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'videoGamePlaythrough_videoGameId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"videoGamePlaythrough\"')\n)"
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"videoGamePlaythrough_videoGameId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"videoGamePlaythrough\"\nADD CONSTRAINT \"videoGamePlaythrough_videoGameId_fkey\"\nFOREIGN KEY (\"videoGameId\")\nREFERENCES \"public\".\"videoGame\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"videoGamePlaythrough_videoGameId_fkey\" exists",
+        "sql": "SELECT EXISTS (\n  SELECT 1 FROM pg_constraint c\n  JOIN pg_namespace n ON c.connamespace = n.oid\n  WHERE c.conname = 'videoGamePlaythrough_videoGameId_fkey'\n  AND n.nspname = 'public'\n  AND c.conrelid = to_regclass('\"public\".\"videoGamePlaythrough\"')\n)"
+      }
+    ]
+  }
+]

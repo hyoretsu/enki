@@ -35,6 +35,7 @@ export const TrackMediaBody = t.Union([
 		mediaId: t.String(),
 		score: t.Optional(t.Nullable(t.Number())),
 		offset: t.Optional(t.Nullable(t.String())),
+		review: t.Optional(t.Nullable(t.String())),
 		timeSpent: t.Optional(t.String()),
 	}),
 ]);

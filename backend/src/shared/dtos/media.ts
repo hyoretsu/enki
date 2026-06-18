@@ -35,7 +35,7 @@ export class CreateVideoGameDTO {
 	title!: IntlField;
 }
 
-export class CreateVideoGameRunDTO {
+export class CreateVideoGamePlaythroughDTO {
 	name?: string;
 	videoGameId!: string;
 }
@@ -129,6 +129,7 @@ class TrackVideoGameDTO {
 	mediaId!: string;
 	score?: number | null;
 	offset?: string | null;
+	review?: string | null;
 	timeSpent?: string;
 }
 

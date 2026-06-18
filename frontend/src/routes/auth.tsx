@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signIn, signUp } from "@/lib/auth-client";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { type FormEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
@@ -80,6 +80,12 @@ function AuthPage() {
 					>
 						{mode === "signUp" ? t("auth.switchToSignIn") : t("auth.switchToSignUp")}
 					</Button>
+					<Link
+						to="/"
+						className="mt-1 block text-center text-muted-foreground text-xs underline-offset-2 hover:underline"
+					>
+						{t("auth.continueWithout")}
+					</Link>
 				</CardContent>
 			</Card>
 		</div>

@@ -15,8 +15,8 @@ export class TrackMediaUserDTO {
 	when?: Date;
 }
 
-export class TrackVideoGameRunDTO {
-	runId!: string;
+export class TrackVideoGamePlaythroughDTO {
+	playthroughId!: string;
 	timeSpent?: number;
 	userId!: string;
 }

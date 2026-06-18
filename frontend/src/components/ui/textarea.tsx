@@ -1,19 +1,20 @@
-import { cn } from "@/lib/utils";
+import { Textarea as BaseTextarea, SIZE } from "baseui/textarea";
 import type { ComponentPropsWithoutRef } from "react";
 
 interface TextareaProps extends ComponentPropsWithoutRef<"textarea"> {}
 
-export function Textarea({ className, ...props }: TextareaProps) {
+export function Textarea({ className, value, onChange, placeholder, disabled, ...native }: TextareaProps) {
 	return (
-		<textarea
-			className={cn(
-				"flex min-h-20 w-full rounded-md border border-input bg-background px-3 py-2 text-sm",
-				"placeholder:text-muted-foreground",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-				"disabled:cursor-not-allowed disabled:opacity-50",
-				className,
-			)}
-			{...props}
+		<BaseTextarea
+			size={SIZE.compact}
+			value={value as never}
+			onChange={onChange as never}
+			placeholder={placeholder}
+			disabled={disabled}
+			overrides={{
+				Root: { props: { className } },
+				Input: { props: native },
+			}}
 		/>
 	);
 }

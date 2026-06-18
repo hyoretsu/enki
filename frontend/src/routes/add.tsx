@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
-import { useGetMedia, usePostMedia } from "@/lib/api";
+import { useGetMedia, usePostMedia } from "@/lib/data";
 import { pickTitle } from "@/lib/utils";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { type FormEvent, useState } from "react";
@@ -57,6 +57,8 @@ function AddMediaPage() {
 	const [synopsis, setSynopsis] = useState<IntlText>({ lang: "en", text: "" });
 	const [duration, setDuration] = useState<DurationValue>(emptyDuration);
 	const [ongoing, setOngoing] = useState(true);
+	const [type, setType] = useState<string>("novel");
+	const [sourceId, setSourceId] = useState<string>("");
 
 	const { data: works } = useGetMedia(
 		{ category: "literary_work" },
@@ -81,7 +83,7 @@ function AddMediaPage() {
 					number: Number(field("number")),
 					pages: field("pages") ? Number(field("pages")) : undefined,
 					releaseDate: field("releaseDate"),
-					sourceId: field("sourceId"),
+					sourceId,
 					title: toIntlField(title),
 				};
 				break;
@@ -96,7 +98,7 @@ function AddMediaPage() {
 						.map(tag => tag.trim())
 						.filter(Boolean),
 					title: toIntlField(title),
-					type: field("type"),
+					type,
 				};
 				break;
 			case "movie":
@@ -148,7 +150,12 @@ function AddMediaPage() {
 						{category === "chapter" && (
 							<>
 								<FormField label={t("add.sourceWork")} htmlFor="sourceId">
-									<Select id="sourceId" name="sourceId" required>
+									<Select
+										id="sourceId"
+										value={sourceId}
+										onChange={event => setSourceId(event.target.value)}
+										placeholder={t("track.selectMedia")}
+									>
 										{(works ?? []).map((work: Record<string, any>) => (
 											<option key={work.id} value={work.id}>
 												{pickTitle(work.title, i18n.language)}
@@ -173,7 +180,7 @@ function AddMediaPage() {
 						{category === "literary_work" && (
 							<>
 								<FormField label={t("add.type")} htmlFor="type">
-									<Select id="type" name="type" defaultValue="novel" required>
+									<Select id="type" value={type} onChange={event => setType(event.target.value)}>
 										{literaryWorkTypes.map(each => (
 											<option key={each} value={each}>
 												{t(`add.workType.${each}`)}

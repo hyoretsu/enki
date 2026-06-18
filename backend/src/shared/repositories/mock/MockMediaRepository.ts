@@ -1,7 +1,7 @@
 import type {
 	CreateMediaDatabaseDTO,
 	CreateVideoChannelDTO,
-	CreateVideoGameRunDTO,
+	CreateVideoGamePlaythroughDTO,
 	MediaFilters,
 	UpdateVideoChannelDTO,
 } from "@/shared/dtos";
@@ -12,7 +12,7 @@ import {
 	type Media,
 	type Video,
 	type VideoChannel,
-	type VideoGameRun,
+	type VideoGamePlaythrough,
 } from "@/shared/types";
 
 type StoredMedia = Record<string, any> & { category: Category; id: string };
@@ -23,7 +23,7 @@ export class MockMediaRepository implements MediaRepository {
 	public media: StoredMedia[] = [];
 	public channels: VideoChannel[] = [];
 	public chapters: StoredChapter[] = [];
-	public videoGameRuns: VideoGameRun[] = [];
+	public videoGamePlaythroughs: VideoGamePlaythrough[] = [];
 	private seq = 0;
 
 	private nextId(): string {
@@ -63,15 +63,15 @@ export class MockMediaRepository implements MediaRepository {
 		return channel;
 	}
 
-	public async createVideoGameRun({ name, videoGameId }: CreateVideoGameRunDTO): Promise<{ id: string }> {
-		const run: VideoGameRun = {
+	public async createVideoGamePlaythrough({ name, videoGameId }: CreateVideoGamePlaythroughDTO): Promise<{ id: string }> {
+		const run: VideoGamePlaythrough = {
 			createdAt: new Date(),
 			id: this.nextId(),
 			name: name ?? "",
 			updatedAt: new Date(),
 			videoGameId,
 		};
-		this.videoGameRuns.push(run);
+		this.videoGamePlaythroughs.push(run);
 		return { id: run.id };
 	}
 
@@ -133,8 +133,8 @@ export class MockMediaRepository implements MediaRepository {
 		);
 	}
 
-	public async findVideoGameRuns(videoGameId: string): Promise<VideoGameRun[]> {
-		return this.videoGameRuns
+	public async findVideoGamePlaythroughs(videoGameId: string): Promise<VideoGamePlaythrough[]> {
+		return this.videoGamePlaythroughs
 			.filter(run => run.videoGameId === videoGameId)
 			.sort((a, b) => a.name.localeCompare(b.name));
 	}

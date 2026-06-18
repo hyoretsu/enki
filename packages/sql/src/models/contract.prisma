@@ -159,20 +159,22 @@ model VideoGame {
     id          String          @id @default(uuid())
     title       Json // { "languageCode": string[] }
     releaseDate DateTime?
-    playedBy    UserVideoGame[]
-    runs        VideoGameRun[]
-    createdAt   DateTime        @default(now())
-    updatedAt   DateTime        @default(now())
+    playedBy     UserVideoGame[]
+    playthroughs VideoGamePlaythrough[]
+    createdAt    DateTime              @default(now())
+    updatedAt    DateTime              @default(now())
 }
 
-model VideoGameRun {
-    id          String             @id @default(uuid())
+// Sub-entity of VideoGame: a distinct playthrough, e.g. a difficulty ("Casual"/"Hardcore");
+// "" = default nameless playthrough (single run).
+model VideoGamePlaythrough {
+    id          String                     @id @default(uuid())
     videoGameId String
-    videoGame   VideoGame          @relation(fields: [videoGameId], references: [id])
-    name        String             @default("") // run kind, e.g. difficulty "Casual" / "Hardcore"; "" = default nameless run (single playthrough)
-    playedBy    UserVideoGameRun[]
-    createdAt   DateTime           @default(now())
-    updatedAt   DateTime           @default(now())
+    videoGame   VideoGame                  @relation(fields: [videoGameId], references: [id])
+    name        String                     @default("")
+    playedBy    UserVideoGamePlaythrough[]
+    createdAt   DateTime                   @default(now())
+    updatedAt   DateTime                   @default(now())
 
     @@unique([videoGameId, name])
 }
@@ -232,17 +234,17 @@ model UserVideoGame {
     videoGame   VideoGame @relation(fields: [videoGameId], references: [id])
     score       Float?
     review      String?
-    timeSpent   Int? // grand total; runs are a detailed breakdown, NOT additive
+    timeSpent   Int? // grand total; playthroughs are a detailed breakdown, NOT additive
     offset      Int?
     bookmarked  Boolean
 
     @@unique([userId, videoGameId])
 }
 
-model UserVideoGameRun {
-    id        String       @id @default(uuid())
-    userId    String
-    runId     String
-    run       VideoGameRun @relation(fields: [runId], references: [id])
-    timeSpent Int? // time on this run; subset of UserVideoGame.timeSpent
+model UserVideoGamePlaythrough {
+    id            String               @id @default(uuid())
+    userId        String
+    playthroughId String
+    playthrough   VideoGamePlaythrough @relation(fields: [playthroughId], references: [id])
+    timeSpent     Int? // time on this playthrough; subset of UserVideoGame.timeSpent
 }

@@ -3,7 +3,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
-import { useGetMedia, usePostMediaTrack } from "@/lib/api";
+import { Textarea } from "@/components/ui/textarea";
+import {
+	useCreateVideoGamePlaythrough,
+	useGetMedia,
+	useGetVideoGamePlaythroughs,
+	usePostMediaTrack,
+	useTrackVideoGamePlaythrough,
+} from "@/lib/data";
 import { pickTitle } from "@/lib/utils";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { type FormEvent, useState } from "react";
@@ -14,7 +21,10 @@ import {
 	DurationInput,
 	type DurationValue,
 	FormField,
+	type IntlText,
+	IntlTextInput,
 	emptyDuration,
+	toIntlField,
 	toIsoDuration,
 } from "./components/fields";
 
@@ -38,6 +48,10 @@ function TrackMediaPage() {
 	const [timeSpent, setTimeSpent] = useState<DurationValue>(emptyDuration);
 	const [offset, setOffset] = useState<DurationValue>(emptyDuration);
 	const [bookmarked, setBookmarked] = useState(false);
+	const [review, setReview] = useState("");
+	const [playthroughId, setPlaythroughId] = useState("");
+	const [newPlaythrough, setNewPlaythrough] = useState("");
+	const [chapterTitle, setChapterTitle] = useState<IntlText>({ lang: "en", text: "" });
 
 	const listedCategory = mediaCategoryFor[category];
 	const { data: mediaOptions } = useGetMedia(
@@ -45,7 +59,20 @@ function TrackMediaPage() {
 		{ query: { enabled: !!listedCategory } },
 	);
 
+	const { data: playthroughs } = useGetVideoGamePlaythroughs(mediaId, {
+		query: { enabled: category === "video_game" && !!mediaId },
+	});
+	const { mutateAsync: createPlaythrough } = useCreateVideoGamePlaythrough();
+	const { mutateAsync: trackPlaythrough } = useTrackVideoGamePlaythrough();
+
 	const { isPending, mutateAsync: postMediaTrack } = usePostMediaTrack();
+
+	const handleCreatePlaythrough = async () => {
+		if (!newPlaythrough.trim() || !mediaId) return;
+		const id = await createPlaythrough({ videoGameId: mediaId, name: newPlaythrough.trim() });
+		setNewPlaythrough("");
+		setPlaythroughId(id);
+	};
 
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -66,7 +93,9 @@ function TrackMediaPage() {
 					mediaId,
 					number: Number(field("number")),
 					pages: field("pages") ? Number(field("pages")) : undefined,
+					releaseDate: field("releaseDate"),
 					timeSpent: toIsoDuration(timeSpent) ?? "PT0S",
+					title: toIntlField(chapterTitle),
 					when,
 				};
 				break;
@@ -94,6 +123,7 @@ function TrackMediaPage() {
 					category,
 					mediaId,
 					offset: toIsoDuration(offset),
+					review: review || undefined,
 					score: field("score") ? Number(field("score")) : undefined,
 					timeSpent: toIsoDuration(timeSpent),
 				};
@@ -101,6 +131,11 @@ function TrackMediaPage() {
 
 		try {
 			await postMediaTrack({ data: data as any });
+
+			// A selected playthrough records the same play time against that specific playthrough.
+			if (category === "video_game" && playthroughId) {
+				await trackPlaythrough({ playthroughId, timeSpent: toIsoDuration(timeSpent) ?? null });
+			}
 
 			toast.success(t("track.success"));
 			navigate({ to: "/stats" });
@@ -146,14 +181,24 @@ function TrackMediaPage() {
 						)}
 
 						{category === "chapter" && (
-							<div className="grid grid-cols-2 gap-4">
-								<FormField label={t("track.chapterNumber")} htmlFor="number">
-									<Input id="number" name="number" type="number" step="0.1" min={0} required />
+							<>
+								<div className="grid grid-cols-2 gap-4">
+									<FormField label={t("track.chapterNumber")} htmlFor="number">
+										<Input id="number" name="number" type="number" step="0.1" min={0} required />
+									</FormField>
+									<FormField label={t("track.pages")} htmlFor="pages">
+										<Input id="pages" name="pages" type="number" min={0} />
+									</FormField>
+								</div>
+								<IntlTextInput
+									label={t("track.chapterTitle")}
+									value={chapterTitle}
+									onChange={setChapterTitle}
+								/>
+								<FormField label={t("track.releaseDate")} htmlFor="releaseDate">
+									<Input id="releaseDate" name="releaseDate" type="date" />
 								</FormField>
-								<FormField label={t("track.pages")} htmlFor="pages">
-									<Input id="pages" name="pages" type="number" min={0} />
-								</FormField>
-							</div>
+							</>
 						)}
 
 						{category === "video" && (
@@ -180,6 +225,39 @@ function TrackMediaPage() {
 									<Input id="score" name="score" type="number" step="0.1" min={0} max={10} />
 								</FormField>
 								<DurationInput label={t("track.offset")} value={offset} onChange={setOffset} />
+
+								<FormField label={t("track.playthrough")} htmlFor="playthrough">
+									<Select id="playthrough" value={playthroughId} onChange={event => setPlaythroughId(event.target.value)}>
+										<option value="">{t("track.noPlaythrough")}</option>
+										{(playthroughs ?? []).map((playthrough: Record<string, any>) => (
+											<option key={playthrough.id} value={playthrough.id}>
+												{playthrough.name || t("track.unnamedPlaythrough")}
+											</option>
+										))}
+									</Select>
+								</FormField>
+								<div className="flex items-end gap-2">
+									<FormField label={t("track.newPlaythrough")} htmlFor="newPlaythrough">
+										<Input
+											id="newPlaythrough"
+											value={newPlaythrough}
+											placeholder={t("track.newPlaythroughPlaceholder")}
+											onChange={event => setNewPlaythrough(event.currentTarget.value)}
+										/>
+									</FormField>
+									<Button type="button" variant="outline" onClick={handleCreatePlaythrough} disabled={!newPlaythrough.trim()}>
+										{t("track.addPlaythrough")}
+									</Button>
+								</div>
+
+								<FormField label={t("track.review")} htmlFor="review">
+									<Textarea
+										id="review"
+										value={review}
+										placeholder={t("track.reviewPlaceholder")}
+										onChange={event => setReview(event.currentTarget.value)}
+									/>
+								</FormField>
 							</>
 						)}
 

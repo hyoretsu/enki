@@ -15,7 +15,7 @@ export type GetUsersStats200 = {
     /**
      * @type array
     */
-    totalTime: number[];
+    totalTime: (string | number)[];
 };
 
 export type GetUsersStatsQueryResponse = GetUsersStats200;

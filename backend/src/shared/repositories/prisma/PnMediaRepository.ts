@@ -1,7 +1,7 @@
 import type {
 	CreateMediaDatabaseDTO,
 	CreateVideoChannelDTO,
-	CreateVideoGameRunDTO,
+	CreateVideoGamePlaythroughDTO,
 	MediaFilters,
 	UpdateVideoChannelDTO,
 } from "@/shared/dtos";
@@ -12,7 +12,7 @@ import {
 	type Media,
 	type Video,
 	type VideoChannel,
-	type VideoGameRun,
+	type VideoGamePlaythrough,
 } from "@/shared/types";
 import type { Db } from "sql";
 
@@ -84,8 +84,8 @@ export class PnMediaRepository implements MediaRepository {
 		return channel as VideoChannel;
 	}
 
-	public async createVideoGameRun({ name, videoGameId }: CreateVideoGameRunDTO): Promise<{ id: string }> {
-		return this.db.orm.VideoGameRun.select("id").create({
+	public async createVideoGamePlaythrough({ name, videoGameId }: CreateVideoGamePlaythroughDTO): Promise<{ id: string }> {
+		return this.db.orm.VideoGamePlaythrough.select("id").create({
 			videoGameId,
 			...(name !== undefined ? { name } : {}),
 		});
@@ -249,12 +249,12 @@ export class PnMediaRepository implements MediaRepository {
 		return (video as unknown as Video) ?? undefined;
 	}
 
-	public async findVideoGameRuns(videoGameId: string): Promise<VideoGameRun[]> {
-		const runs = await this.db.orm.VideoGameRun.where({ videoGameId: uuid(videoGameId) })
+	public async findVideoGamePlaythroughs(videoGameId: string): Promise<VideoGamePlaythrough[]> {
+		const runs = await this.db.orm.VideoGamePlaythrough.where({ videoGameId: uuid(videoGameId) })
 			.orderBy(run => run.name.asc())
 			.all();
 
-		return runs as VideoGameRun[];
+		return runs as VideoGamePlaythrough[];
 	}
 
 	public async updateChannel(id: string, data: UpdateVideoChannelDTO): Promise<void> {
