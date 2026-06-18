@@ -27,6 +27,9 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
+# Bun's musl single-file executable still links libstdc++/libgcc at runtime.
+RUN apk add --no-cache libstdc++ libgcc
+
 RUN mkdir -p backend/static
 COPY --from=build /app/backend/dist/server ./server
 
