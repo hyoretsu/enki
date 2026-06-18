@@ -21,7 +21,7 @@ COPY . .
 
 RUN bunx turbo -F backend build
 
-FROM gcr.io/distroless/base-debian12:nonroot AS runtime
+FROM alpine:latest AS runtime
 
 WORKDIR /app
 
