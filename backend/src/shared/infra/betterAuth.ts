@@ -1,8 +1,27 @@
 import { betterAuth } from "better-auth";
 import { openAPI } from "better-auth/plugins";
 import { Pool } from "pg";
+import { name as appName } from "../../../../package.json";
 
 const algorithm = "argon2id";
+
+// Cookie names are prefixed with the monorepo package name so every project under hyoretsu.com
+// gets its own session cookie (`enki.session_token`) instead of colliding on the shared parent
+// domain below.
+const cookiePrefix = appName;
+
+// Cross-subdomain auth: the session cookie is scoped to the shared parent domain so the web app
+// (enki.hyoretsu.com) reads the session set by the API (enki-api.hyoretsu.com). The parent is the
+// registrable domain. When the host carries a "com" label the public suffix is "com" plus
+// whatever follows (com, com.br), so we keep the label right before "com" through the end
+// (enki.com.br → .enki.com.br, enki.hyoretsu.com → .hyoretsu.com). Otherwise the TLD is the last
+// label (.app, .fyi) and the last two labels are the registrable domain. A single-label host
+// (localhost) has no shared parent, so cross-subdomain stays disabled in local dev.
+const webHost = new URL((process.env.WEB_URL || "http://localhost:3000").split(",")[0]).hostname;
+const labels = webHost.split(".");
+const comIndex = labels.indexOf("com");
+const registrable = comIndex > 0 ? labels.slice(comIndex - 1) : labels.slice(-2);
+const cookieDomain = registrable.length >= 2 ? `.${registrable.join(".")}` : undefined;
 
 // Google sign-in is only wired when credentials are present, so the server still boots without
 // them. It requests the Drive appData scope (offline) so the client can two-way sync its local
@@ -23,6 +42,10 @@ const socialProviders =
 
 export const auth = betterAuth({
 	advanced: {
+		cookiePrefix,
+		...(cookieDomain && {
+			crossSubDomainCookies: { domain: cookieDomain, enabled: true },
+		}),
 		database: {
 			generateId: () => crypto.randomUUID(),
 		},
