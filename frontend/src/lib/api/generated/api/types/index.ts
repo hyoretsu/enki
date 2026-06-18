@@ -1,7 +1,0 @@
-export type { GetMedia200, GetMediaQuery, GetMediaQueryParams, GetMediaQueryResponse } from "./GetMedia.ts";
-export type { GetMediaVideoGamesByVideoGameIdPlaythroughs200, GetMediaVideoGamesByVideoGameIdPlaythroughsPathParams, GetMediaVideoGamesByVideoGameIdPlaythroughsQuery, GetMediaVideoGamesByVideoGameIdPlaythroughsQueryResponse } from "./GetMediaVideoGamesByVideoGameIdPlaythroughs.ts";
-export type { GetUsersStats200, GetUsersStatsQuery, GetUsersStatsQueryParams, GetUsersStatsQueryResponse } from "./GetUsersStats.ts";
-export type { PostMedia200, PostMediaMutation, PostMediaMutationRequest, PostMediaMutationResponse } from "./PostMedia.ts";
-export type { PostMediaPlaythroughsByPlaythroughIdTrack200, PostMediaPlaythroughsByPlaythroughIdTrackMutation, PostMediaPlaythroughsByPlaythroughIdTrackMutationRequest, PostMediaPlaythroughsByPlaythroughIdTrackMutationResponse, PostMediaPlaythroughsByPlaythroughIdTrackPathParams } from "./PostMediaPlaythroughsByPlaythroughIdTrack.ts";
-export type { PostMediaTrack200, PostMediaTrackMutation, PostMediaTrackMutationRequest, PostMediaTrackMutationResponse } from "./PostMediaTrack.ts";
-export type { PostMediaVideoGamesByVideoGameIdPlaythroughs200, PostMediaVideoGamesByVideoGameIdPlaythroughsMutation, PostMediaVideoGamesByVideoGameIdPlaythroughsMutationRequest, PostMediaVideoGamesByVideoGameIdPlaythroughsMutationResponse, PostMediaVideoGamesByVideoGameIdPlaythroughsPathParams } from "./PostMediaVideoGamesByVideoGameIdPlaythroughs.ts";
