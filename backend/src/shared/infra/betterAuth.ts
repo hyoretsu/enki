@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth";
+import { openAPI } from "better-auth/plugins";
 import { Pool } from "pg";
 
 const algorithm = "argon2id";
@@ -40,6 +41,8 @@ export const auth = betterAuth({
 			verify: ({ hash, password }) => Bun.password.verify(password, hash),
 		},
 	},
+	// Exposes auth.api.generateOpenAPISchema(), merged into the Scalar docs below.
+	plugins: [openAPI()],
 	socialProviders,
 	trustedOrigins: (process.env.WEB_URL || "http://localhost:5173").split(","),
 });

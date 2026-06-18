@@ -4,6 +4,14 @@ import cors from "@elysiajs/cors";
 import swagger from "@elysiajs/swagger";
 import { Elysia } from "elysia";
 
+// Better Auth is mounted as a catch-all (`/auth/*`), so its routes are invisible to the
+// generated spec. Pull Better Auth's own OpenAPI schema and prefix every path with the
+// basePath so the auth endpoints show up in Scalar alongside the app routes.
+const authSchema = await auth.api.generateOpenAPISchema();
+const authPaths = Object.fromEntries(
+	Object.entries(authSchema.paths ?? {}).map(([path, item]) => [`/auth${path}`, item]),
+);
+
 export const app = new Elysia()
 	.error({ HttpException })
 	.onError(({ code, error, set }) => {
@@ -44,6 +52,8 @@ export const app = new Elysia()
 						url: "https://midas-abgl.com",
 					},
 				},
+				components: authSchema.components as never,
+				paths: authPaths as never,
 				tags: [
 					{
 						name: "Media",
@@ -52,6 +62,10 @@ export const app = new Elysia()
 					{
 						name: "Users",
 						description: "Users of the app.",
+					},
+					{
+						name: "Authentication",
+						description: "Better Auth endpoints (sign-in/up/out, sessions, OAuth).",
 					},
 				],
 			},
